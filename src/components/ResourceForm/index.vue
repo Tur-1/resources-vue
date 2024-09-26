@@ -16,8 +16,9 @@
     :name="props.name"
     :type="props.type"
     :placeholder="props.placeholder"
-    :label="props.label"
+    :label="props.label" 
     :error="props.error"
+    :value="props.value"
     :class="props.class"
   />
 
@@ -28,6 +29,7 @@
     :error="props.error"
     :class="props.class"
     v-model="localValue"
+    :value="props.value"
     :id="props.id"
     :name="props.name"
     :options="props.options"
@@ -54,6 +56,7 @@ const props = defineProps({
   label: String,
   error: String,
   class: String,
+  value:String,
   step: String,
   title: String,
   submitTitle: String,
@@ -65,7 +68,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'change'])
 const localValue = computed({
   get() {
-    return props.modelValue
+    return props.modelValue ?? props.value
   },
   set(value) {
     emit('update:modelValue', value) // For v-model

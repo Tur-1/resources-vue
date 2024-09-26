@@ -15,6 +15,7 @@ const props = defineProps({
   placeholder: String,
   label: String,
   error: String,
+  value:String,
   class: String,
   step: String,
   modelValue: [String, Number]
@@ -23,10 +24,12 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const formContext = inject('formContext', null)
-const errors = inject('errors');
+
+
+const errors = inject('errors', {});
 const localValue = computed({
   get() {
-    return formContext?.[props.name] ?? props.modelValue
+    return  formContext[props.name] ?? props.modelValue ?? props.value;
   },
   set(value) {
     if (formContext) {
@@ -39,6 +42,14 @@ const localValue = computed({
 const updateValue = (value) => {
   localValue.value = value
 }
+
+
+if (props.value) {
+  console.log(props.value);
+  
+  formContext[props.name] = props.value
+}
+ 
 </script>
 
 <template>
@@ -62,7 +73,7 @@ const updateValue = (value) => {
     <span class="text-danger mt-1 ms-2 row" v-if="error" style="font-size: 12px">
       {{ error }}
     </span>
-    <span class="text-danger mt-1 ms-2 row" v-if="errors[props.name]" style="font-size: 12px">
+    <span class="text-danger mt-1 ms-2 row" v-if="errors[props?.name]" style="font-size: 12px">
       {{ errors[props.name][0] }}
     </span>
   </div>
@@ -110,7 +121,7 @@ const updateValue = (value) => {
     <span class="text-danger mt-1 ms-2 row" v-if="error" style="font-size: 12px">
       {{ error }}
     </span>
-    <span class="text-danger mt-1 ms-2 row" v-if="errors[props.name]" style="font-size: 12px">
+    <span class="text-danger mt-1 ms-2 row" v-if="errors[props?.name]" style="font-size: 12px">
       {{ errors[props.name][0] }}
     </span>
   </div>

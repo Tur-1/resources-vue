@@ -10,6 +10,7 @@ const props = defineProps({
   label: String,
   error: String,
   class: String,
+  value:String,
   modelValue: [String, Number],
   required: {
     type: Boolean,
@@ -18,14 +19,17 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue', 'change'])
-const errors = inject('errors');
+const errors = inject('errors', {});
 const formContext = inject('formContext', null)
-
+if (props.value) {
+  formContext[props.name] = props.value
+}
+ 
 const localValue = computed({
   get()
   {
-    // If formContext exists, use it; otherwise, use modelValue from v-model
-    return formContext?.[props.name] ?? props.modelValue
+    return  formContext[props.name] ?? props.modelValue ?? props.value;
+
   },
   set(value)
   {
@@ -63,7 +67,7 @@ let computedOptions = computed(() => {
       <span v-if="required" class="text-danger">*</span>
     </label>
 
-    <select :id="id" :name="name" v-model="localValue" :class="{ 'is-invalid': error }" class="form-select">
+    <select :id="id" :name="name" v-model="localValue"  :value="localValue" :class="{ 'is-invalid': error }" class="form-select">
       <option value="">-</option>
       <option v-for="option in computedOptions" :key="option.value" :value="option.value">
         {{ option.label }}
@@ -72,7 +76,7 @@ let computedOptions = computed(() => {
     <span class="text-danger mt-1 ms-2 row" v-if="error" style="font-size: 12px">
       {{ error }}
     </span>
-    <span class="text-danger mt-1 ms-2 row" v-if="errors[props.name]" style="font-size: 12px">
+    <span class="text-danger mt-1 ms-2 row" v-if="errors[props?.name]" style="font-size: 12px">
       {{ errors[props.name][0] }}
     </span>
   </div>
