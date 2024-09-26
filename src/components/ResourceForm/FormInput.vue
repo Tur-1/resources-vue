@@ -23,7 +23,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const formContext = inject('formContext', null)
-
+const errors = inject('errors');
 const localValue = computed({
   get() {
     return formContext?.[props.name] ?? props.modelValue
@@ -42,6 +42,7 @@ const updateValue = (value) => {
 </script>
 
 <template>
+  
   <div v-if="type == 'radio' || type == 'checkbox'" class="mb-2" :class="class">
     <div class="form-check w-100">
       <input
@@ -58,8 +59,11 @@ const updateValue = (value) => {
         <span v-if="required" class="text-danger">*</span>
       </label>
     </div>
-    <span class="text-danger mt-1 ms-2" v-if="error" style="font-size: 12px">
+    <span class="text-danger mt-1 ms-2 row" v-if="error" style="font-size: 12px">
       {{ error }}
+    </span>
+    <span class="text-danger mt-1 ms-2 row" v-if="errors[props.name]" style="font-size: 12px">
+      {{ errors[props.name][0] }}
     </span>
   </div>
 
@@ -103,8 +107,11 @@ const updateValue = (value) => {
       :step="step"
     />
 
-    <span class="text-danger mt-1 ms-2" v-if="error" style="font-size: 12px">
+    <span class="text-danger mt-1 ms-2 row" v-if="error" style="font-size: 12px">
       {{ error }}
+    </span>
+    <span class="text-danger mt-1 ms-2 row" v-if="errors[props.name]" style="font-size: 12px">
+      {{ errors[props.name][0] }}
     </span>
   </div>
 </template>

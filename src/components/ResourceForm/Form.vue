@@ -3,7 +3,7 @@
     <div class="header">
       <h4>{{ title }}</h4>
     </div>
-    <form @submit.prevent="handleSsubmitubmit" enctype="multipart/form-data">
+    <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
       <div class="card border-1 p-2 pb-4 mb-4">
         <div class="card-body p-0 p-md-4">
           <slot />
@@ -43,15 +43,19 @@ const props = defineProps({
   },
   class: String
 })
-
+ 
 const formData = reactive({})
+const errors = reactive({})
 provide('formContext', formData)
-const handleSsubmitubmit = async () => {
+provide('errors', errors)
+const handleSubmit = async () => {
   useResourceIndicator.show()
   try {
     await props.submit(formData)
   } catch (error) {
-    console.error('Error in form submission:', error)
+    if (error.response && error.response.data.errors) {
+      Object.assign(errors, error.response.data.errors) // Populate errors with server response
+    }
   } finally {
     useResourceIndicator.hide()
   }

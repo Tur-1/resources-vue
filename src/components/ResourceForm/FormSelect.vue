@@ -1,9 +1,11 @@
 <script setup>
-import { inject, computed } from 'vue'
+import { inject, computed, onMounted, reactive, ref } from 'vue'
 
 const props = defineProps({
   id: String,
-  options: [Object, Array],
+  options: {
+    type:[Object, Array] 
+  },
   name: String,
   label: String,
   error: String,
@@ -16,22 +18,42 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue', 'change'])
-
+const errors = inject('errors');
 const formContext = inject('formContext', null)
 
 const localValue = computed({
-  get() {
+  get()
+  {
     // If formContext exists, use it; otherwise, use modelValue from v-model
     return formContext?.[props.name] ?? props.modelValue
   },
-  set(value) {
-    if (formContext) {
+  set(value)
+  {
+    if (formContext)
+    {
       formContext[props.name] = value
     }
     emit('update:modelValue', value)
     emit('change', value)
   }
 })
+
+let computedOptions = computed(() => {
+  if (Array.isArray(props.options)) {
+    return props.options.map(option => ({
+      label: option.label || option, 
+      value: option.value || option,
+    }));
+  } 
+   if (props.options && props.options.data) {
+    return props.options.data.map(item => ({
+      label: item[props.options.label],
+      value: item[props.options.value],
+    }));
+  }
+  
+  return [];
+});
 </script>
 
 <template>
@@ -41,20 +63,17 @@ const localValue = computed({
       <span v-if="required" class="text-danger">*</span>
     </label>
 
-    <select
-      :id="id"
-      :name="name"
-      v-model="localValue"
-      :class="{ 'is-invalid': error }"
-      class="form-select"
-    >
+    <select :id="id" :name="name" v-model="localValue" :class="{ 'is-invalid': error }" class="form-select">
       <option value="">-</option>
-      <option v-for="option in options" :key="option.value" :value="option.value">
+      <option v-for="option in computedOptions" :key="option.value" :value="option.value">
         {{ option.label }}
       </option>
     </select>
-    <span class="text-danger mt-1 ms-2" v-if="error" style="font-size: 12px">
+    <span class="text-danger mt-1 ms-2 row" v-if="error" style="font-size: 12px">
       {{ error }}
+    </span>
+    <span class="text-danger mt-1 ms-2 row" v-if="errors[props.name]" style="font-size: 12px">
+      {{ errors[props.name][0] }}
     </span>
   </div>
 </template>

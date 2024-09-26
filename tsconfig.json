@@ -20,8 +20,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.vue",
-    "src/shims-vue.d.ts",
-    "src/**/*.js"  // Make sure this includes your .js files
+    "src/**/*.js"
   ],
   "exclude": ["node_modules"]
 }

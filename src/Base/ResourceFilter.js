@@ -84,6 +84,7 @@ class ResourceFilter {
         }));
       }
 
+      
       return options.data.map((item) => ({
         label: item[options.label],
         value: item[options.value]
