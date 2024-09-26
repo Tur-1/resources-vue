@@ -1,0 +1,43 @@
+{
+  "name": "@tur-resources/vue",
+  "version": "0.0",
+  "main": "dist/core.umd.js",
+  "module": "dist/core.es.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/core.es.js",
+      "require": "./dist/core.umd.js"
+    },
+    "./style.css": {
+      "default": "./dist/style.css"
+    }
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.4",
+    "@vue/compiler-sfc": "^3.5.8",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8",
+    "vite-plugin-css-injected-by-js": "^3.5.1",
+    "vue": "^3.5",
+    "vue-router": "^4.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc --emitDeclarationOnly && cp src/index.d.ts dist/",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "axios": "^1.7.7"
+  }
+}

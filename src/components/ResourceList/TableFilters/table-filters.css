@@ -1,0 +1,28 @@
+.filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid #ccc;
+}
+
+.dropdown-menu.table-filters-menu {
+    min-width: 400px;
+    max-height: 600px;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+}
+.clear-btn {
+    border: 1px solid #cccccc6e;
+    border-radius: 6px;
+    text-decoration: none;
+    color: black;
+    padding: 0px 10px;
+}
+
+.view-all-link {
+    display: block;
+    margin-top: 10px;
+}

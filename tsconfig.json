@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./", 
+    "paths": {
+      "@/*": ["./src/*"] // Alias setup for '@' to point to the 'src' folder
+    },
+    "target": "ES6",
+    "module": "ESNext",
+    "moduleResolution": "Node", 
+    "emitDeclarationOnly": true, 
+    "declaration": true, 
+    "outDir": "./dist",
+    "strict": true,
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "checkJs": false,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "src/shims-vue.d.ts",
+    "src/**/*.js"  // Make sure this includes your .js files
+  ],
+  "exclude": ["node_modules"]
+}

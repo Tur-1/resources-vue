@@ -1,0 +1,33 @@
+<template>
+  <div class="col-lg-4">
+    <ResourceForm type="search" v-model="search" :placeholder="props.searchOptions.placeholder || 'search'" />
+  </div>
+</template>
+
+<script setup>
+import useResourceQueryString from '@/composables/useResourceQueryString'
+import { ResourceForm } from '@/index'
+import { ref, watch,computed } from 'vue'
+
+const props = defineProps({
+  searchOptions:Object,
+})
+const queryString = useResourceQueryString()
+
+const queryStringKey = computed(() => props.searchOptions.queryStringKey || 'search')
+
+
+let search = ref(queryString.params.value[queryStringKey.value])
+
+watch(search, (value) => {
+  if (!value) {
+    queryString.remove(queryStringKey.value)
+  } else {
+    queryString.add(queryStringKey.value, value)
+  }
+})
+</script>
+
+<style>
+@import './table-search.css';
+</style>

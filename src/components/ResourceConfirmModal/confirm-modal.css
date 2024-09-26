@@ -1,0 +1,58 @@
+.confirm-modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    z-index: 999999999999;
+}
+.confirm-modal {
+    max-width: 370px;
+    margin: 50px auto;
+}
+.confirm-modal-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    color: #000;
+    box-shadow: 0px 10px 5px 2px rgba(0, 0, 0, 0.1);
+}
+.confirm-modal-body {
+    min-height: 80px;
+    padding: 10px 40px;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.confirm-modal-footer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.75rem;
+    border-top: 0.0625rem solid #e5e7eb;
+    border-bottom-right-radius: 0.4375rem;
+    border-bottom-left-radius: 0.4375rem;
+}
+.confirm-modal-footer button {
+    margin: 0 4px;
+}
+.slide-enter-active {
+    transition: all 0.3s ease;
+}
+
+.slide-leave-active {
+    transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-enter-from,
+.slide-leave-to {
+    transform: translateY(-150px);
+    opacity: 0;
+}
