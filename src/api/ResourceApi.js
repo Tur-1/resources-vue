@@ -1,23 +1,57 @@
-import useResourceQueryString from '../composables/useResourceQueryString';
-import axios from 'axios';
+import useResourceQueryString from "../composables/useResourceQueryString";
+import axios from "axios";
+import
+    {
+        useResourceNotification
+    } from "@/index";
 
-const ResourceApi = (url, applyQueryParams = true) => {
+const ResourceApi = (
+    url,
+    applyQueryParams = false,
+    applyResourceNotification = true
+) =>
+{
     let api = axios.create({
         baseURL: url,
         withCredentials: true,
-        headers: { 'X-Requested-With': 'XMLHttpRequest' }
-    })
+        headers: {
+            "X-Requested-With": "XMLHttpRequest"
+        },
+    });
     const queryString = useResourceQueryString();
 
-    api.interceptors.request.use((config) => {
-        if (applyQueryParams) {
+    api.interceptors.request.use((config) =>
+    {
+        if (applyQueryParams)
+        {
             const queryParams = queryString.params.value || {};
-            config.params = { ...config.params, ...queryParams };
+            config.params = {
+                ...config.params,
+                ...queryParams
+            };
         }
-        return config
-    })
+        return config;
+    });
 
-    return api
-}
+    api.interceptors.response.use(
+        (response) =>
+        {
+            if (applyResourceNotification && response.status >= 200 && response.data?.message)
+            {
+                useResourceNotification.success(response.data.message);
+            }
+            return response;
+        },
+        (error) =>
+        {
+            if (applyResourceNotification && error.response?.data?.message)
+            {
+                useResourceNotification.error(error.response.data.message);
+            }
+            return Promise.reject(error);
+        }
+    );
+    return api;
+};
 
-export default ResourceApi
+export default ResourceApi;

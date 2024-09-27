@@ -214,10 +214,11 @@ export declare function setResourceRouter(router: Router): void;
 /**
  * Creates an Axios instance with optional query parameters applied from the useResourceQueryString composable.
  * @param {string} url - The base URL for the Axios instance.
- * @param {boolean} [applyQueryParams=true] -
+ * @param {boolean} [applyQueryParams=false] 
+ * @param {boolean} [applyResourceNotification=true] 
  * @returns {AxiosInstance}
  */
-export declare function ResourceApi(url: string, applyQueryParams?: boolean): AxiosInstance;
+export declare function ResourceApi(url: string, applyQueryParams?: boolean,applyResourceNotification:Boolean): AxiosInstance;
  
 
 interface QueryParams {

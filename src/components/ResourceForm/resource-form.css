@@ -9,8 +9,8 @@
 
 .header h4 {
     margin: 0;
-    padding-left: 15px; /* Adds space between the text and the border */
-    position: relative; /* Ensure the :before element is relative to the h4 */
+    padding-left: 15px;
+    position: relative;
 }
 
 .header:before {
@@ -40,5 +40,10 @@
     font-size: 13px;
 }
 .resource-form-btn {
-    width: 120px;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
 }
+ 
+ 

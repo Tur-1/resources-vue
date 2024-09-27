@@ -21,7 +21,7 @@ class ResourceFilter {
    * The selected value for the filter
    * @type {any}
    */
-  selectedValue;
+  selectedValue = ref('');
 
   constructor() {
     const queryString = useResourceQueryString();

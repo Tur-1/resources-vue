@@ -1,6 +1,6 @@
 <template>
   <div class="col-lg-4">
-    <ResourceForm type="search" v-model="search" :placeholder="props.searchOptions.placeholder || 'search'" />
+    <ResourceForm type="search" v-model="search" :placeholder="props.searchOptions.placeholder" />
   </div>
 </template>
 
