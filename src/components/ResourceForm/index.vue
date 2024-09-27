@@ -10,30 +10,20 @@
   </Form>
 
   <FormInput
-    v-if="inputTypes.includes(props.type)"
-    v-model="localValue"
+    v-else
+    v-model="inputModel"
     :id="props.id"
     :name="props.name"
+     @change="emitChange"
     :type="props.type"
     :placeholder="props.placeholder"
     :label="props.label" 
     :error="props.error"
     :value="props.value"
     :class="props.class"
+        :options="props.options"
   />
-
-  <FormSelect
-    v-if="props.type === 'select'"
-    @change="emitChange"
-    :label="props.label"
-    :error="props.error"
-    :class="props.class"
-    v-model="localValue"
-    :value="props.value"
-    :id="props.id"
-    :name="props.name"
-    :options="props.options"
-  />
+ 
 </template>
 
 <script setup>
@@ -65,35 +55,17 @@ const props = defineProps({
   modelValue: [String, Number] // modelValue for v-model support
 })
 
-const emit = defineEmits(['update:modelValue', 'change'])
-const localValue = computed({
-  get() {
-    return props.modelValue ?? props.value
-  },
-  set(value) {
-    emit('update:modelValue', value) // For v-model
-    emit('change', value)
-  }
-})
-let inputTypes = [
-  'text',
-  'number',
-  'email',
-  'password',
-  'tel',
-  'url',
-  'search',
-  'date',
-  'datetime-local',
-  'month',
-  'week',
-  'time',
-  'checkbox',
-  'radio',
-  'range',
-  'color',
-  'file'
-]
+const inputModel = defineModel();
+
+// const localValue = computed({
+//   get() {
+//     return props.modelValue ?? props.value
+//   },
+//   set(value) {
+//     emit('update:modelValue', value) // For v-model
+//     emit('change', value)
+//   }
+// })
 
 watchEffect(() => {
   if (props.type === 'form' && typeof props.submit !== 'function') {
@@ -102,6 +74,8 @@ watchEffect(() => {
     )
   }
 })
+
+const emit = defineEmits(['change'])
 
 const emitChange = (value) => {
   emit('change', value)
