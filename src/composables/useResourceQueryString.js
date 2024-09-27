@@ -19,6 +19,9 @@ export default function useResourceQueryString()
   };
 
 
+  const redirect = (route)=>{
+    router.push(route);
+  }
   const reset = () =>
   {
     params.value = {}
@@ -50,5 +53,6 @@ export default function useResourceQueryString()
     remove,
     get,
     reset,
+    redirect,
   };
 }

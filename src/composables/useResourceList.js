@@ -44,11 +44,11 @@ export default function useResourceList()
     useTableSkeletonLoading.show()
 
     let response = await fetchData(url)
-    if (!response.data || typeof fetchData !== 'function')
+    if (typeof fetchData !== 'function')
     {
       throw BaseResourceException.missingDataMethod('BaseResource');
     }
-    resourceData.list.value = response.data;
+    resourceData.list.value = response?.data ? response.data : response;
     resourceData.pagination.value = response.pagination ?? []
 
 

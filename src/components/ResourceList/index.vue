@@ -20,66 +20,6 @@ const props = defineProps({
   resource: {
     type: Object
   },
-  label: String,
-  createResource: {
-    type: Object,
-    require: false,
-    validator(value) {
-      if (!value) return true // If `createResource` is not passed, it's valid
-
-      const validKeys = ['route', 'class', 'icon', 'label'] // Define the allowed keys
-      const keysAreValid = Object.keys(value).every((key) => validKeys.includes(key))
-
-      if (!keysAreValid) {
-        console.warn('createResource contains invalid keys')
-        console.warn(`valid keys: ['route', 'class', 'icon', 'label']`)
-
-        return false
-      }
-
-      if (
-        typeof value.route !== 'object' ||
-        !value.route.name ||
-        typeof value.route.name !== 'string'
-      ) {
-        console.warn('route must be an object with a string name property')
-        return false
-      }
-
-      if (value.class && typeof value.class !== 'string') {
-        console.warn('class must be a string')
-        return false
-      }
-
-      if (typeof value.label !== 'string') {
-        console.warn('label must be a string')
-        return false
-      }
-
-      return true
-    }
-  },
-  pagination: {
-    require: false
-  },
-  columns: {
-    type: Array,
-    require: true
-  },
-  data: {
-    type: Function,
-    require: true
-  },
-  searchablue: {
-    type: Boolean,
-    default: true
-  },
-  filters: {
-    type: Array
-  },
-  actions: {
-    type: Array
-  }
 })
 
 const { openConfirmModal, handleConfirmModal, fetchResourceData, debounce } = useResourceList()
@@ -100,9 +40,14 @@ watch(
   },
   { deep: false }
 )
-
+ 
 const reactiveFilters = computed(() => reactive([...props.resource.filters()]))
 const searchable = computed(() => props.resource.searchOptions().searchable ?? true)
+
+const createPage = Object.entries( props.resource.pages())
+  .filter(([key, value]) => key == 'create')
+  .map(([key, value]) => value)[0];
+
 </script>
 <template>
   <h4>{{ props.resource.title }}</h4>
@@ -110,13 +55,13 @@ const searchable = computed(() => props.resource.searchOptions().searchable ?? t
     <TableSearchBox v-if="searchable" :searchOptions="props.resource.searchOptions()" />
 
     <RouterLink
-      v-if="props.resource.createResource"
-      :to="props.resource.createResource.route"
-      :class="props.resource.createResource.class"
+      v-if="createPage"
+      :to="{name:createPage.routeName}"
+      :class="createPage.class"
       class="btn btn-primary d-inline-flex align-items-center bg-dark border-0"
     >
-      <i :class="props.resource.createResource.icon ?? 'fa-solid fa-plus'" />
-      <span class="ms-2">{{ props.resource.createResource.label }}</span>
+      <i :class="createPage.icon ?? 'fa-solid fa-plus'" />
+      <span class="ms-2">{{ createPage.label }}</span>
     </RouterLink>
   </div>
 

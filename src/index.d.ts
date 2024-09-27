@@ -1,8 +1,8 @@
 import ResourceActionException from "@/Exceptions/ResourceActionException";
-import { DefineComponent } from 'vue';
-import { Router } from 'vue-router';
-import { AxiosInstance } from 'axios';
-import { Router, RouteLocationRaw } from 'vue-router';
+import { DefineComponent } from "vue";
+import { Router } from "vue-router";
+import { AxiosInstance } from "axios";
+import { Router, RouteLocationRaw } from "vue-router";
 interface ResourceNotification {
   message: string;
   isOpen: boolean;
@@ -13,7 +13,6 @@ interface ResourceNotification {
 }
 
 export declare const useResourceNotification: ResourceNotification;
-
 
 interface FilterOptions {
   data: any[];
@@ -38,7 +37,7 @@ export declare class ResourceFilter {
    * Must be implemented.
    * @type {string}
    */
-   type: string;
+  type: string;
 
   /**
    * The selected value for the filter.
@@ -69,15 +68,11 @@ export declare class ResourceFilter {
   /**
    * Get the options for the filter if type is 'select'.
    * This method should be overridden in subclasses to provide options for the filter.
-   * @throws {Error} 
-   * @return {Promise<FilterOptions>} 
+   * @throws {Error}
+   * @return {Promise<FilterOptions>}
    */
- async options(): Promise<FilterOptions>;
- 
+  async options(): Promise<FilterOptions>;
 }
-
- 
-
 
 export declare class ResourceAction {
   /**
@@ -110,39 +105,49 @@ export declare class ResourceAction {
    */
   handle(): Promise<void>;
 }
- 
 
-
-
-interface ResourceField {
+declare interface ResourceField {
   label: string;
   field: string;
+  action?: Boolean;
 }
 
-interface Page {
-  name: string; 
+declare interface Page {
+  name: string;
   resource: {
     title: string,
     label: string,
     paramKey: string,
     icon: string,
     class: string
-  } 
+  }
 }
 
 
-interface SearchOption {
+declare interface SearchOption {
   searchable: boolean;
   placeholder: string;
   queryStringKey: string;
 }
-
 export declare class BaseResource {
-  title: string;
-  paginationQueryKey: string;
+  /**
+   * The title of the page.
+   * @type {string}
+   */
+  title: String;
 
-  constructor();
+  /**
+   * Enable or disable simple pagination.
+   * @type {Boolean}
+   */
+  simplePagination: Boolean = true;
 
+  /**
+   * The query key used for pagination in URL parameters.
+   * @type {string}
+   */
+  paginationQueryKey: String = 'page';
+ 
   /**
    * Get the paginated data for the resource.
    * @returns {Promise<{data: any, pagination: any}>}
@@ -200,8 +205,6 @@ interface ResourceFormProps {
 
 export declare const ResourceForm: DefineComponent<ResourceFormProps, {}, {}>;
 
-
-
 /**
  * Set the router instance to be used globally.
  * This should be called from your main application to set the Vue Router instance.
@@ -210,16 +213,18 @@ export declare const ResourceForm: DefineComponent<ResourceFormProps, {}, {}>;
  */
 export declare function setResourceRouter(router: Router): void;
 
-
 /**
  * Creates an Axios instance with optional query parameters applied from the useResourceQueryString composable.
  * @param {string} url - The base URL for the Axios instance.
- * @param {boolean} [applyQueryParams=false] 
- * @param {boolean} [applyResourceNotification=true] 
+ * @param {boolean} [applyQueryParams=false]
+ * @param {boolean} [applyResourceNotification=true]
  * @returns {AxiosInstance}
  */
-export declare function ResourceApi(url: string, applyQueryParams?: boolean,applyResourceNotification:Boolean): AxiosInstance;
- 
+export declare function ResourceApi(
+  url: string,
+  applyQueryParams?: boolean,
+  applyResourceNotification: Boolean
+): AxiosInstance;
 
 interface QueryParams {
   [key: string]: string | (string | null)[] | null | undefined;
@@ -236,4 +241,3 @@ export declare function useResourceQueryString(): {
   get: (key: string) => string | (string | null)[] | null | undefined;
   reset: () => void;
 };
- 

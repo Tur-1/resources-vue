@@ -37,6 +37,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
+  
   "dependencies": {
     "axios": "^1.7.7"
   }
