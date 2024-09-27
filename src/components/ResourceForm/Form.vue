@@ -1,3 +1,61 @@
+
+<script setup>
+import useResourceIndicator from "@/components/ResourceIndicator/useResourceIndicator";
+import ResourceIndicator from "@/components/ResourceIndicator/index.vue";
+import { reactive, provide, watch } from "vue";
+import ResourceNotification from "@/components/ResourceNotification/index.vue";
+import { useResourceNotification } from "@/index";
+const props = defineProps({
+  title: String,
+  submitTitle: String,
+  submit: {
+    type: Function,
+    required: true,
+  },
+  class: String,
+  data: Object,
+});
+
+let formData = reactive({});
+let errors = reactive({}); 
+watch(
+  () => props.data,
+  (newValue) => {
+    if (newValue) {
+      Object.assign(formData, newValue);
+    } else {
+      Object.keys(formData).forEach(key => {
+        formData[key] = ''; 
+      });
+    }
+  },
+  { deep: true, immediate: true }
+);
+provide("formContext", formData);
+provide("errors", errors);
+
+const handleSubmit = async () => {
+  useResourceIndicator.show();
+  try {
+    await props.submit(formData);
+    if (props.data) {
+      Object.assign(formData, props.data);
+    } else {
+      Object.keys(formData).forEach(key => {
+        formData[key] = ''; 
+      });
+    }
+
+  } catch (error) {
+    useResourceNotification.error(error.message);
+    if (error.response && error.response.data.errors) {
+      Object.assign(errors, error.response.data.errors);
+    }
+  } finally {
+    useResourceIndicator.hide();
+  }
+};
+</script>
 <template>
   <div class="resource-form">
     <div class="header">
@@ -29,50 +87,6 @@
   <ResourceNotification />
 </template>
 
-<script setup>
-import useResourceIndicator from "@/components/ResourceIndicator/useResourceIndicator";
-import ResourceIndicator from "@/components/ResourceIndicator/index.vue";
-import { reactive, provide, watch } from "vue";
-import ResourceNotification from "@/components/ResourceNotification/index.vue";
-import { useResourceNotification } from "@/index";
-const props = defineProps({
-  title: String,
-  submitTitle: String,
-  submit: {
-    type: Function,
-    required: true,
-  },
-  class: String,
-  data: Object,
-});
-
-let formData = reactive({});
-let errors = reactive({});
-watch(
-  () => props.data,
-  (newValue) => {
-    Object.assign(formData, newValue);
-  },
-  { deep: true }
-);
-
-provide("formContext", formData);
-provide("errors", errors);
-
-const handleSubmit = async () => {
-  useResourceIndicator.show();
-  try {
-    await props.submit(formData);
-  } catch (error) {
-    useResourceNotification.error(error.message);
-    if (error.response && error.response.data.errors) {
-      Object.assign(errors, error.response.data.errors);
-    }
-  } finally {
-    useResourceIndicator.hide();
-  }
-};
-</script>
 <style>
 @import "./resource-form.css";
 </style>
