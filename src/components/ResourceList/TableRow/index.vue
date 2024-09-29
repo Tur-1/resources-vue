@@ -6,7 +6,7 @@
           {{ item[column.field] }}
         </span>
         <img v-if="column?.image" :src="item[column.field] || defaultImage" :alt="item[column.field] || defaultImage"
-          class="img-thumbnail" style="max-width: 100px; max-height: 100px" />
+          class="img-thumbnail" style="max-width: 80px; max-height: 80px" />
         <ResourceActionsMenu v-if="column?.action && actions.length">
           <template v-for="(actionPage, pageIndex) in pagesRoutes" :key="pageIndex">
             <RouterLink :class="actionPage.class" class="dropdown-item d-flex align-items-center rounded text-dark"
@@ -42,7 +42,7 @@ const queryString = useResourceQueryString();
 
 const handleAction = (action, item, index) =>
 {
-  if (action.isConfirmAction)
+  if (action.confirmAction)
   {
     emits("openConfirm", action, { item: item, index: index });
   } else

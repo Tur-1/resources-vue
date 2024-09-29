@@ -81,7 +81,7 @@ function watchFilterSelectedValues(filters) {
   filters.forEach((filter) => {
     watch(
       () => filter.selectedValue,
-      (newValue, oldValue) => {
+      (newValue, oldValue) => { 
         queryString.add(filter.queryKey(), newValue)
         filter.handle()
       }

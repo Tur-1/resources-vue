@@ -43,12 +43,11 @@ const props = defineProps({
   label: String,
   error: String,
   class: String,
-  step: String,
   title: String,
   submitTitle: String,
   submit: Function,
   options: [Object, Array],
-  modelValue: [String, Number] // modelValue for v-model support
+  modelValue: [String, Number] 
 })
 
 const emit = defineEmits(['update:modelValue', 'change'])
@@ -61,25 +60,7 @@ const localValue = computed({
     emitChange(value)
   }
 })
-let inputTypes = [
-  'text',
-  'number',
-  'email',
-  'password',
-  'tel',
-  'url',
-  'search',
-  'date',
-  'datetime-local',
-  'month',
-  'week',
-  'time',
-  'checkbox',
-  'radio',
-  'range',
-  'color',
-  'file'
-]
+
 
 watchEffect(() => {
   if (props.type === 'form' && typeof props.submit !== 'function') {

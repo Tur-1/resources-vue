@@ -38,7 +38,8 @@ watch(
   (value) => {
     debouncedFetchResourceData()
   },
-  { deep: false }
+
+  { deep: true }
 )
  
 const reactiveFilters = computed(() => reactive([...props.resource.filters()]))
@@ -106,7 +107,7 @@ const createPage = Object.entries( props.resource.pages())
         </table>
       </div>
 
-      <TablePagination :paginationQueryKey="props.resource.paginationQueryKey" />
+      <TablePagination v-if="resourceDataList.pagination.value?.length != 0" :paginationQueryKey="props.resource.paginationQueryKey" />
     </div>
   </div>
 

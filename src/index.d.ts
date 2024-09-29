@@ -3,6 +3,7 @@ import { DefineComponent } from "vue";
 import { Router } from "vue-router";
 import { AxiosInstance } from "axios";
 import { Router, RouteLocationRaw } from "vue-router";
+import { Ref } from "vue";
 interface ResourceNotification {
   message: string;
   isOpen: boolean;
@@ -97,8 +98,12 @@ export declare class ResourceAction {
    * Whether the action requires confirmation.
    * @type {boolean}
    */
-  isConfirmAction: boolean;
-
+  confirmAction: boolean;
+  /**
+   * Whether the action requires delete.
+   * @type {boolean}
+   */
+  deleteAction: boolean;
   /**
    * Handle the action.
    * @throws {ResourceActionException} If not implemented.
@@ -115,14 +120,13 @@ declare interface ResourceField {
 declare interface Page {
   name: string;
   resource: {
-    title: string,
-    label: string,
-    paramKey: string,
-    icon: string,
-    class: string
-  }
+    title: string;
+    label: string;
+    paramKey: string;
+    icon: string;
+    class: string;
+  };
 }
-
 
 declare interface SearchOption {
   searchable: boolean;
@@ -146,8 +150,8 @@ export declare class BaseResource {
    * The query key used for pagination in URL parameters.
    * @type {string}
    */
-  paginationQueryKey: String = 'page';
- 
+  paginationQueryKey: String = "page";
+
   /**
    * Get the paginated data for the resource.
    * @returns {Promise<{data: any, pagination: any}>}
@@ -230,14 +234,13 @@ interface QueryParams {
   [key: string]: string | (string | null)[] | null | undefined;
 }
 
-/**
- * Declare the useResourceQueryString function.
- * This file provides type declarations for the JavaScript implementation.
- */
-export declare function useResourceQueryString(): {
-  params: QueryParams;
-  add: (key: string, value: string | null | undefined) => void;
+export interface ResourceQueryString {
+  params: Ref<Record<string, any>>;
+  add: (key: string, value: any) => void;
   remove: (key: string) => void;
-  get: (key: string) => string | (string | null)[] | null | undefined;
+  get: (key: string) => any;
   reset: () => void;
-};
+  redirect: (route: RouteLocationRaw | string) => void;
+}
+
+export declare function useResourceQueryString(): ResourceQueryString;

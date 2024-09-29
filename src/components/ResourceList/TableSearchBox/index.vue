@@ -17,7 +17,7 @@ const queryString = useResourceQueryString()
 const queryStringKey = computed(() => props.searchOptions.queryStringKey || 'search')
 
 
-let search = ref(queryString.params.value[queryStringKey.value])
+let search = ref(queryString.get(queryStringKey.value))
 
 watch(search, (value) => {
   if (!value) {

@@ -11,7 +11,7 @@ const props = defineProps(['paginationQueryKey', 'data'])
 const resourceData = useResourceData()
 const queryString = useResourceQueryString()
 
-let paginationData = computed(() => props.pagination ?? resourceData.pagination.value)
+let paginationData = computed(() => resourceData.pagination.value)
 let querykey = computed(() => props.paginationQueryKey ?? 'page')
 
 const changePage = async (url) => {

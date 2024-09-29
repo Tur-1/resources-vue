@@ -6,7 +6,8 @@ import ResourceForm from "./components/ResourceForm/index.vue"
 import ResourceList from "./components/ResourceList/index.vue"
 import {setResourceRouter} from "./composables/useResourceRouter"
 import ResourceApi from "./api/ResourceApi"
- 
+import useResourceQueryString from './composables/useResourceQueryString';
+
 export
 { 
     ResourceApi,
@@ -17,4 +18,5 @@ export
     ResourceAction,
     useResourceNotification,
     setResourceRouter,
+    useResourceQueryString,
 };

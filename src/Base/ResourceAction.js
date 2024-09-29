@@ -24,8 +24,12 @@ class ResourceAction {
    * Whether the action requires confirmation.
    * @type {boolean}
    */
-  isConfirmAction = false;
-
+  confirmAction = false;
+  /**
+ * Whether the action requires delete.
+ * @type {boolean}
+ */
+  deleteAction = false;
   /**
    * Handle the action.
    * @throws {ResourceActionException} If not implemented.

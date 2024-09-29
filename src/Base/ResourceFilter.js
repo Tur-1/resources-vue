@@ -21,11 +21,11 @@ class ResourceFilter {
    * The selected value for the filter
    * @type {any}
    */
-  selectedValue;
+  selectedValue = ref('');
 
   constructor() {
     const queryString = useResourceQueryString();
-    this.selectedValue = ref(queryString.get(this.queryKey()));
+    this.selectedValue.value = queryString.get(this.queryKey());
   }
 
   /**

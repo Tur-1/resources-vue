@@ -21,8 +21,6 @@ export function setResourceRouter(routerInstance) {
  * @throws {Error}
  */
 export function getRouter() {
-  if (!router.value) {
-    throw new Error("Router instance is not set. Make sure to call setResourceRouter(router) in your project.");
-  }
+  
   return router;
 }

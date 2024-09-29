@@ -19,7 +19,6 @@ const props = defineProps({
   label: String,
   error: String,
   class: String,
-  step: String,
   modelValue: [String, Number],
    options: [Object, Array],
 })
@@ -132,8 +131,7 @@ let computedOptions = computed(() => {
         :name="name"
         :value="localValue"
         @input="updateValue($event.target.value)"
-        :aria-describedby="id"
-        :step="step"
+        :aria-describedby="id" 
       />
       <span v-if="type == 'search'" class="resource-search-btn">
         <i class="bi bi-search"></i>
@@ -154,8 +152,7 @@ let computedOptions = computed(() => {
       :name="name"
       :value="localValue"
       @input="updateValue($event.target.value)"
-      :aria-describedby="id"
-      :step="step"
+      :aria-describedby="id" 
     />
 
     <span class="text-danger mt-1 ms-2" v-if="error" style="font-size: 12px">
