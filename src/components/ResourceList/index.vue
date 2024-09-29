@@ -70,9 +70,7 @@ const createPage = Object.entries( props.resource.pages())
       <div class="row">
         <div class="col-md-2 col-lg-2">
           <TableFilters :filters="reactiveFilters">
-            <template #filters>
               <slot name="filters" />
-            </template>
           </TableFilters>
         </div>
 

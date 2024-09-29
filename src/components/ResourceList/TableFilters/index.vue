@@ -30,7 +30,7 @@
       </li>
 
       <li>
-        <slot name="filters" />
+        <slot />
       </li>
     </ul>
   </div>

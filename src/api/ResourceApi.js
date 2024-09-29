@@ -44,9 +44,9 @@ const ResourceApi = (
         },
         (error) =>
         {
-            if (applyResourceNotification && error.response?.message)
-            {
-                useResourceNotification.error(error.response.message);
+            if (applyResourceNotification && error.response.data?.message)
+            {           
+                useResourceNotification.error(error.response.data?.message);
             }
             return Promise.reject(error);
         }

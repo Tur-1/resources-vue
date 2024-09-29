@@ -47,8 +47,9 @@ const handleSubmit = async () => {
     }
 
   } catch (error) {
-    useResourceNotification.error(error.message);
+      
     if (error.response && error.response.data.errors) {
+      useResourceNotification.error(error.message);
       Object.assign(errors, error.response.data.errors);
     }
   } finally {
