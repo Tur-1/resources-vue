@@ -21,11 +21,6 @@ interface FilterOptions {
   value?: string | null;
 }
 
-interface TransformedOption {
-  label: any;
-  value: any;
-}
-
 export declare class ResourceFilter {
   /**
    * The label of the filter (optional).
@@ -68,7 +63,6 @@ export declare class ResourceFilter {
 
   /**
    * Get the options for the filter if type is 'select'.
-   * This method should be overridden in subclasses to provide options for the filter.
    * @throws {Error}
    * @return {Promise<FilterOptions>}
    */
@@ -200,7 +194,6 @@ interface ResourceFormProps {
   label?: string;
   error?: string;
   class?: string;
-  step?: string;
   title?: string;
   submitTitle?: string;
   submit?: Function;

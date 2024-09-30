@@ -61,8 +61,10 @@ const showPage = Object.entries(props.pages)
 
 const navigateToShow = (item) =>
 {
-  if (showPage) return;
+  if (!showPage) return;
   const route = generateRoute(showPage, item);
+  console.log(route);
+  
   queryString.redirect(route);
 };
 const generateRoute = (page, item) =>

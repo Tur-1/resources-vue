@@ -24,7 +24,7 @@ export default function useResourceQueryString()
 
   const redirect = (route) => {
     if (router) {
-      router.push(typeof route == Object ? route : {name:route});
+      router.push(route);
     } else {
       console.error("Router is not available, redirect cannot proceed.");
     }
