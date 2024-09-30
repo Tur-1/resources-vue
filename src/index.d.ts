@@ -50,13 +50,6 @@ export declare class ResourceFilter {
   queryKey(): string;
 
   /**
-   * Validate and get the type of the filter.
-   * Throws an exception if the type is missing.
-   * @return {string} The filter type.
-   */
-  getType(): string;
-
-  /**
    * Handle the filter logic. Should be implemented in subclasses.
    */
   handle(): void;
