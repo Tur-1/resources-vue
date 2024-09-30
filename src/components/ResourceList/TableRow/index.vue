@@ -7,9 +7,9 @@
         </span>
         <img v-if="column?.image" :src="item[column.field] || defaultImage" :alt="item[column.field] || defaultImage"
           class="img-thumbnail" style="max-width: 80px; max-height: 80px" />
-        <ResourceActionsMenu v-if="column?.action && actions.length">
+        <ResourceActionsMenu v-if="column?.action && actions.length" @click.stop>
           <template v-for="(actionPage, pageIndex) in pagesRoutes" :key="pageIndex">
-            <RouterLink :class="actionPage.class" class="dropdown-item d-flex align-items-center rounded text-dark"
+            <RouterLink :class="actionPage.class" class="dropdown-item d-flex align-items-center rounded text-dark" @click.stop
               :to="generateRoute(actionPage, item)">
               <i :class="actionPage.icon" class="me-2"></i>
               {{ actionPage.label ? actionPage.label : actionPage.title }}
@@ -63,8 +63,7 @@ const navigateToShow = (item) =>
 {
   if (!showPage) return;
   const route = generateRoute(showPage, item);
-  console.log(route);
-  
+
   queryString.redirect(route);
 };
 const generateRoute = (page, item) =>

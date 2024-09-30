@@ -26,11 +26,11 @@ const { openConfirmModal, handleConfirmModal, fetchResourceData, debounce } = us
 const queryString = useResourceQueryString()
 const resourceDataList = useResourceData()
 onMounted(async () => {
-  await fetchResourceData(props.resource.data())
+  await fetchResourceData(props.resource.data)
 })
 
 const debouncedFetchResourceData = debounce(async () => {
-  await fetchResourceData(props.resource.data())
+  await fetchResourceData(props.resource.data)
 }, 300)
 
 watch(

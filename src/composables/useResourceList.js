@@ -46,9 +46,7 @@ export default function useResourceList()
 
   const fetchResourceData = async (fetchData, url = null) =>
   {
-    if (typeof fetchData !== 'function') {
-      throw BaseResourceException.missingDataMethod('BaseResource');
-    }
+    
     useTableSkeletonLoading.show() 
     
     try {
