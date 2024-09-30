@@ -151,7 +151,7 @@ export declare class BaseResource {
    * @returns {Promise<{data: any, pagination: any}>}
    * @throws {BaseResourceException}
    */
-  data(): Promise<{ data: any; pagination: any }>;
+   data(): Promise<{ data: any; pagination: any }>;
 
   /**
    * Get the fields for the resource.

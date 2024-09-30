@@ -70,9 +70,7 @@ const handleSubmit = async () => {
       </div>
 
       <div class="d-flex justify-content-end">
-        <button class="btn resource-form-btn btn-gray-800 me-3" type="submit">
-          <span>{{ "cancel" }}</span>
-        </button>
+       
         <button
           class="btn resource-form-btn btn-gray-800"
           type="submit"

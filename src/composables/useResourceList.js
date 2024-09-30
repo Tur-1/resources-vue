@@ -2,8 +2,7 @@ import useResourceData from '@/stores/useResourceData'
 import useConfirmModal from '../components/ResourceConfirmModal/useConfirmModal'
 import useResourceIndicator from '../components/ResourceIndicator/useResourceIndicator'
 import useTableSkeletonLoading from '../components/ResourceList/TableSkeleton/useTableSkeletonLoading' 
-import { ref } from 'vue'
-import BaseResourceException from '../Exceptions/BaseResourceException'
+import { ref } from 'vue' 
 let selectedAction = ref(null)
 let selectedItem = ref(null)
 export default function useResourceList()
@@ -45,10 +44,8 @@ export default function useResourceList()
   }
 
   const fetchResourceData = async (fetchData, url = null) =>
-  {
-    
-    useTableSkeletonLoading.show() 
-    
+  { 
+    useTableSkeletonLoading.show()  
     try {
       
     let response = await fetchData(url)

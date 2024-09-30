@@ -9,7 +9,7 @@ class BaseResourceException extends Error {
   */
   static missingDataMethod(className) {
     return new BaseResourceException(
-      `The data() method must return a Promise that resolves with an object containing 'data' and optionally 'pagination' in the Resource" ${className}`);
+      `The data() method must return a object containing 'data' and optionally 'pagination' in the Resource" ${className}`);
 
   }
 

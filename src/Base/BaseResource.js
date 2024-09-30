@@ -1,4 +1,4 @@
-import BaseResourceException from "@/Exceptions/BaseResourceException";
+import BaseResourceException from "./../Exceptions/BaseResourceException";
 
 class BaseResource
 {
