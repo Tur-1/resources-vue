@@ -10,10 +10,14 @@ const emits = defineEmits(["openConfirm"]);
 
 const queryString = useResourceQueryString();
 const getImageSource = (item, column) => {
-  if (column.nestedField) {
-    return item[column.field]?.[column.nestedField] || this.defaultImage;
+  if (column.image && !column.field && !column.nestedField) {
+        return defaultImage;
   }
-  return item[column.field] || this.defaultImage;
+  if (column.nestedField) {
+    return item[column.field]?.[column.nestedField] || defaultImage;
+  }
+  
+  return item[column.field];
 };
 const getValue = (item, column) => {
   if (column.nestedField) {
@@ -63,11 +67,11 @@ const showPage = Object.entries(props.pages)
     >
       <td v-for="column in columns" :key="column.id">
         <span class="fw-normal" v-if="!column?.action && !column?.image">
-          {{ getValue(item, column) }}
+          {{ getValue(item,column) }}
         </span>
         <img
           v-if="column?.image"
-          :src="getImageSource(item, column)"
+          :src="getImageSource(item,column)"
           :alt="defaultImage"
           class="img-thumbnail"
           style="max-width: 80px; max-height: 80px"
