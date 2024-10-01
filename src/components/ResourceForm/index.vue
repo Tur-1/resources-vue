@@ -3,7 +3,7 @@
     v-if="props.type === 'form'"
     :title="props.title"
     :submitTitle="props.submitTitle"
-    :submit="props.submit"
+    :submit="props.submit" 
     :class="props.class"
   >
     <slot />
@@ -27,7 +27,7 @@
 <script setup>
 import Form from '@/components/ResourceForm/Form.vue'
 import FormInput from '@/components/ResourceForm/FormInput.vue' 
-import { ref, watchEffect, computed } from 'vue'
+import { ref,  computed } from 'vue'
 const props = defineProps({
   id: String,
   required: {
@@ -37,7 +37,7 @@ const props = defineProps({
   type: {
     type: String,
     default: 'text'
-  },
+  }, 
   name: String,
   placeholder: String,
   label: String,
@@ -45,7 +45,7 @@ const props = defineProps({
   class: String,
   title: String,
   submitTitle: String,
-  submit: Function,
+  submit: [String, Function],
   options: [Object, Array],
   modelValue: [String, Number] 
 })
@@ -58,15 +58,6 @@ const localValue = computed({
   set(value) {
     emit('update:modelValue', value) 
     emitChange(value)
-  }
-})
-
-
-watchEffect(() => {
-  if (props.type === 'form' && typeof props.submit !== 'function') {
-    console.error(
-      "Error ResourceForm: The 'submit' prop is required and must be a function when the 'type' is set to 'form'."
-    )
   }
 })
 

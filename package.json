@@ -35,9 +35,12 @@
     "build": "vite build && tsc --emitDeclarationOnly && cp src/index.d.ts dist/",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "resource:filter": "node ./scripts/create-filter.js"
   },
-  
+  "bin": {
+    "resource:filter": "./scripts/create-filter.js"
+  },
   "dependencies": {
     "axios": "^1.7.7"
   }

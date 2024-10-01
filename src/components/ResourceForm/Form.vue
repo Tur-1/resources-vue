@@ -1,15 +1,16 @@
-
 <script setup>
 import useResourceIndicator from "@/components/ResourceIndicator/useResourceIndicator";
 import ResourceIndicator from "@/components/ResourceIndicator/index.vue";
 import { reactive, provide, watch } from "vue";
 import ResourceNotification from "@/components/ResourceNotification/index.vue";
-import { useResourceNotification } from "@/index";
+import {  useResourceNotification } from "@/index";
+import ResourceApi from "./../../api/ResourceApi";
+
 const props = defineProps({
-  title: String,
+  title: String, 
   submitTitle: String,
   submit: {
-    type: Function,
+    type: [String, Function],
     required: true,
   },
   class: String,
@@ -17,15 +18,15 @@ const props = defineProps({
 });
 
 let formData = reactive({});
-let errors = reactive({}); 
+let errors = reactive({});
 watch(
   () => props.data,
   (newValue) => {
     if (newValue) {
       Object.assign(formData, newValue);
     } else {
-      Object.keys(formData).forEach(key => {
-        formData[key] = ''; 
+      Object.keys(formData).forEach((key) => {
+        formData[key] = "";
       });
     }
   },
@@ -37,17 +38,20 @@ provide("errors", errors);
 const handleSubmit = async () => {
   useResourceIndicator.show();
   try {
-    await props.submit(formData);
+    if (typeof props.submit === "function") {
+      await props.submit(formData);
+    } else if (typeof props.submit === "string") {
+      await ResourceApi(props.submit).post();
+    }
+
     if (props.data) {
       Object.assign(formData, props.data);
     } else {
-      Object.keys(formData).forEach(key => {
-        formData[key] = ''; 
+      Object.keys(formData).forEach((key) => {
+        formData[key] = "";
       });
     }
-
   } catch (error) {
-      
     if (error.response && error.response.data.errors) {
       useResourceNotification.error(error.message);
       Object.assign(errors, error.response.data.errors);
@@ -70,7 +74,6 @@ const handleSubmit = async () => {
       </div>
 
       <div class="d-flex justify-content-end">
-       
         <button
           class="btn resource-form-btn btn-gray-800"
           type="submit"

@@ -15,7 +15,7 @@ interface ResourceNotification {
 
 export declare const useResourceNotification: ResourceNotification;
 
-interface FilterOptions {
+declare interface FilterOptions {
   data: any[];
   label?: string | null;
   value?: string | null;
@@ -57,9 +57,9 @@ export declare class ResourceFilter {
   /**
    * Get the options for the filter if type is 'select'.
    * @throws {Error}
-   * @return {Promise<FilterOptions>}
+   * @return {FilterOptions}
    */
-  async options(): Promise<FilterOptions>;
+  async options(): FilterOptions;
 }
 
 export declare class ResourceAction {
@@ -189,7 +189,7 @@ interface ResourceFormProps {
   class?: string;
   title?: string;
   submitTitle?: string;
-  submit?: Function;
+  submit?: [string,Function];
   options?: Record<string, any>[] | Record<string, any>;
 }
 

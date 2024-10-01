@@ -3,6 +3,12 @@ import ResourceFilterException from "@/Exceptions/ResourceFilterException";
 import { toSnakeCase } from "@/helpers";
 import { ref } from "vue";
 
+/**
+ * @typedef {Object} FilterOptions
+ * @property {Array<any>} data The array of filter options.
+ * @property {string|null} [label] Optional label key for the options.
+ * @property {string|null} [value] Optional value key for the options.
+ */
 class ResourceFilter {
   /**
    * The label of the filter (optional).
@@ -38,7 +44,6 @@ class ResourceFilter {
 
   /**
    * Validate and get the type of the filter.
-   * Throws an exception if the type is missing.
    * @returns {string}
    */
   getType() {
@@ -58,9 +63,9 @@ class ResourceFilter {
   /**
    * Get the options for the filter if type is 'select'. 
    * @throws {Error} If not implemented when type is 'select'.
-   * @returns {Promise<{ data: any[] }>} 
+   * @returns {FilterOptions} 
    */
-  async options() {
+   options() {
     if (this.type === 'select') {
       throw new Error(`You must implement the options method in the Filter: ${this.constructor.name}`);
     }
