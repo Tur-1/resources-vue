@@ -1,6 +1,6 @@
 {
   "name": "@tur-resources/vue",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "dist/core.umd.js",
   "module": "dist/core.es.js",
   "types": "dist/index.d.ts",

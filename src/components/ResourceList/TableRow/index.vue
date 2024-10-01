@@ -32,12 +32,7 @@ const handleAction = (action, item, index) => {
     action.handle({ item, index });
   }
 };
-const navigateToShow = (item) => {
-  if (!showPage) return;
-  const route = generateRoute(showPage, item);
 
-  queryString.redirect(route);
-};
 const generateRoute = (page, item) => {
   return {
     name: page.routeName,
@@ -51,11 +46,6 @@ const pagesRoutes = Object.entries(props.pages)
   .filter(([key, value]) => key !== "create")
   .map(([key, value]) => value);
 
-const showPage = Object.entries(props.pages)
-  .filter(([key, value]) => key == "show")
-  .map(([key, value]) => value)[0];
-
-
 </script>
 
 <template>
@@ -63,7 +53,6 @@ const showPage = Object.entries(props.pages)
     <tr
       v-for="(item, index) in props.data"
       :key="item.id"
-      @click="navigateToShow(item)"
     >
       <td v-for="column in columns" :key="column.id">
         <span class="fw-normal" v-if="!column?.action && !column?.image">
@@ -79,7 +68,6 @@ const showPage = Object.entries(props.pages)
 
         <ResourceActionsMenu
           v-if="column?.action && actions.length"
-          @click.stop
         >
           <template
             v-for="(actionPage, pageIndex) in pagesRoutes"
@@ -88,7 +76,6 @@ const showPage = Object.entries(props.pages)
             <RouterLink
               :class="actionPage.class"
               class="dropdown-item d-flex align-items-center rounded text-dark"
-              @click.stop
               :to="generateRoute(actionPage, item)"
             >
               <i :class="actionPage.icon" class="me-2"></i>
