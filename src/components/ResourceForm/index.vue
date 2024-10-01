@@ -29,15 +29,7 @@ import Form from '@/components/ResourceForm/Form.vue'
 import FormInput from '@/components/ResourceForm/FormInput.vue' 
 import { ref,  computed } from 'vue'
 const props = defineProps({
-  id: String,
-  required: {
-    type: Boolean,
-    default: true
-  },
-  type: {
-    type: String,
-    default: 'text'
-  }, 
+  id: String, 
   name: String,
   placeholder: String,
   label: String,
@@ -47,7 +39,15 @@ const props = defineProps({
   submitTitle: String,
   submit: [String, Function],
   options: [Object, Array],
-  modelValue: [String, Number] 
+  modelValue: [String, Number],
+  required: {
+    type: Boolean,
+    default: true
+  },
+  type: {
+    type: String,
+    default: 'text'
+  }, 
 })
 
 const emit = defineEmits(['update:modelValue', 'change'])

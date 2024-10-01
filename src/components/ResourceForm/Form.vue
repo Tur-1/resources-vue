@@ -40,7 +40,8 @@ const handleSubmit = async () => {
   try {
     if (typeof props.submit === "function") {
       await props.submit(formData);
-    } else if (typeof props.submit === "string") {
+    }  
+    if (typeof props.submit === "string") {
       await ResourceApi(props.submit).post();
     }
 
