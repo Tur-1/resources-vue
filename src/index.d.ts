@@ -189,7 +189,7 @@ interface ResourceFormProps {
   class?: string;
   title?: string;
   submitTitle?: string;
-  submit?: [string,Function];
+  submit?: [String,Function];
   options?: Record<string, any>[] | Record<string, any>;
 }
 
