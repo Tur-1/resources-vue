@@ -1,7 +1,7 @@
-import BaseResourceException from "./../Exceptions/BaseResourceException";
+import { BaseResource } from '@tur-resources/vue'
+import { ref } from "vue";
 
-class BaseResource
-{
+class {{pageName}} extends BaseResource {
     /**
      * The title of the page.
      * @type {string}
@@ -31,38 +31,25 @@ class BaseResource
      * @type {string}
      */
     searchPlaceholder = 'search';
-    /**
-     * The title for the resource
-     * @type {string}
-     */
-    constructor()
-    {
-        this.title = this.constructor.name.replace(/([a-z])([A-Z])/g, "$1 $2");
-    }
-
+    
     /**
      * Get the data for the resource.
-     * @throws {BaseResourceException}
-     * @returns {Promise<{data: any, pagination: any}>}
      */
     data()
     {
-        throw BaseResourceException.missingDataMethod(this.constructor.name);
+       return {data: any, pagination: any}
     }
 
     /**
-     * Get the fields for the resource.
-     * @throws {BaseResourceException}
-     * @returns {Field[]}
+     * Get the fields for the resource.  
      */
     fields()
     {
-        throw BaseResourceException.missingFieldsMethod(this.constructor.name);
+       
     }
 
     /**
-     * Get the pages for the resource.
-     * @returns {Page[]}
+     * Get the pages for the resource. 
      */
     pages()
     {
@@ -70,8 +57,7 @@ class BaseResource
     }
 
     /**
-     * Get the filters for the resource.
-     * @returns {Filter[]}
+     * Get the filters for the resource. 
      */
     filters()
     {
@@ -80,7 +66,6 @@ class BaseResource
 
     /**
      * Get the actions for the resource.
-     * @returns {Action[]}
      */
     actions()
     {
@@ -89,4 +74,4 @@ class BaseResource
  
 }
 
-export default BaseResource;
+export default {{pageName}};

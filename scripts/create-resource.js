@@ -19,7 +19,7 @@ const className = args._[0];
 
 // Check if the class name is provided
 if (!className) {
-  console.error('Please provide a filter class name.');
+  console.error('Please provide a resource class name.');
   process.exit(1);
 }
 
@@ -28,13 +28,13 @@ let filePath;
 if (className.includes('/')) {
    
   const [pageName, file] = className.split('/');
-  filePath = path.join(projectRoot, `src/pages/${pageName}/Filters/${file}.js`);
+  filePath = path.join(projectRoot, `src/pages/${pageName}/${file}.js`);
 } else { 
-  filePath = path.join(projectRoot, `src/Filters/${className}.js`);
+  filePath = path.join(projectRoot, `src/resources/${className}.js`);
 }
 
 // Path to the stub file within the package
-const stubPath = path.join(__dirname, './../stubs/filter.stub');
+const stubPath = path.join(__dirname, './../stubs/resource.stub');
 
 // Read the stub file
 fs.readFile(stubPath, 'utf8', (err, data) => {
@@ -44,7 +44,7 @@ fs.readFile(stubPath, 'utf8', (err, data) => {
   }
 
   // Replace the placeholder with the actual class name (only the last part of the name)
-  const content = data.replace(/{{className}}/g, path.basename(className));
+  const content = data.replace(/{{pageName}}/g, path.basename(className));
 
   // Create the directory if it doesn’t already exist
   fs.mkdir(path.dirname(filePath), { recursive: true }, (err) => {

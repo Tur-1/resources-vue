@@ -43,7 +43,7 @@ watch(
 )
  
 const reactiveFilters = computed(() => reactive([...props.resource.filters()]))
-const searchable = computed(() => props.resource.searchOptions().searchable ?? true)
+const searchable = computed(() => props.resource.searchable ?? true)
 
 const createPage = Object.entries( props.resource.pages())
   .filter(([key, value]) => key == 'create')
@@ -53,7 +53,7 @@ const createPage = Object.entries( props.resource.pages())
 <template>
   <h4>{{ props.resource.title }}</h4>
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
-    <TableSearchBox v-if="searchable" :searchOptions="props.resource.searchOptions()" />
+    <TableSearchBox v-if="searchable" :resource="props.resource" />
 
     <RouterLink
       v-if="createPage"

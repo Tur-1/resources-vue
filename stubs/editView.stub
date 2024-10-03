@@ -1,0 +1,22 @@
+<script setup>
+import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}}Service'
+import {{pageName}}Store from '@/pages/{{pageName}}/stores/{{pageName}}Store'
+import { ResourceForm } from '@tur-resources/vue'
+import { computed, onMounted, reactive, ref } from 'vue'
+
+let { show, update } = use{{pageName}}Service()
+
+onMounted(async () => await show(routeParam))
+</script>
+<template>
+    <ResourceForm
+      type="form"
+      :submit="update"
+      title="uppdate "
+      :data="{{pageName}}Store.{{singularPageName}}"
+    > 
+          <ResourceForm type="text" label="name" name="name" id="name1" />
+
+          <ResourceForm type="email" label="email" name="email" id="email" />  
+    </ResourceForm> 
+</template>

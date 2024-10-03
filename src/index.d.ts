@@ -138,9 +138,19 @@ export declare class BaseResource {
    * @type {string}
    */
   paginationQueryKey: String = "page";
+   /**
+     * Searchable status of the resource.
+     * @type {boolean}
+     */
+   searchable: Boolean = true;
 
+   /**
+    * Placeholder for the search input.
+    * @type {string}
+    */
+   searchPlaceholder:String = 'search';
   /**
-   * Get the paginated data for the resource.
+   * Get the data for the resource.
    * @returns {Promise<{data: any, pagination: any}>}
    * @throws {BaseResourceException}
    */
@@ -170,12 +180,6 @@ export declare class BaseResource {
    * @returns {[]}
    */
   actions(): [];
-
-  /**
-   * Get the search options for the resource.
-   * @returns {SearchOption}
-   */
-  searchOptions(): SearchOption;
 }
 
 interface ResourceFormProps {

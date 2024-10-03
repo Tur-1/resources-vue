@@ -1,0 +1,40 @@
+import { ResourceAction } from '@tur-resources/vue'
+
+class {{className}} extends ResourceAction {
+  /**
+   * The label of the action.
+   * @type {string}
+   */
+  label = {{className}};
+
+  /**
+   * The icon of the action.
+   * @type {string}
+   */
+  icon = '';
+
+  /**
+   * The CSS class for the action button.
+   * @type {string}
+   */
+  class = '';
+
+  /**
+   * Whether the action requires confirmation.
+   * @type {boolean}
+   */
+  confirmAction = false;
+  /**
+ * Whether the action requires delete.
+ * @type {boolean}
+ */
+  deleteAction = false;
+  /**
+   * Handle the action.
+   * @throws {ResourceActionException} If not implemented.
+   */
+  handle() {
+  }
+}
+
+export default {{className}};

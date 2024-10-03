@@ -1,0 +1,38 @@
+
+import { ResourceApi } from '@tur-resources/vue' 
+
+let baseURl = '';
+ function api(applyQueryParams = false) {
+  return ResourceApi(baseURl, applyQueryParams)
+}
+
+const getAll = () => {
+  return api().get('/{{pageName}}/get-all')
+}
+const getPaginatedList = () => {
+  return api(true).get('/{{pageName}}/get-paginated-list')
+}
+
+const create = (data) => {
+  return api().post('/{{pageName}}/store', data)
+}
+const update = (data, id) => {
+  return api().post('/{{pageName}}/update/' + id, data)
+}
+
+const show = (id) => {
+  return api().post('/{{pageName}}/show/' + id)
+}
+
+const destroy = (id) => {
+  return api().post('/{{pageName}}/delete/' + id)
+}
+
+export default {
+  getAll,
+  getPaginatedList,
+  create,
+  update,
+  show,
+  destroy
+}

@@ -19,7 +19,7 @@ const className = args._[0];
 
 // Check if the class name is provided
 if (!className) {
-  console.error('Please provide a filter class name.');
+  console.error('Please provide an Action class name.');
   process.exit(1);
 }
 
@@ -28,13 +28,13 @@ let filePath;
 if (className.includes('/')) {
    
   const [pageName, file] = className.split('/');
-  filePath = path.join(projectRoot, `src/pages/${pageName}/Filters/${file}.js`);
+  filePath = path.join(projectRoot, `src/pages/${pageName}/Actions/${file}.js`);
 } else { 
-  filePath = path.join(projectRoot, `src/Filters/${className}.js`);
+  filePath = path.join(projectRoot, `src/Actions/${className}.js`);
 }
 
 // Path to the stub file within the package
-const stubPath = path.join(__dirname, './../stubs/filter.stub');
+const stubPath = path.join(__dirname, './../stubs/action.stub');
 
 // Read the stub file
 fs.readFile(stubPath, 'utf8', (err, data) => {

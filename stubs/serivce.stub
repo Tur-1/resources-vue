@@ -1,0 +1,52 @@
+import {{pageName}}Store from '@/pages/{{pageName}}/stores/{{pageName}}Store'
+import use{{pageName}}Api from '@/pages/{{pageName}}/api/use{{pageName}}Api'
+import { useRoute } from 'vue-router'
+
+export default function use{{pageName}}Service() {
+
+ let routeParam = useRoute().params.id
+
+  const getAll = async () => {
+    let response = await use{{pageName}}Api.getAll()
+
+  }
+  const getPaginatedList = async () => {
+    let response = await use{{pageName}}Api.getPaginatedList()
+
+    return {
+      data: response.data.data,
+      pagination: { ...response.data.links, ...response.data.meta }
+    }
+  }
+  
+  const create = async (data) => {
+    let response = await use{{pageName}}Api.create(data)
+
+    return response;
+  }
+  const show = async () => {
+    let response = await use{{pageName}}Api.show(routeParam)
+
+    {{pageName}}Store.{{singularPageName}} = response.data.admin
+  }
+
+  const update = async (data) => {
+    let response = await use{{pageName}}Api.update(data, routeParam)
+    {{pageName}}Store.{{singularPageName}} = response.data.admin
+  }
+  const destroy = async ({ item, index }) => {
+     
+    let response =   await use{{pageName}}Api.destroy(item.id)
+    
+    return response;
+  }
+
+  return {
+    getAll,
+    getPaginatedList,
+    create, 
+    update,
+    show,
+    destroy
+  }
+}

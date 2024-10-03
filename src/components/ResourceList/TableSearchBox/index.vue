@@ -1,6 +1,6 @@
 <template>
   <div class="col-lg-4">
-    <ResourceForm type="search" v-model="search" :placeholder="props.searchOptions.placeholder" />
+    <ResourceForm type="search" v-model="search" :placeholder="props.resource.placeholder" />
   </div>
 </template>
 
@@ -14,7 +14,7 @@ const props = defineProps({
 })
 const queryString = useResourceQueryString()
 
-const queryStringKey = computed(() => props.searchOptions.queryStringKey || 'search')
+const queryStringKey = computed(() => props.resource.queryStringKey || 'search')
 
 
 let search = ref(queryString.get(queryStringKey.value))

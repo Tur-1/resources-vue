@@ -1,5 +1,4 @@
 import { ResourceFilter } from '@tur-resources/vue'
-import { ref } from "vue";
 
 class {{className}} extends ResourceFilter {
   /**

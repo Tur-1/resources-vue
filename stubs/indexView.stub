@@ -1,0 +1,7 @@
+<script setup>
+import { ResourceList } from '@tur-resources/vue'
+import {{pageName}}Resource from '@/pages/{{pageName}}/{{pageName}}Resource'
+</script>
+<template> 
+    <ResourceList :resource="new {{pageName}}Resource()" />
+</template>
