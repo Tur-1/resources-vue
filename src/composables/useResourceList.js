@@ -60,7 +60,7 @@ export default function useResourceList()
       resourceData.list.value = response.data.data;
       resourceData.pagination.value = {...response.data.links, ...response.data.meta}
     }
-
+ 
     
   } catch (error) {
     console.error("Error fetching resource data:", error);

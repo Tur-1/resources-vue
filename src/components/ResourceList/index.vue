@@ -107,7 +107,7 @@ const createPage = Object.entries( props.resource.pages())
         </table>
       </div>
 
-      <TablePagination :paginationQueryKey="props.resource.paginationQueryKey" />
+      <TablePagination v-if="resourceDataList.pagination.value?.length != 0" :paginationQueryKey="props.resource.paginationQueryKey" />
     </div>
   </div>
 
