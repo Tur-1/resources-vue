@@ -40,8 +40,6 @@
     "action:create": "node ./scripts/create-action.js",
     "resource:create": "node ./scripts/create-resource.js",
     "page:create": "node ./scripts/create-page.js"
-
-
   },
   "bin": {
     "filter:create": "./scripts/create-filter.js",
@@ -50,6 +48,7 @@
     "page:create": "./scripts/create-page.js"
   },
   "dependencies": {
+    "@tur-resources/vue": "^0.0.7",
     "axios": "^1.7.7",
     "minimist": "^1.2.8"
   }
