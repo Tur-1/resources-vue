@@ -1,11 +1,8 @@
 <script setup>
-import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}}Service'
-import AdminsPageStore from '@/pages/{{pageName}}/stores/{{pageName}}Store'
-import { ResourceForm } from '@tur-resources/vue'
-import { onMounted } from 'vue'
+import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}}Service' 
+import { ResourceForm } from '@tur-resources/vue' 
 
-let { create } = use{{pageName}}Service()
-
+let { create } = use{{pageName}}Service() 
 </script>
 <template>
     <ResourceForm
