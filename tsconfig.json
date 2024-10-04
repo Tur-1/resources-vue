@@ -2,14 +2,15 @@
   "compilerOptions": {
     "baseUrl": "./", 
     "paths": {
-      "@/*": ["./src/*"] // Alias setup for '@' to point to the 'src' folder
+      "@/*": ["./src/*"] 
     },
     "target": "ES6",
     "module": "ESNext",
     "moduleResolution": "Node", 
     "emitDeclarationOnly": true, 
     "declaration": true, 
-    "outDir": "./dist",
+    "declarationDir": "./dist", 
+    "outDir": "./dist", 
     "strict": true,
     "jsx": "preserve",
     "esModuleInterop": true,

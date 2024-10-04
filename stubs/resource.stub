@@ -1,4 +1,4 @@
-import { BaseResource } from '@tur1-resources/vue'
+import { BaseResource } from '@tur-1/resources-vue'
 import { ref } from "vue";
 
 class {{pageName}} extends BaseResource {

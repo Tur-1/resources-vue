@@ -1,5 +1,5 @@
 
-import { ResourceApi } from '@tur1-resources/vue' 
+import { ResourceApi } from '@tur-1/resources-vue' 
 
 let baseURl = '';
  function api(applyQueryParams = false) {
