@@ -1,6 +1,6 @@
 <script setup>
 import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}}Service' 
-import { ResourceForm } from '@tur-1/resources-vue' 
+import { ResourceForm } from '@tur1/resources-vue' 
 
 let { create } = use{{pageName}}Service() 
 </script>

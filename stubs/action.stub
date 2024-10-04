@@ -1,4 +1,4 @@
-import { ResourceAction } from '@tur-1/resources-vue'
+import { ResourceAction } from '@tur1/resources-vue'
 
 class {{className}} extends ResourceAction {
   /**
