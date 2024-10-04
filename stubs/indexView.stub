@@ -1,5 +1,5 @@
 <script setup>
-import { ResourceList } from '@tur-resources/vue'
+import { ResourceList } from '@tur1-resources/vue'
 import {{pageName}}Resource from '@/pages/{{pageName}}/{{pageName}}Resource'
 </script>
 <template> 
