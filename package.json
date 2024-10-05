@@ -37,16 +37,16 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "filter:create": "node ./scripts/create-filter.js",
-    "action:create": "node ./scripts/create-action.js",
-    "resource:create": "node ./scripts/create-resource.js",
-    "page:create": "node ./scripts/create-page.js"
+    "make:filter": "node ./scripts/create-filter.js",
+    "make:action": "node ./scripts/create-action.js",
+    "make:resource": "node ./scripts/create-resource.js",
+    "make:page": "./bin/make-page.js"
   },
   "bin": {
-    "page:create": "./scripts/create-page.js",
-    "filter:create": "./scripts/create-filter.js",
-    "action:create": "./scripts/create-action.js",
-    "resource:create": "./scripts/create-resource.js"
+    "make:page": "./scripts/create-page.js",
+    "make:filter": "./scripts/create-filter.js",
+    "make:action": "./scripts/create-action.js",
+    "make:resource": "./scripts/create-resource.js"
   },
   "dependencies": { 
     "axios": "^1.7.7",

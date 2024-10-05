@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { toSnakeCase, singularize } from "./../src/helpers/index.js";
+import { toSnakeCase, singularize } from "../src/helpers/index.js";
 // Manually define __filename and __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
