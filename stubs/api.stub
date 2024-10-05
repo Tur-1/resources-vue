@@ -7,25 +7,25 @@ let baseURl = '';
 }
 
 const getAll = () => {
-  return api().get('/{{pageName}}/get-all')
+  return api().get('/{{snakeCasePageName}}/get-all')
 }
 const getPaginatedList = () => {
-  return api(true).get('/{{pageName}}/get-paginated-list')
+  return api(true).get('/{{snakeCasePageName}}/get-paginated-list')
 }
 
 const create = (data) => {
-  return api().post('/{{pageName}}/store', data)
+  return api().post('/{{snakeCasePageName}}/store', data)
 }
 const update = (data, id) => {
-  return api().post('/{{pageName}}/update/' + id, data)
+  return api().post('/{{snakeCasePageName}}/update/' + id, data)
 }
 
 const show = (id) => {
-  return api().post('/{{pageName}}/show/' + id)
+  return api().post('/{{snakeCasePageName}}/show/' + id)
 }
 
 const destroy = (id) => {
-  return api().post('/{{pageName}}/delete/' + id)
+  return api().post('/{{snakeCasePageName}}/delete/' + id)
 }
 
 export default {
