@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [
-    "dist"
+     "dist",
+     "src/helpers"
   ],
   "exports": {
     ".": {
@@ -42,10 +43,10 @@
     "page:create": "node ./scripts/create-page.js"
   },
   "bin": {
+    "page:create": "./scripts/create-page.js",
     "filter:create": "./scripts/create-filter.js",
     "action:create": "./scripts/create-action.js",
-    "resource:create": "./scripts/create-resource.js",
-    "page:create": "./scripts/create-page.js"
+    "resource:create": "./scripts/create-resource.js"
   },
   "dependencies": { 
     "axios": "^1.7.7",
