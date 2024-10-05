@@ -59,7 +59,7 @@ export declare class ResourceFilter {
    * @throws {Error}
    * @return {FilterOptions}
    */
-  async options(): FilterOptions;
+   options(): FilterOptions;
 }
 
 export declare class ResourceAction {

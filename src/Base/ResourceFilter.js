@@ -69,7 +69,7 @@ class ResourceFilter {
     if (this.type === 'select') {
       throw new Error(`You must implement the options method in the Filter: ${this.constructor.name}`);
     }
-    return { data: [] };
+    return {};
   }
 
   /**
@@ -81,8 +81,8 @@ class ResourceFilter {
     if (this.type === 'select') {
       const options = await this.options();
 
-      if (!options.label || !options.value) {
-        return options.data.map((item) => ({
+      if (!options.label || !options.value || !options.data) { 
+        return options.map((item) => ({
           label: item,
           value: item
         }));
