@@ -42,10 +42,8 @@ class {{pageName}} extends BaseResource {
 
     return {
       data: response.data.data,
-      pagination: {
-        ...response.data.links,
-        ...response.data.meta
-      }
+      links:response.data.links,
+      meta:response.data.meta
     }
   }
 
