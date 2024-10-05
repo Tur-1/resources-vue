@@ -24,6 +24,7 @@
           v-model="filter.selectedValue"
           :label="filter.label"
           :id="filter.id"
+          @change="handleFilter(filter)"
           :placeholder="filter.placeholder"
           :options="getFilterOptions(filter)"
         />
@@ -43,7 +44,8 @@ import { onMounted, ref, watch } from 'vue'
 const props = defineProps({
   filters: {
     required: true
-  }
+  },
+  paginationQueryKey:String,
 })
 const queryString = useResourceQueryString()
 const filterOptions = ref([])
@@ -61,6 +63,11 @@ onMounted(async () => {
   filterOptions.value = await Promise.all(optionsPromises)
 })
 
+function handleFilter(filter) {
+  delete queryString.params.value[props.paginationQueryKey ?? 'page'];
+  queryString.add(filter.queryKey(), filter.selectedValue)
+  filter.handle()
+}
 const getFilterOptions = (filter) => {
   if (filter.getType() !== 'select') {
     return []
@@ -76,28 +83,7 @@ const resetFilters = () => {
   queryString.reset() 
   
 }
-
-function watchFilterSelectedValues(filters) {
-  filters.forEach((filter) => {
-    watch(
-      () => filter.selectedValue,
-      (newValue, oldValue) => { 
-        queryString.add(filter.queryKey(), newValue)
-        filter.handle()
-      }
-    )
-  })
-}
-
-watch(
-  () => props.filters,
-  (newFilters, oldFilters) => {
-    watchFilterSelectedValues(newFilters)
-  },
-  { deep: true }
-)
-
-watchFilterSelectedValues(props.filters)
+ 
 </script>
 <style>
 @import './table-filters.css';

@@ -1,63 +1,64 @@
 <script setup>
-import { watch, onMounted, reactive, computed } from 'vue'
-import useResourceQueryString from '@/composables/useResourceQueryString'
-import useResourceList from '@/composables/useResourceList'
-import NoRecordsFound from '@/components/ResourceList/NoRecordsFound/index.vue'
-import TableSkeleton from '@/components/ResourceList/TableSkeleton/index.vue'
-import TableRow from '@/components/ResourceList/TableRow/index.vue'
-import TableSearchBox from '@/components/ResourceList/TableSearchBox/index.vue'
-import useResourceData from '@/stores/useResourceData'
-
-import TablePagination from '@/components/ResourceList/TablePagination/index.vue'
-import ResourceConfirmModal from '@/components/ResourceConfirmModal/index.vue'
-import TableFilters from '@/components/ResourceList/TableFilters/index.vue'
-import TableHead from '@/components/ResourceList/TableHead/index.vue'
-import useTableSkeletonLoading from '@/components/ResourceList/TableSkeleton/useTableSkeletonLoading'
-import ResourceIndicator from '@/components/ResourceIndicator/index.vue'
-import ResourceNotification from '@/components/ResourceNotification/index.vue'
+import { watch, onMounted, reactive, computed } from "vue";
+import useResourceQueryString from "@/composables/useResourceQueryString";
+import useResourceList from "@/composables/useResourceList";
+import NoRecordsFound from "@/components/ResourceList/NoRecordsFound/index.vue";
+import TableSkeleton from "@/components/ResourceList/TableSkeleton/index.vue";
+import TableRow from "@/components/ResourceList/TableRow/index.vue";
+import TableSearchBox from "@/components/ResourceList/TableSearchBox/index.vue";
+import useResourceData from "@/stores/useResourceData";
+import TablePagination from "@/components/ResourceList/TablePagination/index.vue";
+import ResourceConfirmModal from "@/components/ResourceConfirmModal/index.vue";
+import TableFilters from "@/components/ResourceList/TableFilters/index.vue";
+import TableHead from "@/components/ResourceList/TableHead/index.vue";
+import useTableSkeletonLoading from "@/components/ResourceList/TableSkeleton/useTableSkeletonLoading";
+import ResourceIndicator from "@/components/ResourceIndicator/index.vue";
+import ResourceNotification from "@/components/ResourceNotification/index.vue";
 
 const props = defineProps({
   resource: {
-    type: Object
+    type: Object,
   },
-})
+});
 
-const { openConfirmModal, handleConfirmModal, fetchResourceData, debounce } = useResourceList()
-const queryString = useResourceQueryString()
-const resourceDataList = useResourceData()
-onMounted(async () => {
-  await fetchResourceData(props.resource.data)
-})
+const { openConfirmModal, handleConfirmModal, fetchResourceData, debounce } =
+  useResourceList();
+const queryString = useResourceQueryString();
+const resourceDataList = useResourceData();
 
 const debouncedFetchResourceData = debounce(async () => {
-  await fetchResourceData(props.resource.data)
-}, 300)
+  await fetchResourceData(props.resource.data);
+}, 300);
 
 watch(
   () => queryString.params.value,
   (value) => {
-    debouncedFetchResourceData()
+    debouncedFetchResourceData();
   },
-
   { deep: true }
-)
- 
-const reactiveFilters = computed(() => reactive([...props.resource.filters()]))
-const searchable = computed(() => props.resource.searchable ?? true)
+);
 
-const createPage = Object.entries( props.resource.pages())
-  .filter(([key, value]) => key == 'create')
+const reactiveFilters = computed(() => reactive([...props.resource.filters()]));
+const searchable = computed(() => props.resource.searchable ?? true);
+
+const createPage = Object.entries(props.resource.pages())
+  .filter(([key, value]) => key == "create")
   .map(([key, value]) => value)[0];
 
+onMounted(async () => {
+  await fetchResourceData(props.resource.data);
+});
 </script>
 <template>
   <h4>{{ props.resource.title }}</h4>
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3">
+  <div
+    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-3"
+  >
     <TableSearchBox v-if="searchable" :resource="props.resource" />
 
     <RouterLink
       v-if="createPage"
-      :to="{name:createPage.routeName}"
+      :to="{ name: createPage.routeName }"
       :class="createPage.class"
       class="btn btn-primary d-inline-flex align-items-center bg-dark border-0"
     >
@@ -70,8 +71,8 @@ const createPage = Object.entries( props.resource.pages())
     <div class="pe-3 ps-3 pt-3">
       <div class="row">
         <div class="col-md-2 col-lg-2">
-          <TableFilters :filters="reactiveFilters">
-              <slot name="filters" />
+          <TableFilters :filters="reactiveFilters" :paginationQueryKey="props.resource.paginationQueryKey">
+            <slot name="filters" />
           </TableFilters>
         </div>
 
@@ -100,14 +101,20 @@ const createPage = Object.entries( props.resource.pages())
               :columnsLength="props.resource.fields().length"
             />
             <NoRecordsFound
-              v-if="!useTableSkeletonLoading.isLoading && resourceDataList.list.value?.length == 0"
+              v-if="
+                !useTableSkeletonLoading.isLoading &&
+                resourceDataList.list.value?.length == 0
+              "
               :columns="props.resource.fields()"
             />
           </tbody>
         </table>
       </div>
 
-      <TablePagination v-if="resourceDataList.pagination.value?.length != 0" :paginationQueryKey="props.resource.paginationQueryKey" />
+      <TablePagination
+        v-if="resourceDataList.pagination.value?.length != 0"
+        :paginationQueryKey="props.resource.paginationQueryKey"
+      />
     </div>
   </div>
 
@@ -116,5 +123,5 @@ const createPage = Object.entries( props.resource.pages())
   <ResourceConfirmModal @onConfirm="handleConfirmModal" />
 </template>
 <style>
-@import './table-list.css';
+@import "./table-list.css";
 </style>

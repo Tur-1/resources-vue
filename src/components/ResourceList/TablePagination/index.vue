@@ -6,7 +6,7 @@ import { computed } from 'vue'
 import useResourceQueryString from '@/composables/useResourceQueryString'
 import BaseResourceException from '@/Exceptions/BaseResourceException'
 
-const props = defineProps(['paginationQueryKey', 'data'])
+const props = defineProps(['paginationQueryKey'])
 
 const resourceData = useResourceData()
 const queryString = useResourceQueryString()

@@ -115,11 +115,7 @@ declare interface Page {
   };
 }
 
-declare interface SearchOption {
-  searchable: boolean;
-  placeholder: string;
-  queryStringKey: string;
-}
+
 export declare class BaseResource {
   /**
    * The title of the page.

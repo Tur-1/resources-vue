@@ -1,6 +1,6 @@
 <template>
   <div class="col-lg-4">
-    <ResourceForm type="search" v-model="search" :placeholder="props.resource.placeholder" />
+    <ResourceForm type="search" v-model="search" :placeholder="props.resource.searchPlaceholder" />
   </div>
 </template>
 
@@ -10,20 +10,17 @@ import { ResourceForm } from '@/index'
 import { ref, watch,computed } from 'vue'
 
 const props = defineProps({
-  searchOptions:Object,
+  resource:Object,
 })
-const queryString = useResourceQueryString()
+const queryString = useResourceQueryString() 
 
-const queryStringKey = computed(() => props.resource.queryStringKey || 'search')
-
-
-let search = ref(queryString.get(queryStringKey.value))
+let search = ref('search')
 
 watch(search, (value) => {
   if (!value) {
-    queryString.remove(queryStringKey.value)
+    queryString.remove('search')
   } else {
-    queryString.add(queryStringKey.value, value)
+    queryString.add('search', value)
   }
 })
 </script>

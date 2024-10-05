@@ -17,6 +17,7 @@ export default function useResourceQueryString()
 
     if (router) {
       router.push({ query: newParams });
+      params.value = newParams;
     } else {
       params.value = newParams;
     }

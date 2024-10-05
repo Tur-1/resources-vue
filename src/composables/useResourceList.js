@@ -5,6 +5,8 @@ import useTableSkeletonLoading from '../components/ResourceList/TableSkeleton/us
 import { ref } from 'vue' 
 let selectedAction = ref(null)
 let selectedItem = ref(null)
+
+ 
 export default function useResourceList()
 {
 
@@ -43,12 +45,12 @@ export default function useResourceList()
     selectedItem.value = null
   }
 
-  const fetchResourceData = async (fetchData, url = null) =>
+  const fetchResourceData = async (fetchData) =>
   { 
     useTableSkeletonLoading.show()  
-    try {
+    try { 
       
-    let response = await fetchData(url)
+    let response = await fetchData()
  
     if (response?.data && response?.pagination) {
       resourceData.list.value = response.data;
