@@ -26,7 +26,7 @@ const snakeCasePageName = toSnakeCase(pageName);
 
 // Define the structure using stubs
 const structure = {
-  [`src/pages/${pageName}/Actions/DeleteAction.js`]: path.join(__dirname, './../stubs/action.stub'),
+  [`src/pages/${pageName}/Actions/DeleteAction.js`]: path.join(__dirname, './../stubs/deleteAction.stub'),
   [`src/pages/${pageName}/Filters/Filter.js`]: path.join(__dirname, './../stubs/filter.stub'),
   [`src/pages/${pageName}/api/use${pageName}Api.js`]: path.join(__dirname, './../stubs/api.stub'), 
   [`src/pages/${pageName}/routes/${pageName}Routes.js`]: path.join(__dirname, './../stubs/routes.stub'),
@@ -54,7 +54,6 @@ const createFileFromStub = (filePath, stubPath) => {
     // Replace any placeholders in the stub
     const content = stubContent.replace(/{{pageName}}/g, pageName)
     .replace(/{{singularPageName}}/g, singularPageName)
-    .replace(/{{actionName}}/g, 'DeleteAction')
     .replace(/{{filterName}}/g, 'Filter')
     .replace(/{{snakeCasePageName}}/g, snakeCasePageName);
     fs.writeFileSync(filePath, content, 'utf8'); 

@@ -34,10 +34,9 @@ export default function use{{pageName}}Service() {
     let response = await use{{pageName}}Api.update(data, routeParam)
     {{pageName}}Store.{{singularPageName}} = response.data.admin
   }
-  const destroy = async ({ item, index }) => {
-     
-    let response =   await use{{pageName}}Api.destroy(item.id)
-    
+  const destroy = async ({item,index}) => {
+    let response = await use{{pageName}}Api.destroy(item.id)
+
     return response;
   }
 

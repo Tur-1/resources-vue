@@ -1,11 +1,12 @@
 import { ResourceAction } from '@tur1/resources-vue'
+import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}}Service'
 
-class {{actionName}} extends ResourceAction {
+class DeleteAction extends ResourceAction {
   /**
    * The label of the action.
    * @type {string}
    */
-  label = '{{actionName}}';
+  label = 'DeleteAction';
 
   /**
    * The icon of the action.
@@ -32,8 +33,10 @@ class {{actionName}} extends ResourceAction {
   /**
    * Handle the action. 
    */
-  handle({item,index}) {
+ async handle({item, index}) {
+    const {destroy} = use{{pageName}}Service();
+    await destroy(item, index)
   }
 }
 
-export default {{actionName}};
+export default DeleteAction;
