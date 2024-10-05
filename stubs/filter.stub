@@ -1,11 +1,11 @@
 import { ResourceFilter } from '@tur1/resources-vue'
 
-class {{className}} extends ResourceFilter {
+class {{filterName}} extends ResourceFilter {
   /**
    * The label of the filter (optional).
    * @type {string}
    */
-  label = '{{className}}';
+  label = '{{filterName}}';
 
   /**
    * The type of the filter.
@@ -21,10 +21,9 @@ class {{className}} extends ResourceFilter {
   }
 
   /**
-   * Get the options for the filter if type is 'select'.
-   * @throws {Error} If not implemented when type is 'select'.
+   * Get the options for the filter if type is 'select'. 
    */
    options() {}
 }
 
-export default {{className}};
+export default {{filterName}};

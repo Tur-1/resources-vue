@@ -1,31 +1,31 @@
 const {{pageName}}Routes = [
   {
-    path: '/{{pageName}}',
-    name: '{{pageName}}',
+    path: '/{{snakeCasePageName}}',
+    name: '{{snakeCasePageName}}',
     component: () => import('@/pages/{{pageName}}/views/index.vue'),
     meta: {
       title: '{{pageName}}', 
     }
   },
   {
-    path: '/{{pageName}}/create',
-    name: '{{pageName}}.create',
+    path: '/{{snakeCasePageName}}/create',
+    name: '{{snakeCasePageName}}.create',
     component: () => import('@/pages/{{pageName}}/views/create.vue'),
     meta: {
       title: 'Create {{pageName}}',
     }
   },
   {
-    path: '/{{pageName}}/:id/edit',
-    name: '{{pageName}}.edit',
+    path: '/{{snakeCasePageName}}/:id/edit',
+    name: '{{snakeCasePageName}}.edit',
     component: () => import('@/pages/{{pageName}}/views/edit.vue'),
     meta: {
       title: 'Edit {{pageName}}',
     }
   },
   {
-    path: '/{{pageName}}/:id/show',
-    name: '{{pageName}}.show',
+    path: '/{{snakeCasePageName}}/:id/show',
+    name: '{{snakeCasePageName}}.show',
     component: () => import('@/pages/{{pageName}}/views/show.vue'),
     meta: {
       title: 'Show {{pageName}}',

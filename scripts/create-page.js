@@ -2,30 +2,12 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
+import { toSnakeCase, singularize } from "./../src/helpers/index.js";
 // Manually define __filename and __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const singularize = (name) => {
- 
-    const endings = {
-        ves: 'fe',
-        ies: 'y',
-        i: 'us',
-        zes: 'ze',
-        ses: 's',
-        es: 'e',
-        s: ''
-    };
-    return name.replace(
-        new RegExp(`(${Object.keys(endings).join('|')})$`), 
-        r => endings[r]
-    );
 
-};
-const toSnakeCase = (str) => {
-  return str.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-};
+
 
 // Get the current working directory (the consuming project's directory)
 const projectRoot = process.cwd();
@@ -44,8 +26,8 @@ const snakeCasePageName = toSnakeCase(pageName);
 
 // Define the structure using stubs
 const structure = {
-  [`src/pages/${pageName}/Actions/.gitkeep`]:'',
-  [`src/pages/${pageName}/Filters/.gitkeep`]: '', 
+  [`src/pages/${pageName}/Actions/DeleteAction.js`]: path.join(__dirname, './../stubs/action.stub'),
+  [`src/pages/${pageName}/Filters/Filter.js`]: path.join(__dirname, './../stubs/filter.stub'),
   [`src/pages/${pageName}/api/use${pageName}Api.js`]: path.join(__dirname, './../stubs/api.stub'), 
   [`src/pages/${pageName}/routes/${pageName}Routes.js`]: path.join(__dirname, './../stubs/routes.stub'),
   [`src/pages/${pageName}/services/use${pageName}Service.js`]: path.join(__dirname, './../stubs/serivce.stub'),
@@ -72,6 +54,8 @@ const createFileFromStub = (filePath, stubPath) => {
     // Replace any placeholders in the stub
     const content = stubContent.replace(/{{pageName}}/g, pageName)
     .replace(/{{singularPageName}}/g, singularPageName)
+    .replace(/{{actionName}}/g, 'DeleteAction')
+    .replace(/{{filterName}}/g, 'Filter')
     .replace(/{{snakeCasePageName}}/g, snakeCasePageName);
     fs.writeFileSync(filePath, content, 'utf8'); 
   } else {

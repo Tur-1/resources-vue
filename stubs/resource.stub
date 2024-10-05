@@ -1,77 +1,98 @@
 import { BaseResource } from '@tur1/resources-vue'
-import { ref } from "vue";
+import DeleteAction from '@/pages/{{pageName}}/Actions/DeleteAction'
+import Filter from '@/pages/{{pageName}}/Filters/Filter'
 
 class {{pageName}} extends BaseResource {
-    /**
-     * The title of the page.
-     * @type {string}
-     */
-    title;
+  /**
+   * The title of the page.
+   * @type {string}
+   */
+  title;
 
-    /**
-    * Enable or disable simple pagination. 
-    * @type {Boolean}
-    */
-    simplePagination = true;
+  /**
+   * Enable or disable simple pagination. 
+   * @type {Boolean}
+   */
+  simplePagination = true;
 
-    /**
-     * The query key used for pagination in URL parameters.
-     * @type {string}
-     */
-    paginationQueryKey = 'page';
+  /**
+   * The query key used for pagination in URL parameters.
+   * @type {string}
+   */
+  paginationQueryKey = 'page';
 
-    /**
-     * Searchable status of the resource.
-     * @type {boolean}
-     */
-    searchable = true;
+  /**
+   * Searchable status of the resource.
+   * @type {boolean}
+   */
+  searchable = true;
 
-    /**
-     * Placeholder for the search input.
-     * @type {string}
-     */
-    searchPlaceholder = 'search';
-    
-    /**
-     * Get the data for the resource.
-     */
-    data()
-    {
-       return {data: any, pagination: any}
+  /**
+   * Placeholder for the search input.
+   * @type {string}
+   */
+  searchPlaceholder = 'search';
+
+  /**
+   * Get the data for the resource.
+   */
+  data() {
+    return {
+      data: any,
+      pagination: any
     }
+  }
 
-    /**
-     * Get the fields for the resource.  
-     */
-    fields()
-    {
-       
-    }
+  /**
+   * Get the fields for the resource.  
+   */
+  fields() {
+    return []
+  }
 
-    /**
-     * Get the pages for the resource. 
-     */
-    pages()
-    {
-        return [];
-    }
+  /**
+   * Get the pages for the resource. 
+   */
+  pages() {
+    return {
+      show: {
+        routeName: '{{snakeCasePageName}}.show',
+        routeParam: 'id',
+        title: 'Show {{pageName}}',
+        label: 'Show',
+        icon: 'fa-solid fa-eye',
+        class: 'text-primary'
+      },
+      edit: {
+        routeName: '{{snakeCasePageName}}.edit',
+        routeParam: 'id',
+        title: 'Edit {{pageName}}',
+        label: 'Edit',
+        icon: 'fa-solid fa-pen-to-square',
+        class: 'text-primary'
+      },
+      create: {
+        routeName: '{{snakeCasePageName}}.create',
+        title: 'create {{pageName}}',
+        label: 'create {{pageName}}'
+      }
+    };
+  }
 
-    /**
-     * Get the filters for the resource. 
-     */
-    filters()
-    {
-        return [];
-    }
+  /**
+   * Get the filters for the resource. 
+   */
+  filters() {
+    return [new Filter()];
+  }
 
-    /**
-     * Get the actions for the resource.
-     */
-    actions()
-    {
-        return [];
-    }
- 
+  /**
+   * Get the actions for the resource.
+   */
+  actions() {
+    return [new DeleteAction()];
+  }
+
 }
 
 export default {{pageName}};

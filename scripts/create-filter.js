@@ -44,7 +44,7 @@ fs.readFile(stubPath, 'utf8', (err, data) => {
   }
 
   // Replace the placeholder with the actual class name (only the last part of the name)
-  const content = data.replace(/{{className}}/g, path.basename(className));
+  const content = data.replace(/{{filterName}}/g, path.basename(className));
 
   // Create the directory if it doesn’t already exist
   fs.mkdir(path.dirname(filePath), { recursive: true }, (err) => {

@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import minimist from 'minimist'; // Import minimist
+import { toSnakeCase, singularize } from "./../src/helpers/index.js";
 
 // Manually define __filename and __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -16,6 +17,8 @@ const args = minimist(process.argv.slice(2));
  
 // The first positional argument is the class name
 const className = args._[0];
+const singularPageName = toSnakeCase(singularize(className)); 
+const snakeCasePageName = toSnakeCase(className); 
 
 // Check if the class name is provided
 if (!className) {
@@ -44,7 +47,9 @@ fs.readFile(stubPath, 'utf8', (err, data) => {
   }
 
   // Replace the placeholder with the actual class name (only the last part of the name)
-  const content = data.replace(/{{pageName}}/g, path.basename(className));
+  const content = data.replace(/{{pageName}}/g, path.basename(className))
+  .replace(/{{singularPageName}}/g, singularPageName)
+  .replace(/{{snakeCasePageName}}/g, snakeCasePageName);
 
   // Create the directory if it doesn’t already exist
   fs.mkdir(path.dirname(filePath), { recursive: true }, (err) => {

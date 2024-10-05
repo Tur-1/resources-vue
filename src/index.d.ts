@@ -105,17 +105,13 @@ declare interface ResourceField {
 }
 
 declare interface Page {
-  name: string;
-  resource: {
-    title: string;
-    label: string;
-    paramKey: string;
-    icon: string;
-    class: string;
-  };
+  routeName: string;
+  routeParam?: string;
+  title: string;
+  label: string; 
+  icon?: string;
+  class?: string; 
 }
-
-
 export declare class BaseResource {
   /**
    * The title of the page.
@@ -161,9 +157,9 @@ export declare class BaseResource {
 
   /**
    * Get the pages for the resource.
-   * @returns {Page[]}
+   * @returns {Page}
    */
-  pages(): Page[];
+  pages(): { [key: string]: Page };
 
   /**
    * Get the filters for the resource.

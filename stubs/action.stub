@@ -1,11 +1,11 @@
 import { ResourceAction } from '@tur1/resources-vue'
 
-class {{className}} extends ResourceAction {
+class {{actionName}} extends ResourceAction {
   /**
    * The label of the action.
    * @type {string}
    */
-  label = {{className}};
+  label = '{{actionName}}';
 
   /**
    * The icon of the action.
@@ -30,11 +30,10 @@ class {{className}} extends ResourceAction {
  */
   deleteAction = false;
   /**
-   * Handle the action.
-   * @throws {ResourceActionException} If not implemented.
+   * Handle the action. 
    */
   handle() {
   }
 }
 
-export default {{className}};
+export default {{actionName}};
