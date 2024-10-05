@@ -1,13 +1,14 @@
 {
   "name": "@tur1/resources-vue",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "main": "dist/core.umd.js",
   "module": "dist/core.es.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [
      "dist",
-     "src/helpers"
+     "src/helpers",
+      "stubs"
   ],
   "exports": {
     ".": {
@@ -40,7 +41,7 @@
     "make:filter": "node ./scripts/create-filter.js",
     "make:action": "node ./scripts/create-action.js",
     "make:resource": "node ./scripts/create-resource.js",
-    "make:page": "./bin/make-page.js"
+    "make:page": "node ./scripts/create-page.js"
   },
   "bin": {
     "make:page": "./scripts/create-page.js",

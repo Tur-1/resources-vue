@@ -31,7 +31,7 @@ const structure = {
   [`src/pages/${pageName}/api/use${pageName}Api.js`]: path.join(__dirname, './../stubs/api.stub'), 
   [`src/pages/${pageName}/routes/${pageName}Routes.js`]: path.join(__dirname, './../stubs/routes.stub'),
   [`src/pages/${pageName}/services/use${pageName}Service.js`]: path.join(__dirname, './../stubs/serivce.stub'),
-  [`src/pages/${pageName}/stores/${pageName}Store.js`]: path.join(__dirname, './../stubs/store.stub'),
+  [`src/pages/${pageName}/stores/${pageName}Store.js`]: path.join(__dirname, './../stubs/stores.stub'),
   [`src/pages/${pageName}/views/create.vue`]: path.join(__dirname, './../stubs/createView.stub'),
   [`src/pages/${pageName}/views/edit.vue`]: path.join(__dirname, './../stubs/editView.stub'),
   [`src/pages/${pageName}/views/index.vue`]: path.join(__dirname, './../stubs/indexView.stub'),
