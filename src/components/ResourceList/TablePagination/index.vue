@@ -1,47 +1,73 @@
 <script setup>
-import PaginationSekeleton from '@/components/ResourceList/TableSkeleton/PaginationSekeleton.vue'
-import useTableSkeletonLoading from '@/components/ResourceList/TableSkeleton/useTableSkeletonLoading'
-import useResourceData from '@/stores/useResourceData'
-import { computed } from 'vue'
-import useResourceQueryString from '@/composables/useResourceQueryString'
-import BaseResourceException from '@/Exceptions/BaseResourceException'
+import PaginationSekeleton from "@/components/ResourceList/TableSkeleton/PaginationSekeleton.vue";
+import useTableSkeletonLoading from "@/components/ResourceList/TableSkeleton/useTableSkeletonLoading";
+import useResourceData from "@/stores/useResourceData";
+import { computed } from "vue";
+import useResourceQueryString from "@/composables/useResourceQueryString";
+import BaseResourceException from "@/Exceptions/BaseResourceException";
 
-const props = defineProps(['paginationQueryKey'])
+const props = defineProps(["paginationQueryKey", "simplePagination"]);
 
-const resourceData = useResourceData()
-const queryString = useResourceQueryString()
+const resourceData = useResourceData();
+const queryString = useResourceQueryString();
 
-let paginationData = computed(() => resourceData.pagination.value)
-let querykey = computed(() => props.paginationQueryKey ?? 'page')
+let pagination = computed(() => resourceData.pagination.value);
+let querykey = computed(() => props.paginationQueryKey ?? "page");
 
-const changePage = async (url) => {
-  window.scrollTo(0, 0)
+const changePage = async (url,active = false) => {
+  if (url == null || active) return;
 
-  const parsedUrl = new URL(url)
-  const page = parsedUrl.searchParams.get(querykey.value)
+  const parsedUrl = new URL(url);
+  const page = parsedUrl.searchParams.get(querykey.value);
 
   if (page) {
-    queryString.add(querykey.value, page)
+    queryString.add(querykey.value, page);
   } else {
-    throw BaseResourceException.invalidPaginationQueryKey(querykey.value, url)
+    throw BaseResourceException.invalidPaginationQueryKey(querykey.value, url);
   }
-}
+
+  window.scrollTo(0, 0);
+};
 </script>
 <template>
   <PaginationSekeleton v-if="useTableSkeletonLoading.isLoading" />
-  <div class="resource-pagination" v-if="!useTableSkeletonLoading.isLoading">
+
+  <nav style="margin-top: 50px" v-if="!props.simplePagination">
+    <ul class="pagination justify-content-center">
+      <!-- Page Number Links -->
+      <li
+        v-for="link in pagination.links"
+        :key="link.label"
+        class="page-item"
+        :class="{ active: link.active, disabled: link.url == null}"
+      >
+        <a
+          class="page-link"
+          role="button"
+          @click.prevent="changePage(link.url,link.active)" 
+          v-html="link.label"
+        ></a>
+      </li>
+    </ul>
+  </nav>
+  <div
+    class="resource-pagination"
+    v-if="!useTableSkeletonLoading.isLoading && props.simplePagination"
+  >
     <button
       class="pagination-btn pagination-prev"
-      @click="changePage(paginationData?.prev)"
-      :disabled="paginationData?.prev == null"
+      @click="changePage(pagination?.prev)"
+      :disabled="pagination?.prev == null"
     >
       <i class="fa-solid fa-angle-left"></i> <span>Previous</span>
     </button>
-    <span class="pagination-current-number">{{ paginationData?.current_page }}</span>
+    <span class="pagination-current-number">{{
+      pagination?.current_page
+    }}</span>
     <button
       class="pagination-btn pagination-next"
-      @click="changePage(paginationData?.next)"
-      :disabled="paginationData?.next == null"
+      @click="changePage(pagination?.next)"
+      :disabled="pagination?.next == null"
     >
       <span>Next</span>
       <i class="fa-solid fa-angle-right"></i>
@@ -49,5 +75,5 @@ const changePage = async (url) => {
   </div>
 </template>
 <style>
-@import './table-pagination.css';
+@import "./table-pagination.css";
 </style>

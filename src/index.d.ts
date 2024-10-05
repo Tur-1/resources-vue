@@ -102,6 +102,7 @@ declare interface ResourceField {
   label: string;
   field: string;
   action?: Boolean;
+  image?: Boolean;
 }
 
 declare interface Page {
@@ -141,12 +142,13 @@ export declare class BaseResource {
     * @type {string}
     */
    searchPlaceholder:String = 'search';
+
   /**
-   * Get the data for the resource.
-   * @returns {Promise<{data: any, pagination: any}>}
-   * @throws {BaseResourceException}
+   * Retrieves the resource data.
+   * return just the data array, or data with pagination details, or data with links and meta information.
+   * @returns {any[] | { data: any[]; links: any; meta: any } | { data: any[]; pagination: { links: any; meta: any }}}
    */
-   data(): Promise<{ data: any; pagination: any }>;
+  data(): any[] | { data: any[]; links: any; meta: any } | { data: any[]; pagination: { links: any; meta: any } };
 
   /**
    * Get the fields for the resource.

@@ -113,6 +113,7 @@ onMounted(async () => {
 
       <TablePagination
         v-if="resourceDataList.pagination.value?.length != 0"
+        :simplePagination="props.resource.simplePagination"
         :paginationQueryKey="props.resource.paginationQueryKey"
       />
     </div>

@@ -1,4 +1,5 @@
 import { BaseResource } from '@tur1/resources-vue'
+import use{{pageName}}Api from '@/pages/{{pageName}}/api/use{{pageName}}Api'
 import DeleteAction from '@/pages/{{pageName}}/Actions/DeleteAction'
 import Filter from '@/pages/{{pageName}}/Filters/Filter'
 
@@ -36,10 +37,15 @@ class {{pageName}} extends BaseResource {
   /**
    * Get the data for the resource.
    */
-  data() {
+  async data() {
+    let response = await use{{pageName}}Api.getPaginatedList()
+
     return {
-      data: any,
-      pagination: any
+      data: response.data.data,
+      pagination: {
+        ...response.data.links,
+        ...response.data.meta
+      }
     }
   }
 

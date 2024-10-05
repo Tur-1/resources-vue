@@ -52,17 +52,16 @@ export default function useResourceList()
       
     let response = await fetchData()
  
-    if (response?.data && response?.pagination) {
+    if (Array.isArray(response)) {
+      resourceData.list.value = response;
+    }else if(!Array.isArray(response) && response.data  && response.links && response.meta){
+      resourceData.list.value = response.data;
+      resourceData.pagination.value = {...response.links, ...response.meta}
+    }else if(!Array.isArray(response) && response.data && response.pagination){
       resourceData.list.value = response.data;
       resourceData.pagination.value = response.pagination;
-    } else if (!response.pagination && Array.isArray(response)) {
-      resourceData.list.value = response;
-      resourceData.pagination.value = [];
-    } else {
-      resourceData.list.value = response.data.data;
-      resourceData.pagination.value = {...response.data.links, ...response.data.meta}
     }
- 
+  
     
   } catch (error) {
     console.error("Error fetching resource data:", error);
