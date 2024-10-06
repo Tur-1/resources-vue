@@ -25,6 +25,10 @@ const useResourceNotification = reactive({
       this.isOpen = false;
       this.isError = false;
     }, this.time);
+  },
+
+  close(){
+    this.isOpen = false;
   }
 });
 

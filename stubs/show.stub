@@ -1,7 +1,7 @@
 <script setup>
 import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}}Service'
 import {{pageName}}Store from '@/pages/{{pageName}}/stores/{{pageName}}Store' 
-import { computed, onMounted, reactive, ref } from 'vue'
+import { onMounted } from 'vue'
 
 let { show } = use{{pageName}}Service() 
 

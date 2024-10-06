@@ -11,7 +11,7 @@ class {{filterName}} extends ResourceFilter {
    * The type of the filter.
    * @type {string}
    */
-  type = ''; 
+  type = 'number'; 
 
   /**
    * Handle the filter logic

@@ -2,6 +2,7 @@ import useResourceQueryString from "@/composables/useResourceQueryString";
 import ResourceFilterException from "@/Exceptions/ResourceFilterException";
 import { toSnakeCase } from "@/helpers";
 import { ref } from "vue";
+import useResourceNotification from "@/components/ResourceNotification/useResourceNotification"; 
 
 /**
  * @typedef {Object} FilterOptions
@@ -49,6 +50,7 @@ class ResourceFilter {
   getType() {
     if (!this.type) {
       throw ResourceFilterException.missingType(this.constructor.name);
+      useResourceNotification.error(`The 'type' property must be implemented in the  ${this.constructor.name}`);
     }
     return this.type;
   }

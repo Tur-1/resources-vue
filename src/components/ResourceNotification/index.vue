@@ -16,7 +16,7 @@ import useResourceNotification from './useResourceNotification'
     >
       <div class="d-flex align-items-center justify-content-between">
         <div class="toast-body">
-          <span style="margin-right: 10px; font-size: 18px">
+          <span style="margin-right: 10px; font-size: 18px" @click="useResourceNotification.close()">
             <i
               class="bi bi-check-circle-fill text-white"
               v-show="!useResourceNotification.isError"

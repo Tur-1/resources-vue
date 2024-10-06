@@ -2,11 +2,11 @@
 import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}}Service'
 import {{pageName}}Store from '@/pages/{{pageName}}/stores/{{pageName}}Store'
 import { ResourceForm } from '@tur1/resources-vue'
-import { computed, onMounted, reactive, ref } from 'vue'
+import { onMounted } from 'vue'
 
 let { show, update } = use{{pageName}}Service()
 
-onMounted(async () => await show(routeParam))
+onMounted(async () => await show())
 </script>
 <template>
     <ResourceForm

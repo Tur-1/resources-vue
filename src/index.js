@@ -1,12 +1,12 @@
-import useResourceNotification from './components/ResourceNotification/useResourceNotification';
 import ResourceFilter from "./Base/ResourceFilter"
 import BaseResource from "./Base/BaseResource"
-import ResourceAction from "./Base/ResourceAction"
+import ResourceAction from "./Base/ResourceAction" 
+import {setResourceRouter} from "./composables/useResourceRouter"
 import ResourceForm from "./components/ResourceForm/index.vue"
 import ResourceList from "./components/ResourceList/index.vue"
-import {setResourceRouter} from "./composables/useResourceRouter"
 import ResourceApi from "./api/ResourceApi"
-import useResourceQueryString from './composables/useResourceQueryString';
+import useResourceQueryString from './composables/useResourceQueryString'; 
+import useResourceNotification from './components/ResourceNotification/useResourceNotification';
 
 export
 { 

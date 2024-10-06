@@ -3,7 +3,7 @@ import useResourceIndicator from "@/components/ResourceIndicator/useResourceIndi
 import ResourceIndicator from "@/components/ResourceIndicator/index.vue";
 import { reactive, provide, watch } from "vue";
 import ResourceNotification from "@/components/ResourceNotification/index.vue";
-import {  useResourceNotification } from "@/index";
+import useResourceNotification from "@/components/ResourceNotification/useResourceNotification"; 
 import ResourceApi from "./../../api/ResourceApi";
 
 const props = defineProps({
