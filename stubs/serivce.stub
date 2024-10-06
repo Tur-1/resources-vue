@@ -27,12 +27,12 @@ export default function use{{pageName}}Service() {
   const show = async () => {
     let response = await use{{pageName}}Api.show(routeParam)
 
-    {{pageName}}Store.{{singularPageName}} = response.data.admin
+    {{pageName}}Store.{{singularPageName}} = response.data.{{singularPageName}}
   }
 
   const update = async (data) => {
     let response = await use{{pageName}}Api.update(data, routeParam)
-    {{pageName}}Store.{{singularPageName}} = response.data.admin
+    {{pageName}}Store.{{singularPageName}} = response.data.{{singularPageName}}
   }
   const destroy = async ({item,index}) => {
     let response = await use{{pageName}}Api.destroy(item.id)

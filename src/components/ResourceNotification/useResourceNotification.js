@@ -5,7 +5,7 @@ const useResourceNotification = reactive({
   message: '',
   isOpen: false,
   isError: false,
-  time: 3200,
+  time: 6200,
 
   success(message) {
     this.isOpen = true;
