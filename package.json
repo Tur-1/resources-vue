@@ -1,6 +1,6 @@
 {
   "name": "@tur1/resources-vue",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "main": "dist/core.umd.js",
   "module": "dist/core.es.js",
   "types": "dist/index.d.ts",
@@ -42,12 +42,6 @@
     "make:action": "node ./scripts/create-action.js",
     "make:resource": "node ./scripts/create-resource.js",
     "make:page": "node ./scripts/create-page.js"
-  },
-  "bin": {
-    "make:page": "./scripts/create-page.js",
-    "make:filter": "./scripts/create-filter.js",
-    "make:action": "./scripts/create-action.js",
-    "make:resource": "./scripts/create-resource.js"
   },
   "dependencies": { 
     "axios": "^1.7.7",

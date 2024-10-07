@@ -14,7 +14,7 @@ const props = defineProps({
 })
 const queryString = useResourceQueryString() 
 
-let search = ref('search')
+let search = ref('')
 
 watch(search, (value) => {
   if (!value) {
