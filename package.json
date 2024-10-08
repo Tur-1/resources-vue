@@ -41,7 +41,9 @@
     "make:filter": "node ./scripts/create-filter.js",
     "make:action": "node ./scripts/create-action.js",
     "make:resource": "node ./scripts/create-resource.js",
-    "make:page": "node ./scripts/create-page.js"
+    "make:page": "node ./scripts/create-page.js",
+    "postinstall": "node ./scripts/add-scripts-to-project.js"
+
   },
   "dependencies": { 
     "axios": "^1.7.7",
