@@ -1,5 +1,5 @@
-import ResourceFilter from "./Base/ResourceFilter"
 import BaseResource from "./Base/BaseResource"
+import ResourceFilter from "./Base/ResourceFilter"
 import ResourceAction from "./Base/ResourceAction" 
 import {setResourceRouter} from "./composables/useResourceRouter"
 import ResourceForm from "./components/ResourceForm/index.vue"

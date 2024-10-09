@@ -49,8 +49,8 @@ class ResourceFilter {
    */
   getType() {
     if (!this.type) {
-      throw ResourceFilterException.missingType(this.constructor.name);
       useResourceNotification.error(`The 'type' property must be implemented in the  ${this.constructor.name}`);
+      throw ResourceFilterException.missingType(this.constructor.name);
     }
     return this.type;
   }

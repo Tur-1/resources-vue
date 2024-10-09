@@ -3,11 +3,10 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { toSnakeCase, singularize } from "../src/helpers/index.js";
+
 // Manually define __filename and __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-
 
 // Get the current working directory (the consuming project's directory)
 const projectRoot = process.cwd();
@@ -23,6 +22,15 @@ if (args.length === 0) {
 const pageName = args[0];
 const singularPageName = toSnakeCase(singularize(pageName)); 
 const snakeCasePageName = toSnakeCase(pageName); 
+
+// Define the page root directory
+const pageRootDir = path.join(projectRoot, `src/pages/${pageName}`);
+
+// Check if the page directory already exists
+if (fs.existsSync(pageRootDir)) {
+  console.error(`The page "${pageName}" already exists.`);
+  process.exit(1);
+}
 
 // Define the structure using stubs
 const structure = {
@@ -70,4 +78,46 @@ Object.keys(structure).forEach((filePath) => {
   createFileFromStub(fullFilePath, stubPath);
 });
 
-console.log(`\n${pageName} page structure created successfully.`);
+// Step 4: Update the router/index.js
+const routerFilePath = path.join(projectRoot, 'src/router/index.js');
+
+// Read the current router file
+fs.readFile(routerFilePath, 'utf8', (err, data) => {
+  if (err) {
+    console.error(`Error reading router file: ${err}`);
+    return;
+  }
+
+  // Prepare the import statement and route entry
+  const importStatement = `import ${pageName}Routes from '@/pages/${pageName}/routes/${pageName}Routes';\n`;
+  const newRoute = `    ...${pageName}Routes,`;
+
+  // Check if the import statement already exists
+  if (data.includes(importStatement)) {
+  } else {
+    // Insert the import statement right before the last existing import statement
+    const importPosition = data.lastIndexOf('import');
+    const endOfImportPosition = data.indexOf(';', importPosition) + 1;
+    const updatedWithImport = data.slice(0, endOfImportPosition) + `\n${importStatement}` + data.slice(endOfImportPosition);
+
+    // Proceed to routes modification
+    data = updatedWithImport;
+  }
+
+  // Check if the routes entry already exists
+  if (data.includes(newRoute)) {
+  } else {
+    // Insert the new route into the routes array
+    const updatedRouterFile = data.replace(/(routes: \[)/, `$1\n${newRoute}`);
+    fs.writeFile(routerFilePath, updatedRouterFile, 'utf8', (writeErr) => {
+      if (writeErr) {
+        console.error(`Error writing router file: ${writeErr}`);
+        return;
+      }
+    });
+  }
+});
+
+
+
+console.log(`\n${pageName} page created successfully.`);
