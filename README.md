@@ -63,6 +63,14 @@ pages
 
 ### Resource Class
 
+To render a table, you need to create a resource class and pass it to the `ResourceList` component.
+
+```javascript
+import { ResourceList } from '@tur1/resources-vue'
+import UsersResource from '@/pages/Users/UsersResource'
+
+<ResourceList :resource="new UsersResource()" />
+```
 #### Fields
 
 You can specify the fields from your data for a resource table by defining:
