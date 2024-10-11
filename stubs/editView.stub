@@ -12,7 +12,7 @@ onMounted(async () => await show())
     <ResourceForm
       type="form"
       :submit="update"
-      title="uppdate "
+      title="uppdate {{singularPageName}}"
       :data="{{pageName}}Store.{{singularPageName}}"
     > 
           <ResourceForm type="text" label="name" name="name" id="name1" />

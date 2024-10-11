@@ -2,7 +2,7 @@
   <div class="btn-group">
     <button
       type="button"
-      class="btn rounded filter-btn"
+      class="btn filter-btn"
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
@@ -78,9 +78,11 @@ const getFilterOptions = (filter) => {
   return foundOptions ? foundOptions.data : []
 }
 const resetFilters = () => {
-  if (!queryString.params.value) return
+  
+  if (queryString.params.value ) { 
+    queryString.reset() 
+  }
 
-  queryString.reset() 
   
 }
  

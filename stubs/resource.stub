@@ -8,7 +8,7 @@ class {{pageName}} extends BaseResource {
    * The title of the page.
    * @type {string}
    */
-  title;
+  title = '{{pageName}}';
 
   /**
    * Enable or disable simple pagination. 
@@ -62,7 +62,7 @@ class {{pageName}} extends BaseResource {
       show: {
         routeName: '{{snakeCasePageName}}.show',
         routeParam: 'id',
-        title: 'Show {{pageName}}',
+        title: 'Show {{singularPageName}}',
         label: 'Show',
         icon: 'fa-solid fa-eye',
         class: 'text-primary'
@@ -70,15 +70,15 @@ class {{pageName}} extends BaseResource {
       edit: {
         routeName: '{{snakeCasePageName}}.edit',
         routeParam: 'id',
-        title: 'Edit {{pageName}}',
+        title: 'Edit {{singularPageName}}',
         label: 'Edit',
         icon: 'fa-solid fa-pen-to-square',
         class: 'text-primary'
       },
       create: {
         routeName: '{{snakeCasePageName}}.create',
-        title: 'create {{pageName}}',
-        label: 'create {{pageName}}'
+        title: 'create {{singularPageName}}',
+        label: 'create {{singularPageName}}'
       }
     };
   }

@@ -3,6 +3,11 @@
     align-items: center;
     gap: 0.5rem;
     border: 1px solid #ccc;
+    border-radius: 10px !important;
+    -webkit-border-radius: 10px !important;
+    -moz-border-radius: 10px !important;
+    -ms-border-radius: 10px !important;
+    -o-border-radius: 10px !important;
 }
 
 .dropdown-menu.table-filters-menu {
@@ -16,10 +21,14 @@
 }
 .clear-btn {
     border: 1px solid #cccccc6e;
-    border-radius: 6px;
+    border-radius: 10px;
     text-decoration: none;
     color: black;
     padding: 0px 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
 }
 
 .view-all-link {

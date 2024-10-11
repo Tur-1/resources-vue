@@ -8,7 +8,7 @@ let { create } = use{{pageName}}Service()
     <ResourceForm
       type="form"
       :submit="create"
-      title="create"
+      title="create {{singularPageName}}"
       submit-title="create"
     >
           <ResourceForm type="text" label="name" name="name" id="name1" />

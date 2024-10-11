@@ -59,7 +59,7 @@ const changePage = async (url,active = false) => {
       @click="changePage(pagination?.prev)"
       :disabled="pagination?.prev == null"
     >
-      <i class="fa-solid fa-angle-left"></i> <span>Previous</span>
+      <i class="fa-solid fa-arrow-left"></i> <span>Previous</span>
     </button>
     <span class="pagination-current-number">{{
       pagination?.current_page
@@ -70,7 +70,7 @@ const changePage = async (url,active = false) => {
       :disabled="pagination?.next == null"
     >
       <span>Next</span>
-      <i class="fa-solid fa-angle-right"></i>
+      <i class="fa-solid fa-arrow-right"></i>
     </button>
   </div>
 </template>

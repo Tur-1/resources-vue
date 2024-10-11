@@ -9,27 +9,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: #fff;
     border: 1px solid #dcdcdc8f;
-    padding: 8px 16px;
-    margin: 0;
+    padding: 5px 0;
     cursor: pointer;
-    width: 110px;
     text-align: center;
-    border-radius: 7px; /* Smooth rounded corners */
-    font-size: 16px;
+    border-radius: 10px;
+    font-size: 13px;
     transition:
-        background-color 0.3s ease,
-        border-color 0.3s ease;
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+.pagination-btn.pagination-next {
+    padding-left: 15px;
+    padding-right: 10px;
+}
+.pagination-btn.pagination-prev {
+    padding-left: 10px;
+    padding-right: 15px;
+}
+.pagination-btn.pagination-prev i {
+    margin-right: 8px; 
 }
 
-.pagination-btn i {
-    margin-right: 8px; /* Adds space between icon and text for Previous */
-}
-
-.pagination-btn.pagination-next i {
-    margin-right: 0;
-    margin-left: 8px; /* Adds space between text and icon for Next */
+.pagination-btn.pagination-next i { 
+    margin-left: 8px; 
 }
 
 .pagination-btn:disabled {
@@ -38,8 +42,10 @@
 }
 
 .pagination-btn:not(:disabled):hover {
-    background-color: #f0f0f0; /* Adds a hover effect */
-    border-color: #aaa; /* Slightly darker border on hover */
+    background-color: #f0f0f0;
+    /* Adds a hover effect */
+    border-color: #aaa;
+    /* Slightly darker border on hover */
 }
 
 .pagination-current-number {

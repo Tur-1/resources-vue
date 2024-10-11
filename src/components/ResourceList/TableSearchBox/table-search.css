@@ -3,17 +3,17 @@
 }
 
 .resource-search input {
-    border-radius: 10px;
+    border-radius: 12px !important;
     padding-right: 60px;
     padding-left: 20px;
     border: 1px solid #ced4da;
     width: 100%;
     outline: none;
     box-shadow: none;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+    -webkit-border-radius: 12px !important;
+    -moz-border-radius: 12px !important;
+    -ms-border-radius: 12px !important;
+    -o-border-radius: 12px !important;
 }
 
 .resource-search input::placeholder {

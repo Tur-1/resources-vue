@@ -25,7 +25,7 @@ export default function use{{pageName}}Service() {
   const create = async (data) => {
     let response = await use{{pageName}}Api.create(data)
 
-    router.push({name:'{{snakeCasePageName}}}')
+    router.push({name:'{{snakeCasePageName}}'})
     return response;
   }
   const show = async () => {
