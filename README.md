@@ -116,7 +116,8 @@ fields() {
 
 The actions will appear in the form of buttons similar to the example below:
 
-![Actions Example](path-to-your-image)
+![Actions Example](<img width="295" alt="Screenshot 1446-04-08 at 6 54 58 PM" src="https://github.com/user-attachments/assets/dcd2fc10-9342-4ecf-ab02-35f81fcb3e28">)
+
 
 ### Data
 
