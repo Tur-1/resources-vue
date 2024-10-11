@@ -202,7 +202,7 @@ export declare const ResourceForm: DefineComponent<ResourceFormProps, {}, {}>;
 export declare function setResourceRouter(router: Router): void;
 
 /**
- * Creates an Axios instance with optional query parameters applied from the useResourceQueryString composable.
+ * Creates an Axios instance
  * @param {string} url - The base URL for the Axios instance.
  * @param {boolean} [applyQueryParams=false]
  * @param {boolean} [applyResourceNotification=true]

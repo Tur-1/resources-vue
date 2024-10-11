@@ -6,7 +6,7 @@ class DeleteAction extends ResourceAction {
    * The label of the action.
    * @type {string}
    */
-  label = 'DeleteAction';
+  label = 'Delete';
 
   /**
    * The icon of the action.

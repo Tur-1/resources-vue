@@ -1,7 +1,7 @@
 
 <script setup>
 import ResourceActionsMenu from "@/components/ResourceActionsMenu/index.vue";
-import useResourceQueryString from "./../../../composables/useResourceQueryString.js";
+import useResourceQueryString from "@/composables/useResourceQueryString.js";
 
 import { onMounted } from "vue";
 import defaultImage from "./default-image.jpg";
@@ -55,13 +55,14 @@ const pagesRoutes = Object.entries(props.pages)
       :key="item.id"
     >
       <td v-for="column in columns" :key="column.id">
-        <span class="fw-normal" v-if="!column?.action && !column?.image">
+        <span class="fw-normal"  v-if="!column?.action && !column?.image" :class="column.class">
           {{ getValue(item,column) }}
         </span>
         <img
           v-if="column?.image"
           :src="getImageSource(item,column)"
           :alt="defaultImage"
+          :class="column.class"
           class="img-thumbnail"
           style="max-width: 80px; max-height: 80px"
         />

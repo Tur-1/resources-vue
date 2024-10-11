@@ -10,7 +10,7 @@
       Filters
       <i class="fa-solid fa-angle-down"></i>
     </button>
-    <ul class="dropdown-menu table-filters-menu p-3 overflow-auto">
+    <ul class="dropdown-menu table-filters-menu p-3 overflow-auto mt-1">
       <li class="filter-header">
         <h6>Filters</h6>
         <a role="button" @click="resetFilters()" class="clear-btn">clear</a>
@@ -38,55 +38,53 @@
 </template>
 
 <script setup>
-import useResourceQueryString from '@/composables/useResourceQueryString'
-import { ResourceForm } from '@/index'
-import { onMounted, ref, watch } from 'vue'
+import useResourceQueryString from "@/composables/useResourceQueryString";
+import { ResourceForm } from "@/index";
+import { onMounted, ref, watch } from "vue";
 const props = defineProps({
   filters: {
-    required: true
+    required: true,
   },
-  paginationQueryKey:String,
-})
-const queryString = useResourceQueryString()
-const filterOptions = ref([])
+  paginationQueryKey: String,
+});
+const queryString = useResourceQueryString();
+const filterOptions = ref([]);
 
 onMounted(async () => {
   const optionsPromises = props.filters
-    .filter((filter) => filter.getType() === 'select')
+    .filter((filter) => filter.getType() === "select")
     .map(async (filter) => {
-      const filterOptions = await filter.getOptions()
+      const filterOptions = await filter.getOptions();
       return {
         id: filter.queryKey(),
-        data: filterOptions
-      }
-    })
-  filterOptions.value = await Promise.all(optionsPromises)
-})
+        data: filterOptions,
+      };
+    });
+  filterOptions.value = await Promise.all(optionsPromises);
+});
 
 function handleFilter(filter) {
-  delete queryString.params.value[props.paginationQueryKey ?? 'page'];
-  queryString.add(filter.queryKey(), filter.selectedValue)
-  filter.handle()
+  delete queryString.params.value[props.paginationQueryKey ?? "page"];
+  queryString.add(filter.queryKey(), filter.selectedValue);
+  filter.handle();
 }
 const getFilterOptions = (filter) => {
-  if (filter.getType() !== 'select') {
-    return []
+  if (filter.getType() !== "select") {
+    return [];
   }
 
-  const foundOptions = filterOptions.value.find((opt) => opt.id === filter.queryKey())
+  const foundOptions = filterOptions.value.find(
+    (opt) => opt.id === filter.queryKey()
+  );
 
-  return foundOptions ? foundOptions.data : []
-}
+  return foundOptions ? foundOptions.data : [];
+};
 const resetFilters = () => {
-  
-  if (queryString.params.value ) { 
-    queryString.reset() 
-  }
+  if (Object.keys(queryString.params.value).length === 0) return;
 
-  
-}
- 
+  queryString.reset();
+};
 </script>
 <style>
-@import './table-filters.css';
+@import "./table-filters.css";
 </style>
