@@ -5,11 +5,7 @@ import
         useResourceNotification
     } from "@/index";
 
-const ResourceApi = (
-    url,
-    applyQueryParams = false,
-    applyResourceNotification = true
-) =>
+const ResourceApi = (url) =>
 {
     let api = axios.create({
         baseURL: url,
@@ -22,7 +18,7 @@ const ResourceApi = (
 
     api.interceptors.request.use((config) =>
     {
-        if (applyQueryParams)
+        if (config.method === 'get')
         {
             const queryParams = queryString.params.value || {};
             config.params = {
@@ -36,7 +32,7 @@ const ResourceApi = (
     api.interceptors.response.use(
         (response) =>
         {
-            if (applyResourceNotification && response.status >= 200 && response.data?.message)
+            if (response.status >= 200 && response.data?.message)
             {
                 useResourceNotification.success(response.data.message);
             }
@@ -44,7 +40,7 @@ const ResourceApi = (
         },
         (error) =>
         {
-            if (applyResourceNotification && error.response.data?.message)
+            if (error.response.data?.message)
             {           
                 useResourceNotification.error(error.response.data?.message);
             }

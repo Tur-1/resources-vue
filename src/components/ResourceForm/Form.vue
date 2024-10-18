@@ -3,11 +3,11 @@ import useResourceIndicator from "@/components/ResourceIndicator/useResourceIndi
 import ResourceIndicator from "@/components/ResourceIndicator/index.vue";
 import { reactive, provide, watch } from "vue";
 import ResourceNotification from "@/components/ResourceNotification/index.vue";
-import useResourceNotification from "@/components/ResourceNotification/useResourceNotification"; 
+import useResourceNotification from "@/components/ResourceNotification/useResourceNotification";
 import ResourceApi from "./../../api/ResourceApi";
-
+import { getRouter } from "@/composables/useResourceRouter";
 const props = defineProps({
-  title: String, 
+  title: String,
   submitTitle: String,
   submit: {
     type: [String, Function],
@@ -15,6 +15,7 @@ const props = defineProps({
   },
   class: String,
   data: Object,
+  redirectAfterSubmit: [String, Object],
 });
 
 let formData = reactive({});
@@ -35,14 +36,23 @@ watch(
 provide("formContext", formData);
 provide("errors", errors);
 
+const router = getRouter()?.value; 
+
 const handleSubmit = async () => {
   useResourceIndicator.show();
+ 
   try {
     if (typeof props.submit === "function") {
       await props.submit(formData);
-    }  
+    }
     if (typeof props.submit === "string") {
-      await ResourceApi(props.submit).post();
+      await ResourceApi().post(props.submit,formData);
+      if (typeof props.redirectAfterSubmit === "string" && router) {
+        router.push({ name: props.redirectAfterSubmit });
+      }
+      if (typeof props.redirectAfterSubmit === "object" && router) {
+        router.push(props.redirectAfterSubmit);
+      } 
     }
 
     if (props.data) {

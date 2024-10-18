@@ -162,27 +162,20 @@ Example:
 ```javascript
 pages() {
   return {
-    show: {
+    {
       routeName: 'users.show',
-      routeParam: 'id',
-      title: 'Show User',
+      routeParam: 'id', 
       label: 'Show',
       icon: 'fa-solid fa-eye',
       class: 'text-primary'
     },
-    edit: {
+    {
       routeName: 'users.edit',
-      routeParam: 'id',
-      title: 'Edit User',
+      routeParam: 'id', 
       label: 'Edit',
       icon: 'fa-solid fa-pen-to-square',
       class: 'text-primary'
     },
-    create: {
-      routeName: 'users.create',
-      title: 'Create User',
-      label: 'Create User'
-    }
   };
 }
 ```

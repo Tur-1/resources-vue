@@ -59,7 +59,7 @@ export declare class ResourceFilter {
    * @throws {Error}
    * @return {FilterOptions}
    */
-   options(): FilterOptions;
+  options(): FilterOptions;
 }
 
 export declare class ResourceAction {
@@ -108,10 +108,9 @@ declare interface ResourceField {
 declare interface Page {
   routeName: string;
   routeParam?: string;
-  title: string;
-  label: string; 
+  label: string;
   icon?: string;
-  class?: string; 
+  class?: string;
 }
 export declare class BaseResource {
   /**
@@ -127,21 +126,38 @@ export declare class BaseResource {
   simplePagination: Boolean = true;
 
   /**
+   * The display style for the layout.
+   * Can be 'grid' or 'table'.
+   *
+   * @type {string}
+   * @default 'table'
+   */
+   display: string = "table";
+
+    /**
+     * display the label for each column. 
+     * 
+     * @type {Boolean}
+     * @default false
+     */
+    displayLabel: boolean = false;
+  
+  /**
    * The query key used for pagination in URL parameters.
    * @type {string}
    */
   paginationQueryKey: String = "page";
-   /**
-     * Searchable status of the resource.
-     * @type {boolean}
-     */
-   searchable: Boolean = true;
-
-   /**
-    * Placeholder for the search input.
-    * @type {string}
+  /**
+    * Searchable status of the resource.
+    * @type {boolean}
     */
-   searchPlaceholder:String = 'search';
+  searchable: Boolean = true;
+
+  /**
+   * Placeholder for the search input.
+   * @type {string}
+   */
+  searchPlaceholder: String = 'search';
 
   /**
    * Retrieves the resource data.
@@ -164,6 +180,13 @@ export declare class BaseResource {
   pages(): { [key: string]: Page };
 
   /**
+ * Get the header actions for the resource.
+ * @returns {[]}
+ */
+  headerActions(): [] {
+    return [];
+  }
+  /**
    * Get the filters for the resource.
    * @returns {[]}
    */
@@ -184,10 +207,11 @@ interface ResourceFormProps {
   placeholder?: string;
   label?: string;
   error?: string;
+  redirectAfterSubmit: [String, Object],
   class?: string;
   title?: string;
   submitTitle?: string;
-  submit?: [String,Function];
+  submit?: [String, Function];
   options?: Record<string, any>[] | Record<string, any>;
 }
 
@@ -203,15 +227,11 @@ export declare function setResourceRouter(router: Router): void;
 
 /**
  * Creates an Axios instance
- * @param {string} url - The base URL for the Axios instance.
- * @param {boolean} [applyQueryParams=false]
- * @param {boolean} [applyResourceNotification=true]
+ * @param {string} url - The base URL for the Axios instance. 
  * @returns {AxiosInstance}
  */
 export declare function ResourceApi(
-  url: string,
-  applyQueryParams?: boolean,
-  applyResourceNotification: Boolean
+  url: string
 ): AxiosInstance;
 
 interface QueryParams {

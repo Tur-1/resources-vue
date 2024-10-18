@@ -9,3 +9,9 @@
 <script setup>
 defineProps(['columnsLength'])
 </script>
+<style>
+.placeholder{
+  background-color: #909090bf !important;
+  border-radius: 5px !important;
+}
+</style>

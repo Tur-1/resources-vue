@@ -69,6 +69,8 @@ class ResourceFilter {
    */
    options() {
     if (this.type === 'select') {
+      useResourceNotification.error(`You must implement the options method in the Filter: ${this.constructor.name}`);
+
       throw new Error(`You must implement the options method in the Filter: ${this.constructor.name}`);
     }
     return {};

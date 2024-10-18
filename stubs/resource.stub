@@ -23,6 +23,23 @@ class {{pageName}} extends BaseResource {
   paginationQueryKey = 'page';
 
   /**
+   * The display style for the layout.
+   * Can be 'grid' or 'table'.
+   *
+   * @type {string}
+   * @default 'table'
+   */
+  display = "table";
+
+  /**
+   * display the label for each column. 
+   * 
+   * @type {Boolean}
+   * @default false
+   */
+  displayLabel = false;
+
+  /**
    * Searchable status of the resource.
    * @type {boolean}
    */
@@ -59,28 +76,35 @@ class {{pageName}} extends BaseResource {
    */
   pages() {
     return {
-      show: {
+      {
         routeName: '{{snakeCasePageName}}.show',
-        routeParam: 'id',
-        title: 'Show {{singularPageName}}',
+        routeParam: 'id', 
         label: 'Show',
         icon: 'fa-solid fa-eye',
         class: 'text-primary'
       },
-      edit: {
+      {
         routeName: '{{snakeCasePageName}}.edit',
-        routeParam: 'id',
-        title: 'Edit {{singularPageName}}',
+        routeParam: 'id', 
         label: 'Edit',
         icon: 'fa-solid fa-pen-to-square',
         class: 'text-primary'
       },
-      create: {
+    };
+  }
+
+ /**
+ * Get the header actions for the resource.
+ *
+ */
+  headerActions() {
+    return [
+      {
         routeName: '{{snakeCasePageName}}.create',
-        title: 'create {{singularPageName}}',
+        icon: 'fa-solid fa-plus',
         label: 'create {{singularPageName}}'
       }
-    };
+    ];
   }
 
   /**

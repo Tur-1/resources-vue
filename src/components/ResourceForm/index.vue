@@ -5,6 +5,7 @@
     :submitTitle="props.submitTitle"
     :submit="props.submit" 
     :class="props.class"
+    :redirectAfterSubmit="props.redirectAfterSubmit"
   >
     <slot />
   </Form>
@@ -36,6 +37,7 @@ const props = defineProps({
   error: String,
   class: String,
   title: String,
+  redirectAfterSubmit: [String, Object],
   submitTitle: String,
   submit: [String, Function],
   options: [Object, Array],

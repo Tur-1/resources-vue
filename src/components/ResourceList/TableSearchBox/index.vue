@@ -1,5 +1,5 @@
 <template>
-  <div class="col-lg-4">
+ <div class="flex-shrink-0 col-lg-4 col-md-5 col-sm-12 mb-2">
     <ResourceForm type="search" v-model="search" :placeholder="props.resource.searchPlaceholder" />
   </div>
 </template>

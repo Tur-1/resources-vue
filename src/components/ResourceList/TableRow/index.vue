@@ -1,15 +1,11 @@
 
 <script setup>
 import ResourceActionsMenu from "@/components/ResourceActionsMenu/index.vue";
-import useResourceQueryString from "@/composables/useResourceQueryString.js";
-
-import { onMounted } from "vue";
-import defaultImage from "./default-image.jpg";
+import defaultImage from "./../default-image.jpg";
 const props = defineProps(["columns", "data", "actions", "pages"]);
 const emits = defineEmits(["openConfirm"]);
 
-const queryString = useResourceQueryString();
-const getImageSource = (item, column) => {
+ const getImageSource = (item, column) => {
   if (column.image && !column.field && !column.nestedField) {
         return defaultImage;
   }
@@ -41,11 +37,7 @@ const generateRoute = (page, item) => {
     },
   };
 };
-
-const pagesRoutes = Object.entries(props.pages)
-  .filter(([key, value]) => key !== "create")
-  .map(([key, value]) => value);
-
+ 
 </script>
 
 <template>
@@ -71,7 +63,7 @@ const pagesRoutes = Object.entries(props.pages)
           v-if="column?.action && actions.length"
         >
           <template
-            v-for="(actionPage, pageIndex) in pagesRoutes"
+            v-for="(actionPage, pageIndex) in props.pages"
             :key="pageIndex"
           >
             <RouterLink
@@ -83,7 +75,7 @@ const pagesRoutes = Object.entries(props.pages)
               {{ actionPage.label ? actionPage.label : actionPage.title }}
             </RouterLink>
           </template>
-          <hr class="dropdown-divider" />
+          <hr class="actions-hr" />
           <template v-for="(action, actionIndex) in actions" :key="actionIndex">
             <a
               @click="handleAction(action, item, index)"
@@ -108,5 +100,9 @@ td {
 
 tr {
   cursor: pointer;
+}
+.actions-hr{
+  margin: 5px !important;
+  color: #ccc !important;
 }
 </style>
