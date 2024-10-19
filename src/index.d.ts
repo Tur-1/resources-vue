@@ -218,25 +218,32 @@ interface ResourceFormProps {
 export declare const ResourceForm: DefineComponent<ResourceFormProps, {}, {}>;
 
 /**
- * Set the router instance to be used globally.
- * This should be called from your main application to set the Vue Router instance.
+ * Set the router instance to be used globally. 
  *
  * @param {Router} router - The router instance to be set globally.
  */
 export declare function setResourceRouter(router: Router): void;
 
-/**
- * Creates an Axios instance
- * @param {string} url - The base URL for the Axios instance. 
- * @returns {AxiosInstance}
- */
-export declare function ResourceApi(
-  url: string
-): AxiosInstance;
 
 interface QueryParams {
   [key: string]: string | (string | null)[] | null | undefined;
 }
+
+interface ResourceApiOptions {
+  url: string;
+  applyQueryString?: boolean;
+}
+
+/**
+ * Creates an Axios instance
+ * @param {ResourceApiOptions} options
+ * @param {string} options.url - The base URL for the Axios instance.
+ * @param {boolean} [options.applyQueryString=false] - Whether to apply the query string automatically.
+ * @returns {AxiosInstance}
+ */
+export declare function ResourceApi(
+  options: ResourceApiOptions
+): AxiosInstance;
 
 export interface ResourceQueryString {
   params: Ref<Record<string, any>>;

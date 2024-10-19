@@ -7,7 +7,7 @@
     >
       <div class="card">
         <div
-          class="p-2 rounded border-bottom"
+          class="p-2"
           v-if="columns.find((col) => col.image)"
         >
           <img
@@ -69,7 +69,7 @@
     >
       <div class="card">
         <div
-          class="p-2 rounded border-bottom"
+          class="p-2"
           v-if="columns.find((col) => col.image)"
         >
           <img

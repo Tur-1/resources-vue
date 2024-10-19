@@ -5,7 +5,7 @@ import
         useResourceNotification
     } from "@/index";
 
-const ResourceApi = (url) =>
+const ResourceApi = ({url,applyQueryString = false}) =>
 {
     let api = axios.create({
         baseURL: url,
@@ -18,7 +18,7 @@ const ResourceApi = (url) =>
 
     api.interceptors.request.use((config) =>
     {
-        if (config.method === 'get')
+        if (applyQueryString)
         {
             const queryParams = queryString.params.value || {};
             config.params = {

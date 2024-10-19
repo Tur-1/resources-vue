@@ -2,9 +2,9 @@
 import { ResourceApi } from '@tur1/resources-vue' 
 
 let baseURl = '';
-function api()
+function api(applyQueryString)
 {
-  return ResourceApi(baseURl)
+  return ResourceApi({ url: baseURl, applyQueryString: applyQueryString })
 }
 
 const getAll = () => {

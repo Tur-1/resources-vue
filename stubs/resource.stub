@@ -75,7 +75,7 @@ class {{pageName}} extends BaseResource {
    * Get the pages for the resource. 
    */
   pages() {
-    return {
+    return [
       {
         routeName: '{{snakeCasePageName}}.show',
         routeParam: 'id', 
@@ -90,7 +90,7 @@ class {{pageName}} extends BaseResource {
         icon: 'fa-solid fa-pen-to-square',
         class: 'text-primary'
       },
-    };
+    ];
   }
 
  /**
