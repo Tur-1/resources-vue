@@ -3,7 +3,7 @@
 import ResourceActionsMenu from "@/components/ResourceActionsMenu/index.vue";
 import defaultImage from "./../default-image.jpg";
 const props = defineProps(["columns", "data", "actions", "pages"]);
-const emits = defineEmits(["openConfirm"]);
+const emits = defineEmits(["openConfirm"]); 
 
  const getImageSource = (item, column) => {
   if (column.image && !column.field && !column.nestedField) {

@@ -74,13 +74,6 @@ class {{pageName}} extends BaseResource {
     return []
   }
 
-  /**
-   * Get the pages for the resource. 
-   */
-  pages() {
-    return [new View{{PageNameSingular}}(),new Edit{{PageNameSingular}}()];
-  }
-
  /**
  * Get the header actions for the resource.
  *
@@ -100,7 +93,7 @@ class {{pageName}} extends BaseResource {
    * Get the actions for the resource.
    */
   actions() {
-    return [new DeleteAction()];
+    return [new DeleteAction(),new View{{PageNameSingular}}(),new Edit{{PageNameSingular}}()];
   }
 
 }

@@ -44,15 +44,23 @@ const searchable = computed(() => props.resource.searchable ?? true);
 
 let routeActions = ref([]);
 let methodActions = ref([]);
-
+let actions = ref([]);
+let pages = ref([]);
 onMounted(async () => {
   await fetchResourceData(props.resource.data);
 
-  props.resource.headerActions().forEach((element) => { 
+  props.resource.headerActions().forEach((element) => {
     if (element.routeName) {
       routeActions.value.push(element);
-    }else{
+    } else {
       methodActions.value.push(element);
+    }
+  });
+  props.resource.actions().forEach((element) => {
+    if (element.routeName) {
+      pages.value.push(element);
+    } else {
+      actions.value.push(element);
     }
   });
 });
@@ -76,7 +84,7 @@ onMounted(async () => {
       </RouterLink>
       <button
         type="button"
-        v-for="action in methodActions" 
+        v-for="action in methodActions"
         @click="action.handle()"
         :class="action.class"
         class="btn btn-primary d-inline-flex align-items-center bg-dark border-0"
@@ -115,9 +123,9 @@ onMounted(async () => {
               v-if="!useTableSkeletonLoading.isLoading"
               @openConfirm="openConfirmModal"
               :data="resourceDataList.list.value"
-              :pages="props.resource.pages()"
+              :pages="pages"
               :columns="props.resource.fields()"
-              :actions="props.resource.actions()"
+              :actions="actions"
             />
             <TableSkeleton
               v-if="useTableSkeletonLoading.isLoading"
@@ -138,9 +146,9 @@ onMounted(async () => {
           v-if="!useTableSkeletonLoading.isLoading"
           @openConfirm="openConfirmModal"
           :data="resourceDataList.list.value"
-          :pages="props.resource.pages()"
+          :pages="pages"
           :columns="props.resource.fields()"
-          :actions="props.resource.actions()"
+          :actions="actions"
           :displayLabel="props.resource.displayLabel"
         />
       </template>
