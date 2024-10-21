@@ -75,32 +75,7 @@ class ResourceFilter {
     }
     return {};
   }
-
-  /**
-   * Converts data to options if label and value are provided.
-   * If no label and value keys are provided, it treats data as an array of strings.
-   * @returns {Promise<{ label: any, value: any }[]>} 
-   */
-  async getOptions() {
-    if (this.type === 'select') {
-      const options = await this.options();
-
-      if (!options.label || !options.value || !options.data) { 
-        return options.map((item) => ({
-          label: item,
-          value: item
-        }));
-      }
-
-      
-      return options.data.map((item) => ({
-        label: item[options.label],
-        value: item[options.value]
-      }));
-    }
-
-    return [];
-  }
+ 
 }
 
 export default ResourceFilter;

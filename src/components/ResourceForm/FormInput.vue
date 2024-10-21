@@ -61,7 +61,8 @@ const optionsState = ref([]);
 const computedOptions = computed(() => optionsState.value);
 
 async function getOptions(options) {
-  if (typeof options === "object") {
+  if (typeof options === "object") { 
+    
     if (typeof options.data === "function") {
       options.data = await options.data();
     }
@@ -74,7 +75,7 @@ async function getOptions(options) {
     }
   }
   if (typeof options === "function") {
-    options = await options(); // Await the function result
+    options = await options(); 
     return options.map((option) => ({
       label: option,
       value: option,
@@ -93,7 +94,7 @@ async function getOptions(options) {
 
 onMounted(async () => {
   if (props.type === "select") {
-    const fetchedOptions = await getOptions(props.options);
+    const fetchedOptions = await getOptions(await props.options);
     optionsState.value = fetchedOptions;
   }
 });

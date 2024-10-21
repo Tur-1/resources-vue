@@ -26,7 +26,7 @@
           :id="filter.id"
           @change="handleFilter(filter)"
           :placeholder="filter.placeholder"
-          :options="getFilterOptions(filter)"
+          :options="filter.getType() === 'select' ? filter.options() : []"
         />
       </li>
 
@@ -50,35 +50,13 @@ const props = defineProps({
 const queryString = useResourceQueryString();
 const filterOptions = ref([]);
 
-onMounted(async () => {
-  const optionsPromises = props.filters
-    .filter((filter) => filter.getType() === "select")
-    .map(async (filter) => {
-      const filterOptions = await filter.getOptions();
-      return {
-        id: filter.queryKey(),
-        data: filterOptions,
-      };
-    });
-  filterOptions.value = await Promise.all(optionsPromises);
-});
-
+ 
 function handleFilter(filter) {
   delete queryString.params.value[props.paginationQueryKey ?? "page"];
   queryString.add(filter.queryKey(), filter.selectedValue);
   filter.handle();
 }
-const getFilterOptions = (filter) => {
-  if (filter.getType() !== "select") {
-    return [];
-  }
-
-  const foundOptions = filterOptions.value.find(
-    (opt) => opt.id === filter.queryKey()
-  );
-
-  return foundOptions ? foundOptions.data : [];
-};
+ 
 const resetFilters = () => {
   if (Object.keys(queryString.params.value).length === 0) return;
 
