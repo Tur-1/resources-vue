@@ -1,5 +1,5 @@
 <script setup>
-import { inject, computed, watch } from "vue";
+import { inject, computed, watch, ref, onMounted } from "vue";
 
 const props = defineProps({
   id: String,
@@ -17,7 +17,7 @@ const props = defineProps({
   error: String,
   class: String,
   modelValue: [String, Number],
-  options: [Object, Array],
+  options: [Object, Array, Function],
 });
 
 const emit = defineEmits(["update:modelValue", "change"]);
@@ -56,22 +56,46 @@ const localValue = computed({
 const updateValue = (value) => {
   localValue.value = value;
 };
+const optionsState = ref([]);
 
-let computedOptions = computed(() => {
-  if (Array.isArray(props.options)) {
-    return props.options.map((option) => ({
-      label: option.label || option,
-      value: option.value || option,
+const computedOptions = computed(() => optionsState.value);
+
+async function getOptions(options) {
+  if (typeof options === "object") {
+    if (typeof options.data === "function") {
+      options.data = await options.data();
+    }
+
+    if (Array.isArray(options.data)) {
+      return options.data.map((item) => ({
+        label: options?.label ? item[options.label] : item.name || "",
+        value: options?.value ? item[options.value] : item.value || "",
+      }));
+    }
+  }
+  if (typeof options === "function") {
+    options = await options(); // Await the function result
+    return options.map((option) => ({
+      label: option,
+      value: option,
     }));
   }
-  if (props.options && props.options.data) {
-    return props.options.data.map((item) => ({
-      label: item[props.options.label],
-      value: item[props.options.value],
+
+  if (Array.isArray(options)) {
+    return options.map((option) => ({
+      label: option,
+      value: option,
     }));
   }
 
   return [];
+}
+
+onMounted(async () => {
+  if (props.type === "select") {
+    const fetchedOptions = await getOptions(props.options);
+    optionsState.value = fetchedOptions;
+  }
 });
 </script>
 
@@ -103,7 +127,7 @@ let computedOptions = computed(() => {
       {{ errors[props.name][0] }}
     </span>
   </div>
-  <div v-else-if="type === 'select'" class="form-group mb-2"  :class="class">
+  <div v-else-if="type === 'select'" class="form-group mb-2" :class="class">
     <label v-if="label" :for="id" class="form-input-label">
       {{ label }}
       <span v-if="required" class="text-danger">*</span>

@@ -40,7 +40,7 @@ const props = defineProps({
   redirectAfterSubmit: [String, Object],
   submitTitle: String,
   submit: [String, Function],
-  options: [Object, Array],
+  options: [Object, Array,Function],
   modelValue: [String, Number],
   required: {
     type: Boolean,
