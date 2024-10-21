@@ -72,7 +72,7 @@ const generateRoute = (page, item) => {
               :to="generateRoute(actionPage, item)"
             >
               <i :class="actionPage.icon" class="me-2"></i>
-              {{ actionPage.label ? actionPage.label : actionPage.title }}
+              {{ actionPage.label }}
             </RouterLink>
           </template>
           <hr class="actions-hr" />

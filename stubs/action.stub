@@ -2,6 +2,16 @@ import { ResourceAction } from '@tur1/resources-vue'
 
 class {{actionName}} extends ResourceAction {
   /**
+   * The route name of the action.
+   * @type {string}
+   */
+  routeName = undefined;
+  /**
+   * The route param of the action.
+   * @type {string}
+   */
+  routeParam = undefined;
+  /**
    * The label of the action.
    * @type {string}
    */

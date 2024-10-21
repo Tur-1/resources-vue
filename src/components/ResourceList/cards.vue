@@ -34,13 +34,13 @@
             v-for="(actionPage, pageIndex) in props.pages"
             :key="pageIndex"
           >
-            <RouterLink
+          <RouterLink
               :class="actionPage.class"
               class="dropdown-item d-flex align-items-center rounded text-dark"
               :to="generateRoute(actionPage, item)"
             >
               <i :class="actionPage.icon" class="me-2"></i>
-              {{ actionPage.label ? actionPage.label : actionPage.title }}
+              {{ actionPage.label }}
             </RouterLink>
           </template>
           <hr class="actions-hr" />

@@ -20,6 +20,7 @@ if (args.length === 0) {
 }
 
 const pageName = args[0];
+const PageNameSingular = singularize(pageName); 
 const singularPageName = toSnakeCase(singularize(pageName)); 
 const snakeCasePageName = toSnakeCase(pageName); 
 
@@ -35,7 +36,10 @@ if (fs.existsSync(pageRootDir)) {
 // Define the structure using stubs
 const structure = {
   [`src/pages/${pageName}/Actions/DeleteAction.js`]: path.join(__dirname, './../stubs/deleteAction.stub'),
-  [`src/pages/${pageName}/Filters/Filter.js`]: path.join(__dirname, './../stubs/filter.stub'),
+  [`src/pages/${pageName}/Actions/View${PageNameSingular}.js`]: path.join(__dirname, './../stubs/ViewAction.stub'),
+  [`src/pages/${pageName}/Actions/Edit${PageNameSingular}.js`]: path.join(__dirname, './../stubs/EditAction.stub'),
+  [`src/pages/${pageName}/Actions/Create${PageNameSingular}.js`]: path.join(__dirname, './../stubs/CreateAction.stub'),
+  [`src/pages/${pageName}/Filters/ExampleFilter.js`]: path.join(__dirname, './../stubs/filter.stub'),
   [`src/pages/${pageName}/api/use${pageName}Api.js`]: path.join(__dirname, './../stubs/api.stub'), 
   [`src/pages/${pageName}/routes/${pageName}Routes.js`]: path.join(__dirname, './../stubs/routes.stub'),
   [`src/pages/${pageName}/services/use${pageName}Service.js`]: path.join(__dirname, './../stubs/serivce.stub'),
@@ -62,8 +66,9 @@ const createFileFromStub = (filePath, stubPath) => {
     // Replace any placeholders in the stub
     const content = stubContent.replace(/{{pageName}}/g, pageName)
     .replace(/{{singularPageName}}/g, singularPageName)
-    .replace(/{{filterName}}/g, 'Filter')
-    .replace(/{{snakeCasePageName}}/g, snakeCasePageName);
+    .replace(/{{filterName}}/g, 'ExampleFilter')
+    .replace(/{{snakeCasePageName}}/g, snakeCasePageName)
+    .replace(/{{PageNameSingular}}/g, PageNameSingular)
     fs.writeFileSync(filePath, content, 'utf8'); 
   } else {
     // If no stub, create an empty file

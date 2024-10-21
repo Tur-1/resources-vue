@@ -1,7 +1,10 @@
 import { BaseResource } from '@tur1/resources-vue'
 import use{{pageName}}Api from '@/pages/{{pageName}}/api/use{{pageName}}Api'
 import DeleteAction from '@/pages/{{pageName}}/Actions/DeleteAction'
-import Filter from '@/pages/{{pageName}}/Filters/Filter'
+import View{{PageNameSingular}} from '@/pages/{{pageName}}/Actions/View{{PageNameSingular}}'
+import Edit{{PageNameSingular}} from '@/pages/{{pageName}}/Actions/Edit{{PageNameSingular}}'
+import Create{{PageNameSingular}} from '@/pages/{{pageName}}/Actions/Create{{PageNameSingular}}'
+import ExampleFilter from '@/pages/{{pageName}}/Filters/ExampleFilter'
 
 class {{pageName}} extends BaseResource {
   /**
@@ -75,22 +78,7 @@ class {{pageName}} extends BaseResource {
    * Get the pages for the resource. 
    */
   pages() {
-    return [
-      {
-        routeName: '{{snakeCasePageName}}.show',
-        routeParam: 'id', 
-        label: 'Show',
-        icon: 'fa-solid fa-eye',
-        class: 'text-primary'
-      },
-      {
-        routeName: '{{snakeCasePageName}}.edit',
-        routeParam: 'id', 
-        label: 'Edit',
-        icon: 'fa-solid fa-pen-to-square',
-        class: 'text-primary'
-      },
-    ];
+    return [new View{{PageNameSingular}}(),new Edit{{PageNameSingular}}()];
   }
 
  /**
@@ -98,20 +86,14 @@ class {{pageName}} extends BaseResource {
  *
  */
   headerActions() {
-    return [
-      {
-        routeName: '{{snakeCasePageName}}.create',
-        icon: 'fa-solid fa-plus',
-        label: 'create {{singularPageName}}'
-      }
-    ];
+    return [new Create{{PageNameSingular}}()];
   }
 
   /**
    * Get the filters for the resource. 
    */
   filters() {
-    return [new Filter()];
+    return [new ExampleFilter()];
   }
 
   /**

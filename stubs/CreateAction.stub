@@ -1,0 +1,28 @@
+import { ResourceAction } from '@tur1/resources-vue'
+class Create{{PageNameSingular}} extends ResourceAction {
+    /**
+   * The route name of the action.
+   * @type {string}
+   */
+  routeName = '{{snakeCasePageName}}.create';
+
+  /**
+   * The label of the action.
+   * @type {string}
+   */
+  label = 'Create {{PageNameSingular}}';
+
+  /**
+   * The icon of the action.
+   * @type {string}
+   */
+  icon = 'fa-solid fa-plus';
+  
+  /**
+   * The CSS class for the action button.
+   * @type {string}
+   */
+  class = 'text-primary';
+}
+
+export default Create{{PageNameSingular}};

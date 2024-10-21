@@ -64,6 +64,16 @@ export declare class ResourceFilter {
 
 export declare class ResourceAction {
   /**
+   * The route name of the action.
+   * @type {string}
+  */
+  routeName?: string;
+  /**
+     * The route param of the action.
+     * @type {string}
+   */
+  routeParam?: string;
+  /**
    * The label of the action.
    * @type {string}
    */

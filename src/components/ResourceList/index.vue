@@ -1,5 +1,5 @@
 <script setup>
-import { watch, onMounted, reactive, computed } from "vue";
+import { watch, onMounted, reactive, computed, ref } from "vue";
 import useResourceQueryString from "@/composables/useResourceQueryString";
 import useResourceList from "@/composables/useResourceList";
 import NoRecordsFound from "@/components/ResourceList/NoRecordsFound/index.vue";
@@ -42,8 +42,19 @@ watch(
 const reactiveFilters = computed(() => reactive([...props.resource.filters()]));
 const searchable = computed(() => props.resource.searchable ?? true);
 
+let routeActions = ref([]);
+let methodActions = ref([]);
+
 onMounted(async () => {
   await fetchResourceData(props.resource.data);
+
+  props.resource.headerActions().forEach((element) => { 
+    if (element.routeName) {
+      routeActions.value.push(element);
+    }else{
+      methodActions.value.push(element);
+    }
+  });
 });
 </script>
 <template>
@@ -55,7 +66,7 @@ onMounted(async () => {
       class="col-lg-8 col-md-7 d-flex justify-content-end flex-wrap gap-2 flex-grow-1"
     >
       <RouterLink
-        v-for="action in props.resource.headerActions()"
+        v-for="action in routeActions"
         :to="{ name: action.routeName }"
         :class="action.class"
         class="btn btn-primary d-inline-flex align-items-center bg-dark border-0"
@@ -63,6 +74,16 @@ onMounted(async () => {
         <i :class="action.icon" />
         <span class="ms-2">{{ action.label }}</span>
       </RouterLink>
+      <button
+        type="button"
+        v-for="action in methodActions" 
+        @click="action.handle()"
+        :class="action.class"
+        class="btn btn-primary d-inline-flex align-items-center bg-dark border-0"
+      >
+        <i :class="action.icon" />
+        <span class="ms-2">{{ action.label }}</span>
+      </button>
     </div>
   </div>
 

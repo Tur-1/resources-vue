@@ -1,0 +1,32 @@
+import { ResourceAction } from '@tur1/resources-vue'
+class View{{PageNameSingular}} extends ResourceAction {
+    /**
+   * The route name of the action.
+   * @type {string}
+   */
+  routeName = '{{snakeCasePageName}}.show';
+  /**
+   * The route param of the action.
+   * @type {string}
+   */
+  routeParam = 'id';
+  /**
+   * The label of the action.
+   * @type {string}
+   */
+  label = 'Show';
+
+  /**
+   * The icon of the action.
+   * @type {string}
+   */
+  icon = 'fa-solid fa-pen-to-square';
+  
+  /**
+   * The CSS class for the action button.
+   * @type {string}
+   */
+  class = 'text-primary';
+}
+
+export default View{{PageNameSingular}};

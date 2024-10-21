@@ -161,22 +161,7 @@ Example:
 
 ```javascript
 pages() {
-  return {
-    {
-      routeName: 'users.show',
-      routeParam: 'id', 
-      label: 'Show',
-      icon: 'fa-solid fa-eye',
-      class: 'text-primary'
-    },
-    {
-      routeName: 'users.edit',
-      routeParam: 'id', 
-      label: 'Edit',
-      icon: 'fa-solid fa-pen-to-square',
-      class: 'text-primary'
-    },
-  };
+  return [new EditPage(),new ViewPage()];
 }
 ```
 
