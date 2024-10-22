@@ -21,7 +21,7 @@
       <li v-for="(filter, index) in filters" class="mb-3" :key="index">
         <ResourceForm
           :type="filter.getType()"
-          v-model="filter.selectedValue"
+          v-model="filterValues[filter.queryKey()]"
           :label="filter.label"
           :id="filter.id"
           @change="handleFilter(filter)"
@@ -40,7 +40,7 @@
 <script setup>
 import useResourceQueryString from "@/composables/useResourceQueryString";
 import { ResourceForm } from "@/index";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, reactive, ref, watch } from "vue";
 const props = defineProps({
   filters: {
     required: true,
@@ -48,13 +48,23 @@ const props = defineProps({
   paginationQueryKey: String,
 });
 const queryString = useResourceQueryString();
-const filterOptions = ref([]);
+
+let filterValues = reactive({});
+
+onMounted(() => {
+  props.filters.forEach(filter => { 
+  filterValues[filter.queryKey()] = queryString.get(filter.queryKey()); 
+});
+})
 
  
+const filterOptions = ref([]);
+ 
 function handleFilter(filter) {
+ 
   delete queryString.params.value[props.paginationQueryKey ?? "page"];
-  queryString.add(filter.queryKey(), filter.selectedValue);
-  filter.handle();
+  queryString.add(filter.queryKey(), filterValues[filter.queryKey()]);
+  filter.handle(filterValues[filter.queryKey()]);
 }
  
 const resetFilters = () => {

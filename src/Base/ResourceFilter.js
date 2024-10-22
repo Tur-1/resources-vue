@@ -1,7 +1,5 @@
-import useResourceQueryString from "@/composables/useResourceQueryString";
 import ResourceFilterException from "@/Exceptions/ResourceFilterException";
-import { toSnakeCase } from "@/helpers";
-import { ref } from "vue";
+import { toSnakeCase } from "@/helpers"; 
 import useResourceNotification from "@/components/ResourceNotification/useResourceNotification"; 
 
 /**
@@ -23,17 +21,7 @@ class ResourceFilter {
    * @type {string}
    */
   type;
-
-  /**
-   * The selected value for the filter
-   * @type {any}
-   */
-  selectedValue = ref('');
-
-  constructor() {
-    const queryString = useResourceQueryString();
-    this.selectedValue.value = queryString.get(this.queryKey());
-  }
+ 
 
   /**
    * Get the query key used for this filter, based on the class name.
@@ -58,7 +46,7 @@ class ResourceFilter {
   /**
    * Handle the filter logic
    */
-  handle() {
+  handle(value) {
  
   }
 

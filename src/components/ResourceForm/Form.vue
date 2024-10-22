@@ -37,25 +37,24 @@ watch(
 provide("formContext", formData);
 provide("errors", errors);
 
-const router = getRouter()?.value; 
+const router = getRouter()?.value;
 
 const handleSubmit = async () => {
   useResourceIndicator.show();
- 
+
   try {
     if (typeof props.submit === "function") {
       await props.submit(formData);
     }
     if (typeof props.submit === "string") {
-      await ResourceApi().post(props.submit,formData);
-      if (typeof props.redirectAfterSubmit === "string" && router) {
-        router.push({ name: props.redirectAfterSubmit });
-      }
-      if (typeof props.redirectAfterSubmit === "object" && router) {
-        router.push(props.redirectAfterSubmit);
-      } 
+      await ResourceApi().post(props.submit, formData);
     }
-
+    if (typeof props.redirectAfterSubmit === "string" && router) {
+      router.push({ name: props.redirectAfterSubmit });
+    }
+    if (typeof props.redirectAfterSubmit === "object" && router) {
+      router.push(props.redirectAfterSubmit);
+    }
     if (props.data) {
       Object.assign(formData, props.data);
     } else {

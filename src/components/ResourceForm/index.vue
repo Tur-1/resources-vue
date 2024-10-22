@@ -84,7 +84,8 @@ const model = computed({
     // If not using v-model, update the formData using the name prop
     if (formData) {
       formData[props.name] = value
-    }
+    } 
+    
   }
 })
 

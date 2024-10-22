@@ -35,13 +35,6 @@ export declare class ResourceFilter {
    */
   type: string;
 
-  /**
-   * The selected value for the filter.
-   * @type {any}
-   */
-  selectedValue: any;
-
-  constructor();
 
   /**
    * Get the query key used for this filter, based on the class name.
@@ -52,7 +45,7 @@ export declare class ResourceFilter {
   /**
    * Handle the filter logic. Should be implemented in subclasses.
    */
-  handle(): void;
+  handle(value): void;
 
   /**
    * Get the options for the filter if type is 'select'.

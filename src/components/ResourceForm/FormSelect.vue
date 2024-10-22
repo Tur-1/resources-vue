@@ -90,8 +90,7 @@ async function getOptions(options) {
   return [];
 }
 
-onMounted(async () => { 
-     
+onMounted(async () => {  
     const fetchedOptions = await getOptions(await props.options);
     optionsState.value = fetchedOptions; 
 });
