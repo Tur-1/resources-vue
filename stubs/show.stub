@@ -2,10 +2,14 @@
 import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}}Service'
 import {{pageName}}Store from '@/pages/{{pageName}}/stores/{{pageName}}Store' 
 import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
 let { show } = use{{pageName}}Service() 
 
-onMounted(async () => await show())
+const route = useRoute()
+let routeParam = route?.params?.id
+
+onMounted(async () => show(routeParam))
 </script>
 <template>
  

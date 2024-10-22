@@ -1,14 +1,11 @@
 import {{pageName}}Store from '@/pages/{{pageName}}/stores/{{pageName}}Store'
 import use{{pageName}}Api from '@/pages/{{pageName}}/api/use{{pageName}}Api'
-import { useRoute,useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 export default function use{{pageName}}Service() {
 
 
-  const router = useRouter();
-  const route = useRoute();
-  let routeParam = route?.params?.id
-
+  
   const getAll = async () => {
     let response = await use{{pageName}}Api.getAll()
 
@@ -23,25 +20,28 @@ export default function use{{pageName}}Service() {
   }
   
   const create = async (data) => {
+    const router = useRouter(); 
+
     let response = await use{{pageName}}Api.create(data)
 
     router.push({name:'{{snakeCasePageName}}'})
-    return response;
   }
-  const show = async () => {
+  const show = async (routeParam) => {
+    
     let response = await use{{pageName}}Api.show(routeParam)
 
     {{pageName}}Store.{{singularPageName}} = response.data.{{singularPageName}}
   }
 
-  const update = async (data) => {
+  const update = async (data,routeParam) => {
+
     let response = await use{{pageName}}Api.update(data, routeParam)
+
     {{pageName}}Store.{{singularPageName}} = response.data.{{singularPageName}}
   }
   const destroy = async (item,index) => {
     let response = await use{{pageName}}Api.destroy(item.id)
 
-    return response;
   }
 
   return {

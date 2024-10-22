@@ -3,15 +3,19 @@ import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}
 import {{pageName}}Store from '@/pages/{{pageName}}/stores/{{pageName}}Store'
 import { ResourceForm } from '@tur1/resources-vue'
 import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
 let { show, update } = use{{pageName}}Service()
 
-onMounted(async () => await show())
+const route = useRoute()
+let routeParam = route?.params?.id
+
+onMounted(async () => show(routeParam))
 </script>
 <template>
     <ResourceForm
       type="form"
-      :submit="update"
+      :submit="(data) => update(data, routeParam)"
       title="update {{singularPageName}}"
       :data="{{pageName}}Store.{{singularPageName}}"
     > 

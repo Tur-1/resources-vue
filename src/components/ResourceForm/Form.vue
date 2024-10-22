@@ -6,6 +6,7 @@ import ResourceNotification from "@/components/ResourceNotification/index.vue";
 import useResourceNotification from "@/components/ResourceNotification/useResourceNotification";
 import ResourceApi from "./../../api/ResourceApi";
 import { getRouter } from "@/composables/useResourceRouter";
+
 const props = defineProps({
   title: String,
   submitTitle: String,

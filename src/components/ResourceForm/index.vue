@@ -9,10 +9,21 @@
   >
     <slot />
   </Form>
-
+ 
+  <FormSelect
+     v-else-if="type === 'select'"
+    v-model="model"
+    :id="props.id"
+    :name="props.name" 
+    :placeholder="props.placeholder"
+    :label="props.label"
+    :error="props.error"
+    :class="props.class"
+     :options="props.options"
+  />
   <FormInput
     v-else
-    v-model="localValue"
+    v-model="model"
     :id="props.id"
     :name="props.name"
     :type="props.type"
@@ -20,7 +31,6 @@
     :label="props.label"
     :error="props.error"
     :class="props.class"
-     :options="props.options"
   />
 
 </template>
@@ -28,7 +38,8 @@
 <script setup>
 import Form from '@/components/ResourceForm/Form.vue'
 import FormInput from '@/components/ResourceForm/FormInput.vue' 
-import { ref,  computed } from 'vue'
+import FormSelect from '@/components/ResourceForm/FormSelect.vue';
+import { ref,  computed, inject } from 'vue'
 const props = defineProps({
   id: String, 
   name: String,
@@ -53,13 +64,27 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:modelValue', 'change'])
-const localValue = computed({
-  get() {
-    return props.modelValue
+const formData = inject('formContext', null)
+
+const model = computed({
+  get: () => {
+    // If v-model is used, return modelValue
+    if (props.modelValue !== undefined) {
+      return props.modelValue
+    }
+    // Otherwise, use the name prop to get data from formData
+    return formData ? formData[props.name] : ''
   },
-  set(value) {
-    emit('update:modelValue', value) 
-    emitChange(value)
+  set: (value) => {
+    // If v-model is used, emit the update event for two-way binding
+    if (props.modelValue !== undefined) {
+      emit('update:modelValue', value)
+      emit('change', value)
+    }
+    // If not using v-model, update the formData using the name prop
+    if (formData) {
+      formData[props.name] = value
+    }
   }
 })
 
