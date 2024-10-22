@@ -73,6 +73,7 @@ async function getOptions(options) {
     }
   }
   if (typeof options === "function") {
+    
     options = await options();
     return options.map((option) => ({
       label: option,
@@ -91,6 +92,8 @@ async function getOptions(options) {
 }
 
 onMounted(async () => {  
+   console.log(typeof props.options, props.options);
+   
     const fetchedOptions = await getOptions(await props.options);
     optionsState.value = fetchedOptions; 
 });

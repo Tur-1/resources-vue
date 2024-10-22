@@ -26,7 +26,7 @@
           :id="filter.id"
           @change="handleFilter(filter)"
           :placeholder="filter.placeholder"
-          :options="filter.getType() === 'select' ? filter.options() : []"
+          :options="filter.getType() === 'select' ? filter.options : []"
         />
       </li>
 
@@ -49,28 +49,28 @@ const props = defineProps({
 });
 const queryString = useResourceQueryString();
 
-let filterValues = reactive({});
+let filterValues = ref({});
 
 onMounted(() => {
-  props.filters.forEach(filter => { 
-  filterValues[filter.queryKey()] = queryString.get(filter.queryKey()); 
+  props.filters.forEach((filter) => {
+    filterValues.value[filter.queryKey()] =
+      queryString.get(filter.queryKey()) ?? "";
+  });
 });
-})
 
- 
 const filterOptions = ref([]);
- 
+
 function handleFilter(filter) {
- 
   delete queryString.params.value[props.paginationQueryKey ?? "page"];
-  queryString.add(filter.queryKey(), filterValues[filter.queryKey()]);
-  filter.handle(filterValues[filter.queryKey()]);
+  queryString.add(filter.queryKey(), filterValues.value[filter.queryKey()]);
+  filter.handle(filterValues.value[filter.queryKey()]);
 }
- 
+
 const resetFilters = () => {
   if (Object.keys(queryString.params.value).length === 0) return;
 
   queryString.reset();
+ 
 };
 </script>
 <style>
