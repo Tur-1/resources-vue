@@ -146,7 +146,7 @@ const model = defineModel()
       :placeholder="placeholder"
       :id="id"
       :name="name"
-     v-model="model"
+       v-model="model"
       :aria-describedby="id"
     />
 
