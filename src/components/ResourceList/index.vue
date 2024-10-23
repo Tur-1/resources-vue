@@ -26,19 +26,7 @@ const { openConfirmModal, handleConfirmModal, fetchResourceData, debounce } =
   useResourceList();
 const queryString = useResourceQueryString();
 const resourceDataList = useResourceData();
-
-const debouncedFetchResourceData = debounce(async () => {
-   await fetchResourceData(props.resource.data);
-}, 300);
-
-watch(
-  () => queryString.params.value,
-  (value) => {
-    
-      debouncedFetchResourceData();
-  },
-  { deep: true ,immediate:false}
-);
+ 
 
 const reactiveFilters = computed(() => reactive([...props.resource.filters()]));
 const searchable = computed(() => props.resource.searchable ?? true);
@@ -101,6 +89,7 @@ onMounted(async () => {
       <div class="row">
         <div class="col-md-2 col-lg-2">
           <TableFilters
+           :fetchData="props.resource.data"
             :filters="reactiveFilters"
             :paginationQueryKey="props.resource.paginationQueryKey"
           >

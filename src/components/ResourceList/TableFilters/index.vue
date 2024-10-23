@@ -24,9 +24,9 @@
           v-model="filter.value"
           :label="filter.label"
           :id="filter.id"
-          @change="handleFilter(filter)"
+          @update:modelValue="handleFilter(filter)"
           :placeholder="filter.placeholder"
-          :options="filter.getType() ==='select' ? filter.options(): []"
+          :options="filter.getType() === 'select' ? filter.options() : []"
         />
       </li>
 
@@ -40,30 +40,34 @@
 <script setup>
 import useResourceQueryString from "@/composables/useResourceQueryString";
 import { ResourceForm } from "@/index";
+import useResourceList from "@/composables/useResourceList";
+
 import { onMounted, reactive, ref, watch } from "vue";
 const props = defineProps({
   filters: {
     required: true,
   },
   paginationQueryKey: String,
+  fetchData:[Object,Function],
 });
 const queryString = useResourceQueryString();
-
+const { fetchResourceData } =
+  useResourceList();
 let filterValues = ref({});
 
 onMounted(() => {
   props.filters.forEach((filter) => {
-    filter.value = ref(queryString.get(filter.queryString) ?? '');
+    filter.value = ref(queryString.get(filter.queryString) ?? "");
   });
 });
 
 const filterOptions = ref([]);
 
-function handleFilter(filter) {
- 
+async function handleFilter(filter) {
   delete queryString.params.value[props.paginationQueryKey ?? "page"];
   queryString.add(filter.queryString, filter.value);
   filter.handle(filter.value);
+  await fetchResourceData(props.fetchData)
 }
 
 const resetFilters = () => {
@@ -71,6 +75,9 @@ const resetFilters = () => {
 
   queryString.reset();
 };
+
+
+ 
 </script>
 <style>
 @import "./table-filters.css";

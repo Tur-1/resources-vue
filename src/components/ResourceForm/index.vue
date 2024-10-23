@@ -63,7 +63,7 @@ const props = defineProps({
   }, 
 })
 
-const emit = defineEmits(['update:modelValue', 'change'])
+const emit = defineEmits(['update:modelValue'])
 const formData = inject('formContext', null)
 
 const model = computed({
@@ -79,7 +79,6 @@ const model = computed({
     // If v-model is used, emit the update event for two-way binding
     if (props.modelValue !== undefined) {
       emit('update:modelValue', value) 
-      emit('change', value)
     }
     // If not using v-model, update the formData using the name prop
     if (formData) {

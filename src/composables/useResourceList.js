@@ -51,8 +51,7 @@ export default function useResourceList()
     
     try { 
       
-    let response = await fetchData()
- 
+    let response = await fetchData() 
     if (Array.isArray(response)) {
       resourceData.list.value = response;
     }else if(!Array.isArray(response) && response.data  && response.links && response.meta){
