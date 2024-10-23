@@ -21,12 +21,12 @@
       <li v-for="(filter, index) in filters" class="mb-3" :key="index">
         <ResourceForm
           :type="filter.getType()"
-          v-model="filterValues[filter.queryKey()]"
+          v-model="filter.value"
           :label="filter.label"
           :id="filter.id"
           @change="handleFilter(filter)"
           :placeholder="filter.placeholder"
-          :options="filter.getType() === 'select' ? filter.options : []"
+          :options="filter.getType() ==='select' ? filter.options(): []"
         />
       </li>
 
@@ -53,24 +53,23 @@ let filterValues = ref({});
 
 onMounted(() => {
   props.filters.forEach((filter) => {
-    filterValues.value[filter.queryKey()] =
-      queryString.get(filter.queryKey()) ?? "";
+    filter.value = ref(queryString.get(filter.queryString) ?? '');
   });
 });
 
 const filterOptions = ref([]);
 
 function handleFilter(filter) {
+ 
   delete queryString.params.value[props.paginationQueryKey ?? "page"];
-  queryString.add(filter.queryKey(), filterValues.value[filter.queryKey()]);
-  filter.handle(filterValues.value[filter.queryKey()]);
+  queryString.add(filter.queryString, filter.value);
+  filter.handle(filter.value);
 }
 
 const resetFilters = () => {
   if (Object.keys(queryString.params.value).length === 0) return;
 
   queryString.reset();
- 
 };
 </script>
 <style>

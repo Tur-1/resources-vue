@@ -28,15 +28,16 @@ const queryString = useResourceQueryString();
 const resourceDataList = useResourceData();
 
 const debouncedFetchResourceData = debounce(async () => {
-  await fetchResourceData(props.resource.data);
+   await fetchResourceData(props.resource.data);
 }, 300);
 
 watch(
   () => queryString.params.value,
   (value) => {
-    debouncedFetchResourceData();
+    
+      debouncedFetchResourceData();
   },
-  { deep: true }
+  { deep: true ,immediate:false}
 );
 
 const reactiveFilters = computed(() => reactive([...props.resource.filters()]));

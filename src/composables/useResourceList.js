@@ -47,7 +47,8 @@ export default function useResourceList()
 
   const fetchResourceData = async (fetchData) =>
   { 
-    useTableSkeletonLoading.show()  
+    useTableSkeletonLoading.show()   
+    
     try { 
       
     let response = await fetchData()

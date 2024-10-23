@@ -78,7 +78,7 @@ const model = computed({
   set: (value) => {
     // If v-model is used, emit the update event for two-way binding
     if (props.modelValue !== undefined) {
-      emit('update:modelValue', value)
+      emit('update:modelValue', value) 
       emit('change', value)
     }
     // If not using v-model, update the formData using the name prop
@@ -89,7 +89,5 @@ const model = computed({
   }
 })
 
-const emitChange = (value) => {
-  emit('change', value)
-}
+
 </script>

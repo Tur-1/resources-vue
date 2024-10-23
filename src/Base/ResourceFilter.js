@@ -15,22 +15,21 @@ class ResourceFilter {
    */
   label;
 
+
+  /**
+   * the query string key
+   * @returns {string}
+   */
+  queryString = toSnakeCase(this.constructor.name);
+
   /**
    * The type of the filter, e.g., 'select', 'text'.
    * Must be implemented
    * @type {string}
    */
-  type;
+  type = '';
  
-
-  /**
-   * Get the query key used for this filter, based on the class name.
-   * @returns {string}
-   */
-  queryKey() {
-    return toSnakeCase(this.constructor.name);
-  }
-
+  value = '';
   /**
    * Validate and get the type of the filter.
    * @returns {string}

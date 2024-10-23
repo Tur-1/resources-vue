@@ -13,13 +13,16 @@ export default function useResourceQueryString()
 
   const add = (key, value) => {
     const newParams = { ...params.value };
-    newParams[key] = value;
 
-    if (router) {
-      router.push({ query: newParams });
-      params.value = newParams;
-    } else {
-      params.value = newParams;
+    if (newParams[key] !== value) {
+      newParams[key] = value;
+  
+      if (router) {
+        router.push({ query: newParams });
+        params.value = newParams;
+      } else {
+        params.value = newParams;
+      }
     }
   };
 
