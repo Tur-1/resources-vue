@@ -2,7 +2,7 @@ const {{pageName}}Routes = [
   {
     path: '/{{snakeCasePageName}}',
     name: '{{snakeCasePageName}}',
-    component: () => import('@/pages/{{pageName}}/views/index.vue'),
+    component: () => import('@/pages/{{pageName}}/views/list.vue'),
     meta: {
       title: '{{pageName}}', 
     }
