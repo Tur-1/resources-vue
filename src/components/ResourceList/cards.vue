@@ -2,17 +2,17 @@
   <template v-if="!useTableSkeletonLoading.isLoading">
     <div class="row" v-if="resource.displayLabel">
       <div
-        v-for="(item, index) in resourceDataList.list"
+        v-for="(item, index) in resourceDataList.list.value"
         :key="item.id"
         class="col-12 col-md-4 col-lg-4 col-xl-3 mb-4"
       >
         <div class="card">
-          <div class="p-2" v-if="props.resource.fields().find((col) => col.image)">
+          <div class="p-2" v-if="columns.find((col) => col.image)">
             <img
               :src="
                 getImageSource(
                   item,
-                  props.resource.fields().find((col) => col.image)
+                  columns.find((col) => col.image)
                 )
               "
               class="card-img-top rounded w-full"
@@ -23,7 +23,7 @@
           <div class="card-body p-2">
             <template v-for="column in columns">
               <div
-                class="d-flex gap-2 mb-2"
+                class="d-flex gap-2 mb-1"
                 v-if="!column?.action && !column?.image"
               >
                 <span> {{ column.label }}: </span>
@@ -69,19 +69,19 @@
         </div>
       </div>
     </div>
-    <div class="row" v-else>
+    <div class="row" >
       <div
-        v-for="(item, index) in resourceDataList.list"
+        v-for="(item, index) in resourceDataList.list.value"
         :key="item.id"
         class="col-12 col-md-4 col-lg-4 col-xl-3 mb-4"
       >
-        <div class="card">
-          <div class="p-2" v-if="props.resource.fields().find((col) => col.image)">
+        <div class="card shadow">
+          <div class="p-2" v-if="columns.find((col) => col.image)">
             <img
               :src="
                 getImageSource(
                   item,
-                  props.resource.fields().find((col) => col.image)
+                  columns.find((col) => col.image)
                 )
               "
               class="card-img-top rounded w-full"
@@ -90,21 +90,22 @@
             />
           </div>
           <div class="card-body p-2">
-            <template v-for="column in props.resource.fields()">
+            <template v-for="column in columns">
               <div
-                class="d-flex gap-2 mb-2"
+                class="d-flex gap-2 mb-1"
                 v-if="!column?.action && !column?.image"
               >
                 <span :class="column.class">
                   {{ getValue(item, column) }}
                 </span>
-              </div>
-              <ResourceActionsMenu
+              </div> 
+
+            <ResourceActionsMenu
                 class="text-end"
                 v-if="column?.action && !column?.image && actions.length"
               >
                 <template
-                  v-for="(actionPage, pageIndex) in props.pages"
+                  v-for="(actionPage, pageIndex) in pages"
                   :key="pageIndex"
                 >
                   <RouterLink
@@ -154,8 +155,9 @@ const emits = defineEmits(["openConfirm"]);
 const props = defineProps([
   "resource",
   "actions",
-  "pages", 
+  "pages",
 ]); 
+const columns = computed(()=> props.resource.fields())
 
 const resourceDataList = useResourceData();
 
@@ -184,6 +186,7 @@ const handleAction = (action, item, index) => {
 };
 
 const generateRoute = (page, item) => {
+  
   return {
     name: page.routeName,
     params: {
@@ -198,6 +201,6 @@ const generateRoute = (page, item) => {
   color: #ccc !important;
 }
 .card{
-  border: 1px solid #f1f1f1 !important;
+  border: none;
 }
 </style>

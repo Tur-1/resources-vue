@@ -9,20 +9,20 @@
         v-for="action in routeActions"
         :to="{ name: action.routeName }"
         :class="action.class"
-        class="btn btn-primary d-inline-flex align-items-center bg-dark border-0"
+        class="btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
       >
         <i :class="action.icon" />
-        <span class="ms-2">{{ action.label }}</span>
+        <span class="ms-2 ">{{ action.label }}</span>
       </RouterLink>
       <button
         type="button"
         v-for="action in methodActions"
         @click="action.handle()"
         :class="action.class"
-        class="btn btn-primary d-inline-flex align-items-center bg-dark border-0"
+        class="btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
       >
         <i :class="action.icon" />
-        <span class="ms-2">{{ action.label }}</span>
+        <span class="ms-2 ">{{ action.label }}</span>
       </button>
     </div>
   </div>
