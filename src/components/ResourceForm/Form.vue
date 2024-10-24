@@ -1,7 +1,7 @@
 <script setup>
 import useResourceIndicator from "@/components/ResourceIndicator/useResourceIndicator";
 import ResourceIndicator from "@/components/ResourceIndicator/index.vue";
-import { reactive, provide, watch } from "vue";
+import { reactive, provide, watch, ref } from "vue";
 import ResourceNotification from "@/components/ResourceNotification/index.vue";
 import useResourceNotification from "@/components/ResourceNotification/useResourceNotification";
 import ResourceApi from "./../../api/ResourceApi";
@@ -20,6 +20,7 @@ const props = defineProps({
 });
 
 let formData = reactive({});
+let allErrors = ref([]);
 let errors = reactive({});
 watch(
   () => props.data,
@@ -66,11 +67,21 @@ const handleSubmit = async () => {
     if (error.response && error.response.data.errors) {
       useResourceNotification.error(error.message);
       Object.assign(errors, error.response.data.errors);
+  
     }
   } finally {
     useResourceIndicator.hide();
   }
 };
+
+function findMissingKeys() {
+  const missingKeys = Object.keys(errors).filter((key) => !(key in formData));
+  
+  allErrors.value.length = 0;
+  missingKeys.forEach((key) => {
+    allErrors.value.push(errors[key][0]);
+  });
+}
 </script>
 <template>
   <div class="resource-form">
@@ -79,6 +90,7 @@ const handleSubmit = async () => {
     </div>
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
       <div class="card border-1 p-2 pb-4 mb-4">
+      
         <div class="card-body p-0 p-md-4">
           <slot />
         </div>

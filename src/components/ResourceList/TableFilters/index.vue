@@ -18,10 +18,11 @@
       <li>
         <hr class="dropdown-divider" />
       </li>
-      <li v-for="(filter, index) in filters" class="mb-3" :key="index">
+      <li v-for="(filter, index) in reactiveFilters" class="mb-3" :key="index">
         <ResourceForm
           :type="filter.getType()"
-          v-model="filter.value"
+          v-model="filter.selectedValue"
+          :name="filter.classConstructorName"
           :label="filter.label"
           :id="filter.id"
           @update:modelValue="handleFilter(filter)"
@@ -41,34 +42,23 @@
 import useResourceQueryString from "@/composables/useResourceQueryString";
 import { ResourceForm } from "@/index";
 import useResourceList from "@/composables/useResourceList";
-
-import { onMounted, reactive, ref, watch } from "vue";
+import { toSnakeCase } from "@/helpers";
+import { computed, onMounted, reactive, ref, toRaw, watch } from "vue";
 const props = defineProps({
   filters: {
     required: true,
   },
   paginationQueryKey: String,
-  fetchData:[Object,Function],
 });
 const queryString = useResourceQueryString();
-const { fetchResourceData } =
-  useResourceList();
-let filterValues = ref({});
-
-onMounted(() => {
-  props.filters.forEach((filter) => {
-    filter.value = ref(queryString.get(filter.queryString) ?? "");
-  });
-});
-
+const reactiveFilters = ref([]);
 const filterOptions = ref([]);
 
-async function handleFilter(filter) {
+const handleFilter = (filter) => {
   delete queryString.params.value[props.paginationQueryKey ?? "page"];
-  queryString.add(filter.queryString, filter.value);
-  filter.handle(filter.value);
-  await fetchResourceData(props.fetchData)
-}
+  queryString.add(filter.queryString, filter.selectedValue);
+  filter.handle(filter.selectedValue);
+};
 
 const resetFilters = () => {
   if (Object.keys(queryString.params.value).length === 0) return;
@@ -76,8 +66,14 @@ const resetFilters = () => {
   queryString.reset();
 };
 
-
- 
+onMounted(() => {
+    
+  reactiveFilters.value = props.filters();
+  reactiveFilters.value.forEach((filter) => {
+    filter.classConstructorName = toSnakeCase(toRaw(filter).constructor.name);
+    filter.selectedValue = ref(queryString.get(filter.queryString) ?? "");
+  });
+});
 </script>
 <style>
 @import "./table-filters.css";

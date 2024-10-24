@@ -1,6 +1,7 @@
 import ResourceFilterException from "@/Exceptions/ResourceFilterException";
 import { toSnakeCase } from "@/helpers"; 
 import useResourceNotification from "@/components/ResourceNotification/useResourceNotification"; 
+import { ref } from "vue";
 
 /**
  * @typedef {Object} FilterOptions
@@ -29,7 +30,8 @@ class ResourceFilter {
    */
   type = '';
  
-  value = '';
+  selectedValue = '';
+   
   /**
    * Validate and get the type of the filter.
    * @returns {string}

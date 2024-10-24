@@ -5,9 +5,9 @@ import useResourceList from "@/composables/useResourceList";
 import NoRecordsFound from "@/components/ResourceList/NoRecordsFound/index.vue";
 import TableSkeleton from "@/components/ResourceList/TableSkeleton/index.vue";
 import TableRow from "@/components/ResourceList/TableRow/index.vue";
-import TableSearchBox from "@/components/ResourceList/TableSearchBox/index.vue";
 import useResourceData from "@/stores/useResourceData";
 import TablePagination from "@/components/ResourceList/TablePagination/index.vue";
+import HeaderActions from "@/components/ResourceList/HeaderActions/index.vue";
 import ResourceConfirmModal from "@/components/ResourceConfirmModal/index.vue";
 import TableFilters from "@/components/ResourceList/TableFilters/index.vue";
 import TableHead from "@/components/ResourceList/TableHead/index.vue";
@@ -28,23 +28,18 @@ const queryString = useResourceQueryString();
 const resourceDataList = useResourceData();
  
 
-const reactiveFilters = computed(() => reactive([...props.resource.filters()]));
-const searchable = computed(() => props.resource.searchable ?? true);
+  const debouncedFetchResourceData = debounce(async () => {
+  await fetchResourceData(props.resource.data)
+}, 300);
+  
 
-let routeActions = ref([]);
-let methodActions = ref([]);
+
 let actions = ref([]);
 let pages = ref([]);
 onMounted(async () => {
   await fetchResourceData(props.resource.data);
 
-  props.resource.headerActions().forEach((element) => {
-    if (element.routeName) {
-      routeActions.value.push(element);
-    } else {
-      methodActions.value.push(element);
-    }
-  });
+ 
   props.resource.actions().forEach((element) => {
     if (element.routeName) {
       pages.value.push(element);
@@ -53,44 +48,26 @@ onMounted(async () => {
     }
   });
 });
+
+watch(() => queryString.params.value, (newValue, oldValue) => {
+  if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
+    debouncedFetchResourceData();
+  }
+}, { immediate: false }); 
+
 </script>
 <template>
   <h4>{{ props.resource.title }}</h4>
-  <div class="d-flex flex-wrap align-items-start justify-content-between mt-4">
-    <TableSearchBox v-if="searchable" :resource="props.resource" />
 
-    <div
-      class="col-lg-8 col-md-7 d-flex justify-content-end flex-wrap gap-2 flex-grow-1"
-    >
-      <RouterLink
-        v-for="action in routeActions"
-        :to="{ name: action.routeName }"
-        :class="action.class"
-        class="btn btn-primary d-inline-flex align-items-center bg-dark border-0"
-      >
-        <i :class="action.icon" />
-        <span class="ms-2">{{ action.label }}</span>
-      </RouterLink>
-      <button
-        type="button"
-        v-for="action in methodActions"
-        @click="action.handle()"
-        :class="action.class"
-        class="btn btn-primary d-inline-flex align-items-center bg-dark border-0"
-      >
-        <i :class="action.icon" />
-        <span class="ms-2">{{ action.label }}</span>
-      </button>
-    </div>
-  </div>
+  <HeaderActions :resource="props.resource"/>
+
 
   <div class="card shadow-sm mt-3">
     <div class="pe-3 ps-3 pt-3">
       <div class="row">
         <div class="col-md-2 col-lg-2">
-          <TableFilters
-           :fetchData="props.resource.data"
-            :filters="reactiveFilters"
+          <TableFilters 
+            :filters="props.resource.filters"
             :paginationQueryKey="props.resource.paginationQueryKey"
           >
             <slot name="filters" />

@@ -8,7 +8,7 @@
     <select
       :id="id"
       :name="name"
-      v-model="model"
+      v-model="model" 
       :class="{ 'is-invalid': error }"
       class="form-select"
     >
@@ -52,13 +52,26 @@ const props = defineProps({
   placeholder: String,
   label: String,
   error: String,
-  class: String, 
+  class: String,  
+  modelValue: [String, Number],
   options: [Object, Array, Function],
 });
-const optionsState = ref([]);
 
+ 
+const emit = defineEmits(["update:modelValue"]);
+const optionsState = ref([]);
 const computedOptions = computed(() => optionsState.value);
-const model = defineModel() 
+const model = computed({
+  get: () => props.modelValue,
+  set: (value) => emit("update:modelValue", value),
+});
+
+onMounted(async () => {  
+ 
+    const fetchedOptions = await getOptions(await props.options);
+    optionsState.value = fetchedOptions; 
+});
+
 async function getOptions(options) {
   if (typeof options === "object") {
     if (typeof options.data === "function") {
@@ -91,9 +104,4 @@ async function getOptions(options) {
   return [];
 }
 
-onMounted(async () => {  
- 
-    const fetchedOptions = await getOptions(await props.options);
-    optionsState.value = fetchedOptions; 
-});
 </script>

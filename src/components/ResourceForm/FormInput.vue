@@ -55,64 +55,6 @@ const model = defineModel()
     </span>
   </div>
 
-  <!-- <div v-else-if="type === 'date-range'" class="d-flex justify-content-between mb-2 gap-3">
-    <div  :class="class" class="w-50">
-      <label :for="name" class="form-input-label">
-        From:
-        <span v-if="required" class="text-danger">*</span>
-      </label>
-      <input
-        class="form-control"
-        :class="{ 'is-invalid': error }"
-        type="date"
-        :placeholder="placeholder"
-        :id="id"
-        :name="name"
-        :value="localValue"
-        @input="updateValue($event.target.value)"
-        :aria-describedby="id"
-      />
-
-      <span class="text-danger mt-1 ms-2" v-if="error" style="font-size: 12px">
-        {{ error }}
-      </span>
-      <span
-        class="text-danger mt-1 ms-2 row"
-        v-if="errors[props?.name]"
-        style="font-size: 12px"
-      >
-        {{ errors[props.name][0] }}
-      </span>
-    </div>
-    <div  :class="class" class="w-50">
-      <label :for="name" class="form-input-label">
-        To:
-        <span v-if="required" class="text-danger">*</span>
-      </label>
-      <input
-        class="form-control"
-        :class="{ 'is-invalid': error }"
-        type="date"
-        :placeholder="placeholder"
-        :id="id"
-        :name="name"
-        :value="localValue"
-        @input="updateValue($event.target.value)"
-        :aria-describedby="id"
-      />
-
-      <span class="text-danger mt-1 ms-2" v-if="error" style="font-size: 12px">
-        {{ error }}
-      </span>
-      <span
-        class="text-danger mt-1 ms-2 row"
-        v-if="errors[props?.name]"
-        style="font-size: 12px"
-      >
-        {{ errors[props.name][0] }}
-      </span>
-    </div>
-  </div> -->
 
   <div v-else-if="type === 'search'">
     <label v-if="label" :for="id" class="form-input-label">
