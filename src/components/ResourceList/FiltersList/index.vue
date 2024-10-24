@@ -64,10 +64,12 @@ const resetFilters = () => {
   if (Object.keys(queryString.params.value).length === 0) return;
 
   queryString.reset();
+  reactiveFilters.value.forEach((filter) => {
+    filter.selectedValue = "";
+  });
 };
 
 onMounted(() => {
-    
   reactiveFilters.value = props.filters();
   reactiveFilters.value.forEach((filter) => {
     filter.classConstructorName = toSnakeCase(toRaw(filter).constructor.name);

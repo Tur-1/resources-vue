@@ -31,7 +31,7 @@ class ResourceFilter {
   type = '';
  
   selectedValue = '';
-   
+ 
   /**
    * Validate and get the type of the filter.
    * @returns {string}

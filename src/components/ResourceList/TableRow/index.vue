@@ -1,7 +1,7 @@
 
 <script setup>
 import ResourceActionsMenu from "@/components/ResourceActionsMenu/index.vue";
-import defaultImage from "./../default-image.jpg";
+import defaultImage from "@/assets/default-image.jpg";
 const props = defineProps(["columns", "data", "actions", "pages"]);
 const emits = defineEmits(["openConfirm"]); 
 

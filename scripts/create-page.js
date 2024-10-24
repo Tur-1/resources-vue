@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 // Get the current working directory (the consuming project's directory)
 const projectRoot = process.cwd();
 
-// Capture the page name passed via npm run
+// Capture the page name
 const args = process.argv.slice(2);
 
 if (args.length === 0) {
@@ -24,7 +24,7 @@ const PageNameSingular = singularize(pageName);
 const singularPageName = toSnakeCase(singularize(pageName)); 
 const snakeCasePageName = toSnakeCase(pageName); 
 
-// Define the page root directory
+// the page root directory
 const pageRootDir = path.join(projectRoot, `src/pages/${pageName}`);
 
 // Check if the page directory already exists
@@ -33,7 +33,6 @@ if (fs.existsSync(pageRootDir)) {
   process.exit(1);
 }
 
-// Define the structure using stubs
 const structure = {
   [`src/pages/${pageName}/Actions/DeleteAction.js`]: path.join(__dirname, './../stubs/deleteAction.stub'),
   [`src/pages/${pageName}/Actions/View${PageNameSingular}.js`]: path.join(__dirname, './../stubs/ViewAction.stub'),
@@ -103,7 +102,7 @@ fs.readFile(routerFilePath, 'utf8', (err, data) => {
     // Insert the import statement right before the last existing import statement
     const importPosition = data.lastIndexOf('import');
     const endOfImportPosition = data.indexOf(';', importPosition) + 1;
-    const updatedWithImport = data.slice(0, endOfImportPosition) + `\n${importStatement}` + data.slice(endOfImportPosition);
+    const updatedWithImport = data.slice(0, endOfImportPosition) + `${importStatement}` + data.slice(endOfImportPosition);
 
     // Proceed to routes modification
     data = updatedWithImport;
