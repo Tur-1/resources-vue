@@ -23,15 +23,12 @@ export default function useResourceList()
     useResourceIndicator.show()
     if (selectedAction.value)
     {
-      await selectedAction.value.handle({
-        item: selectedItem.value.item,
-        index: selectedItem.value.index
-      })
+      await selectedAction.value.handle(selectedItem.value.item)
       useConfirmModal.close()
     }
 
     
-    if (selectedAction.value.deleteAction) {
+    if (selectedAction.value.isDeleteAction) {
       resourceData.removeItem(selectedItem.value.index)
     }
     useResourceIndicator.hide()

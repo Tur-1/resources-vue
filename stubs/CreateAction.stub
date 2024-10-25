@@ -1,11 +1,5 @@
 import { ResourceAction } from '@tur1/resources-vue'
 class Create{{PageNameSingular}} extends ResourceAction {
-    /**
-   * The route name of the action.
-   * @type {string}
-   */
-  routeName = '{{snakeCasePageName}}.create';
-
   /**
    * The label of the action.
    * @type {string}
@@ -23,6 +17,29 @@ class Create{{PageNameSingular}} extends ResourceAction {
    * @type {string}
    */
   class = 'text-primary';
+
+
+  /**
+  * Set the route for the action. 
+  * @param {string} name - The route name.
+  * @param {string} params - The route parameters.
+  */
+  route({ name, param })
+  {
+    this.routeName = {{snakeCasePageName}}.create;
+    this.routeParam = param;
+
+    return this;
+  }
+  /**
+   * Returns the route object for the action.
+   * @returns {{ name: string, param?: string }}
+   */
+  route() {
+    return {
+      name: {{snakeCasePageName}}.create,
+    };
+  }
 }
 
 export default Create{{PageNameSingular}};

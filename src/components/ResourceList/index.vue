@@ -38,7 +38,20 @@ onMounted(async () => {
   await fetchResourceData(props.resource.data);
 
   props.resource.actions().forEach((element) => {
-    if (element.routeName) {
+    let name, param;
+
+    try {
+      const routeResult = element.route();
+      name = routeResult?.name;
+      param = routeResult?.param;
+    } catch (error) {
+      name = element.routeDetails?.name;
+      param = element.routeDetails?.param;
+    }
+
+    if (name) {
+      element.routeDetails = { name: name, param: param };
+
       pages.value.push(element);
     } else {
       actions.value.push(element);
@@ -93,7 +106,7 @@ watch(
         @openConfirm="openConfirmModal"
         :resource="props.resource"
         :pages="pages"
-        :actions="actions" 
+        :actions="actions"
       />
       <TablePagination
         v-if="resourceDataList.pagination.value?.length != 0"
@@ -109,9 +122,9 @@ watch(
 </template>
 <style>
 @import "./table-list.css";
-.placeholder{
+
+.placeholder {
   background-color: #909090bf !important;
   border-radius: 5px !important;
 }
 </style>
- 

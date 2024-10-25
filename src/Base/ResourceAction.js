@@ -1,16 +1,7 @@
 import ResourceActionException from "@/Exceptions/ResourceActionException";
 
-class ResourceAction {
-  /**
-   * The route name of the action.
-   * @type {string}
-   */
-  routeName = undefined;
-  /**
-   * The route param of the action.
-   * @type {string}
-   */
-  routeParam = undefined;
+class ResourceAction
+{
   /**
    * The label of the action.
    * @type {string}
@@ -39,12 +30,15 @@ class ResourceAction {
    * @type {boolean}
    */
   deleteAction = false;
+
   /**
    * Handle the action.
    * @throws {ResourceActionException} If not implemented.
    */
-  async handle() {
-    if (this.routeName && this.routeParam) {
+  async handle(record)
+  {
+    if (!this.routeName && !this.routeParam)
+    {
       throw ResourceActionException.missingHandleMethod(this.constructor.name);
     }
   }

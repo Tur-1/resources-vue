@@ -1,15 +1,7 @@
 import { ResourceAction } from '@tur1/resources-vue'
 class Edit{{PageNameSingular}} extends ResourceAction {
-    /**
-   * The route name of the action.
-   * @type {string}
-   */
-  routeName = '{{snakeCasePageName}}.edit';
-  /**
-   * The route param of the action.
-   * @type {string}
-   */
-  routeParam = 'id';
+  
+  
   /**
    * The label of the action.
    * @type {string}
@@ -27,6 +19,17 @@ class Edit{{PageNameSingular}} extends ResourceAction {
    * @type {string}
    */
   class = 'text-primary';
+
+  /**
+   * Returns the route object for the action.
+   * @returns {{ name: string, param?: string }}
+   */
+  route() {
+    return {
+      name: {{snakeCasePageName}}.edit,
+      param: 'id'
+    };
+  }
 }
 
 export default Edit{{PageNameSingular}};

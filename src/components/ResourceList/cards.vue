@@ -186,11 +186,12 @@ const handleAction = (action, item, index) => {
 };
 
 const generateRoute = (page, item) => {
-  
+  let { name, param } = page.route();
+
   return {
-    name: page.routeName,
+    name: name,
     params: {
-      [page.routeParam]: item[page.routeParam] || item.id,
+      [param]: item[param] || item.id,
     },
   };
 };

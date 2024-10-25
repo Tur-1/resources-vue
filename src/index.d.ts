@@ -55,17 +55,8 @@ export declare class ResourceFilter {
   options(): FilterOptions;
 }
 
+
 export declare class ResourceAction {
-  /**
-   * The route name of the action.
-   * @type {string}
-  */
-  routeName?: string;
-  /**
-     * The route param of the action.
-     * @type {string}
-   */
-  routeParam?: string;
   /**
    * The label of the action.
    * @type {string}
@@ -89,17 +80,128 @@ export declare class ResourceAction {
    * @type {boolean}
    */
   confirmAction: boolean;
+
   /**
    * Whether the action requires delete.
    * @type {boolean}
    */
   deleteAction: boolean;
+
+
+  /**
+   * Returns the route object for the action.
+   * @returns {{ name: string, param?: string }}
+   */
+  route(): { name: string; param?: string };
+
   /**
    * Handle the action.
+   * @param {Object} record - The record associated with the action.
    * @throws {ResourceActionException} If not implemented.
+   * @returns {void}
    */
-  handle(): Promise<void>;
+    handle(record: any): void;
 }
+export declare function Action(): ActionInstance;
+
+interface ActionInstance {
+  /**
+   * The route name of the action.
+   */
+  routeName?: string;
+
+  /**
+   * The route parameter of the action.
+   */
+  routeParam?: string;
+
+  /**
+   * The label of the action.
+   */
+  label?: string;
+
+  /**
+   * The icon of the action.
+   */
+  icon?: string;
+
+  /**
+   * The CSS class for the action button.
+   */
+  class?: string;
+
+  /**
+   * Whether the action requires confirmation.
+   */
+  confirmAction: boolean = false;
+
+  /**
+   * Whether the action requires delete.
+   */
+  deleteAction: boolean = false;
+
+  /**
+   * The callback function for the action.
+   */
+  callback?: (item: any) => void;
+
+  /**
+   * Sets the callback function to be executed when the action is triggered.
+   * @param callback - The function to be executed.
+   * @returns {this} 
+   */
+  make(callback: (item: any) => void): this;
+
+  /**
+   * Set the route for the action.
+   * @param route - The route object containing name and parameter.
+   * @returns {this} 
+   */
+  route(route: { name: string; param: string }): this;
+
+  /**
+   * Sets the icon for the action.
+   * @param icon - The icon class or name to be set.
+   * @returns {this} 
+   */
+  icon(icon: string): this;
+
+  /**
+   * Sets the CSS class for the action button.
+   * @param className - The CSS class to be applied.
+   * @returns {this} 
+   */
+  class(className: string): this;
+
+  /**
+   * Specifies whether the action requires confirmation.
+   * @param value
+   * @returns {this} 
+   */
+  requiresConfirmation(value?: boolean = false): this;
+
+  /**
+   * Specifies whether the action is a delete action.
+   * @param isDeleteAction
+   * @returns {this} 
+   */
+  deleteAction(isDeleteAction?: boolean = false): this;
+
+  /**
+   * Sets the label for the action.
+   * @param label
+   * @returns {this} 
+   */
+  label(label: string): this;
+
+  /**
+   * Executes the callback function for the action.
+   * @param item
+   */
+  handle(item: any): void;
+}
+
+
 
 declare interface ResourceField {
   label: string;

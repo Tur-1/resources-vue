@@ -33,9 +33,9 @@ class DeleteAction extends ResourceAction {
   /**
    * Handle the action. 
    */
- async handle({item, index}) {
+ async handle(record) {
     const {destroy} = use{{pageName}}Service();
-    await destroy(item, index)
+    await destroy(record)
   }
 }
 

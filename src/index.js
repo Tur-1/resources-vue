@@ -7,12 +7,13 @@ import ResourceList from "./components/ResourceList/index.vue"
 import ResourceApi from "./api/ResourceApi"
 import useResourceQueryString from './composables/useResourceQueryString'; 
 import useResourceNotification from './components/ResourceNotification/useResourceNotification';
-
+import Action from './Base/Action';
 
 
 export
 { 
     ResourceApi,
+    Action,
     ResourceForm,
     ResourceList,
     ResourceFilter,
