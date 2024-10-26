@@ -41,7 +41,7 @@
 <script setup>
 import useResourceQueryString from "@/composables/useResourceQueryString";
 import { ResourceForm } from "@/index";
-import useResourceList from "@/composables/useResourceList";
+import useResourceList from "@/composables/useBaseResource";
 import { toSnakeCase } from "@/helpers";
 import { computed, onMounted, reactive, ref, toRaw, watch } from "vue";
 const props = defineProps({

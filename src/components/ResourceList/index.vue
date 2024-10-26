@@ -1,7 +1,7 @@
 <script setup>
 import { watch, onMounted, reactive, computed, ref } from "vue";
 import useResourceQueryString from "@/composables/useResourceQueryString";
-import useResourceList from "@/composables/useResourceList";
+import useBaseResource from "@/composables/useBaseResource";
 import NoRecordsFound from "@/components/ResourceList/NoRecordsFound/index.vue";
 import TableSkeleton from "@/components/ResourceList/TableSkeleton/index.vue";
 import TableRow from "@/components/ResourceList/TableRow/index.vue";
@@ -23,40 +23,24 @@ const props = defineProps({
   },
 });
 
-const { openConfirmModal, handleConfirmModal, fetchResourceData, debounce } =
-  useResourceList();
-const queryString = useResourceQueryString();
-const resourceDataList = useResourceData();
+const {
+  openConfirmModal,
+  handleConfirmModal,
+  fetchResourceData,
+  debounce,
+  resolveActions,
+  pagination,
+  dataList,
+} = useBaseResource();
 
+let { pages, actions } = resolveActions(props.resource.actions);
+const queryString = useResourceQueryString();
 const debouncedFetchResourceData = debounce(async () => {
   await fetchResourceData(props.resource.data);
 }, 300);
 
-let actions = ref([]);
-let pages = ref([]);
 onMounted(async () => {
   await fetchResourceData(props.resource.data);
-
-  props.resource.actions().forEach((element) => {
-    let name, param;
-
-    try {
-      const routeResult = element.route();
-      name = routeResult?.name;
-      param = routeResult?.param;
-    } catch (error) {
-      name = element.routeDetails?.name;
-      param = element.routeDetails?.param;
-    }
-
-    if (name) {
-      element.routeDetails = { name: name, param: param };
-
-      pages.value.push(element);
-    } else {
-      actions.value.push(element);
-    }
-  });
 });
 
 watch(
@@ -99,17 +83,19 @@ watch(
         @openConfirm="openConfirmModal"
         :resource="props.resource"
         :pages="pages"
+        :dataList="dataList"
         :actions="actions"
       />
       <Cards
         v-else
         @openConfirm="openConfirmModal"
         :resource="props.resource"
+        :dataList="dataList"
         :pages="pages"
         :actions="actions"
       />
       <TablePagination
-        v-if="resourceDataList.pagination.value?.length != 0"
+        v-if="pagination.value?.length != 0"
         :simplePagination="props.resource.simplePagination"
         :paginationQueryKey="props.resource.paginationQueryKey"
       />

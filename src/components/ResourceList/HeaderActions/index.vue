@@ -10,7 +10,7 @@
     >
       <RouterLink
         v-for="action in pages"
-        :to="generateRoute(action)"
+        :to="generateRecordRoute(action)"
         :class="action.class"
         class="btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
       >
@@ -32,40 +32,17 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted } from "vue";
 import TableSearchBox from "@/components/ResourceList/TableSearchBox/index.vue";
+import useBaseResource from "@/composables/useBaseResource";
 
 let props = defineProps(["resource"]);
-let pages = ref([]);
-let actions = ref([]);
+
 const searchable = computed(() => props.resource.searchable ?? true);
+const { resolveActions, generateRecordRoute } = useBaseResource();
 
-props.resource.headerActions().forEach((element) => {
-  let name, param;
+let { pages, actions } = resolveActions(props.resource.headerActions);
 
-  try {
-    const routeResult = element.route();
-    name = routeResult?.name;
-    param = routeResult?.param;
-  } catch (error) {
-    name = element.routeDetails?.name;
-    param = element.routeDetails?.param;
-  }
-
-  if (name) {
-    element.routeDetails = { name: name, param: param };
-
-    pages.value.push(element);
-  } else {
-    actions.value.push(element);
-  }
-});
-
-function generateRoute(page) {
-  return {
-    name: page.routeDetails.name,
-  };
-}
 </script>
 
 <style lang="scss" scoped></style>

@@ -1,5 +1,5 @@
 <script setup>
-import useResourceData from "@/stores/useResourceData";
+import useBaseResource from "@/composables/useBaseResource"
 import NoRecordsFound from "@/components/ResourceList/NoRecordsFound/index.vue";
 import TableSkeleton from "@/components/ResourceList/TableSkeleton/index.vue";
 import TableRow from "@/components/ResourceList/TableRow/index.vue";
@@ -11,10 +11,10 @@ const props = defineProps({
   },
   pages: Array,
   actions: Array,
+  dataList: Object
 });
-const emits = defineEmits(["openConfirm"]);
-const resourceDataList = useResourceData();
-
+const emits = defineEmits(["openConfirm"]); 
+ 
 </script>
 <template>
   <div class="table-responsive">
@@ -23,8 +23,8 @@ const resourceDataList = useResourceData();
       <tbody>
         <TableRow
           v-if="!useTableSkeletonLoading.isLoading"
-          @openConfirm="$emit('openConfirm')"
-          :data="resourceDataList.list.value"
+          @openConfirm="(action,item) => $emit('openConfirm',action, item)"
+          :data="dataList"
           :pages="pages"
           :columns="props.resource.fields()"
           :actions="actions"
@@ -36,7 +36,7 @@ const resourceDataList = useResourceData();
         <NoRecordsFound
           v-if="
             !useTableSkeletonLoading.isLoading &&
-            resourceDataList.list.value?.length == 0
+            dataList.value?.length == 0
           "
           :columns="props.resource.fields()"
         />

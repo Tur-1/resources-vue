@@ -8,7 +8,7 @@
 import useResourceQueryString from '@/composables/useResourceQueryString'
 import { ResourceForm } from '@/index'
 import { ref, watch,computed } from 'vue'
-import useResourceList from "@/composables/useResourceList";
+import useResourceList from "@/composables/useBaseResource";
 
 const props = defineProps({
   searchPlaceholder:String,

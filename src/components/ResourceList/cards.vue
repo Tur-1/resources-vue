@@ -2,7 +2,7 @@
   <template v-if="!useTableSkeletonLoading.isLoading">
     <div class="row" v-if="resource.displayLabel">
       <div
-        v-for="(item, index) in resourceDataList.list.value"
+        v-for="(item, index) in dataList.value"
         :key="item.id"
         class="col-12 col-md-4 col-lg-4 col-xl-3 mb-4"
       >
@@ -10,7 +10,7 @@
           <div class="p-2" v-if="columns.find((col) => col.image)">
             <img
               :src="
-                getImageSource(
+                getRecordImage(
                   item,
                   columns.find((col) => col.image)
                 )
@@ -28,7 +28,7 @@
               >
                 <span> {{ column.label }}: </span>
                 <span :class="column.class">
-                  {{ getValue(item, column) }}
+                  {{ getRecordValue(item, column) }}
                 </span>
               </div>
               <ResourceActionsMenu
@@ -42,7 +42,7 @@
                   <RouterLink
                     :class="actionPage.class"
                     class="dropdown-item d-flex align-items-center rounded text-dark"
-                    :to="generateRoute(actionPage, item)"
+                    :to="generateRecordRoute(actionPage, item)"
                   >
                     <i :class="actionPage.icon" class="me-2"></i>
                     {{ actionPage.label }}
@@ -54,7 +54,7 @@
                   :key="actionIndex"
                 >
                   <a
-                    @click="handleAction(action, item, index)"
+                    @click="applyAction(action, item, index)"
                     role="button"
                     class="dropdown-item d-flex align-items-center rounded"
                     :class="action.class"
@@ -69,9 +69,9 @@
         </div>
       </div>
     </div>
-    <div class="row" >
+    <div class="row">
       <div
-        v-for="(item, index) in resourceDataList.list.value"
+        v-for="(item, index) in dataList.value"
         :key="item.id"
         class="col-12 col-md-4 col-lg-4 col-xl-3 mb-4"
       >
@@ -79,7 +79,7 @@
           <div class="p-2" v-if="columns.find((col) => col.image)">
             <img
               :src="
-                getImageSource(
+                getRecordImage(
                   item,
                   columns.find((col) => col.image)
                 )
@@ -96,11 +96,11 @@
                 v-if="!column?.action && !column?.image"
               >
                 <span :class="column.class">
-                  {{ getValue(item, column) }}
+                  {{ getRecordValue(item, column) }}
                 </span>
-              </div> 
+              </div>
 
-            <ResourceActionsMenu
+              <ResourceActionsMenu
                 class="text-end"
                 v-if="column?.action && !column?.image && actions.length"
               >
@@ -111,7 +111,7 @@
                   <RouterLink
                     :class="actionPage.class"
                     class="dropdown-item d-flex align-items-center rounded text-dark"
-                    :to="generateRoute(actionPage, item)"
+                    :to="generateRecordRoute(actionPage, item)"
                   >
                     <i :class="actionPage.icon" class="me-2"></i>
                     {{ actionPage.label }}
@@ -123,7 +123,7 @@
                   :key="actionIndex"
                 >
                   <a
-                    @click="handleAction(action, item, index)"
+                    @click="applyAction(action, item, index)"
                     role="button"
                     class="dropdown-item d-flex align-items-center rounded"
                     :class="action.class"
@@ -139,61 +139,29 @@
       </div>
     </div>
   </template>
-  <CardSekeleton v-else/>
+  <CardSekeleton v-else />
 </template>
 
 <script setup>
 import ResourceActionsMenu from "@/components/ResourceActionsMenu/index.vue";
-import defaultImage from "@/assets/default-image.jpg";
 import useTableSkeletonLoading from "@/components/ResourceList/TableSkeleton/useTableSkeletonLoading";
-import useResourceData from "@/stores/useResourceData";
+import useBaseResource from "@/composables/useBaseResource";
 import { computed } from "vue";
 import CardSekeleton from "@/components/ResourceList/TableSkeleton/CardSekeleton.vue";
 
-
 const emits = defineEmits(["openConfirm"]);
-const props = defineProps([
-  "resource",
-  "actions",
-  "pages",
-]); 
-const columns = computed(()=> props.resource.fields())
+const props = defineProps(["resource", "actions", "pages", "dataList"]);
+const columns = computed(() => props.resource.fields());
 
-const resourceDataList = useResourceData();
+const { getRecordValue, getRecordImage, generateRecordRoute } =
+  useBaseResource();
 
-const getImageSource = (item, column) => {
-  if (column.image && !column.field && !column.nestedField) {
-    return defaultImage;
-  }
-  if (column.nestedField) {
-    return item[column.field]?.[column.nestedField] || defaultImage;
-  }
-
-  return item[column.field];
-};
-const getValue = (item, column) => {
-  if (column.nestedField) {
-    return item[column.field]?.[column.nestedField];
-  }
-  return item[column.field];
-};
-const handleAction = (action, item, index) => {
+const applyAction = (action, item, index) => {
   if (action.confirmAction) {
     emits("openConfirm", action, { item: item, index: index });
   } else {
-    action.handle({ item, index });
+    action.handle(item, index);
   }
-};
-
-const generateRoute = (page, item) => {
-  let { name, param } = page.route();
-
-  return {
-    name: name,
-    params: {
-      [param]: item[param] || item.id,
-    },
-  };
 };
 </script>
 <style scoped>
@@ -201,7 +169,8 @@ const generateRoute = (page, item) => {
   margin: 5px !important;
   color: #ccc !important;
 }
-.card{
+
+.card {
   border: none;
 }
 </style>
