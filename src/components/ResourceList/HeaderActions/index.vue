@@ -8,25 +8,30 @@
     <div
       class="col-lg-8 col-md-7 d-flex justify-content-end flex-wrap gap-2 flex-grow-1"
     >
-      <RouterLink
-        v-for="action in pages"
-        :to="generateRecordRoute(action)"
-        :class="action.class"
-        class="btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
-      >
-        <i :class="action.icon" />
-        <span class="ms-2">{{ action.label }}</span>
-      </RouterLink>
-      <button
-        type="button"
-        v-for="action in actions"
-        @click="action.handle()"
-        :class="action.class"
-        class="btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
-      >
-        <i :class="action.icon" />
-        <span class="ms-2">{{ action.label }}</span>
-      </button>
+      <template v-for="action in resource.headerActions()">
+        <template v-if="action.checkVisibility()">
+          <RouterLink
+            v-if="action.getRoute()"
+            :to="action.getRoute()"
+            :class="action.getClass()"
+            class="btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
+          >
+            <i :class="action.getIcon()" />
+            <span class="ms-2">{{ action.getLabel() }}</span>
+          </RouterLink>
+
+          <button
+            v-else
+            type="button"
+            @click="action.handle()"
+            :class="action.getClass()"
+            class="btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
+          >
+            <i :class="action.getIcon()" />
+            <span class="ms-2">{{ action.getLabel() }}</span>
+          </button>
+        </template>
+      </template>
     </div>
   </div>
 </template>
@@ -39,10 +44,7 @@ import useBaseResource from "@/composables/useBaseResource";
 let props = defineProps(["resource"]);
 
 const searchable = computed(() => props.resource.searchable ?? true);
-const { resolveActions, generateRecordRoute } = useBaseResource();
-
-let { pages, actions } = resolveActions(props.resource.headerActions);
-
+const { resolveActions } = useBaseResource();
 </script>
 
 <style lang="scss" scoped></style>

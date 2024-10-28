@@ -8,8 +8,7 @@ import TableHead from "@/components/ResourceList/TableHead/index.vue";
 const props = defineProps({
   resource: {
     type: Object,
-  },
-  pages: Array,
+  }, 
   actions: Array,
   dataList: Object
 });
@@ -25,7 +24,6 @@ const emits = defineEmits(["openConfirm"]);
           v-if="!useTableSkeletonLoading.isLoading"
           @openConfirm="(action,item) => $emit('openConfirm',action, item)"
           :data="dataList"
-          :pages="pages"
           :columns="props.resource.fields()"
           :actions="actions"
         />
@@ -36,7 +34,7 @@ const emits = defineEmits(["openConfirm"]);
         <NoRecordsFound
           v-if="
             !useTableSkeletonLoading.isLoading &&
-            dataList.value?.length == 0
+            dataList?.length == 0
           "
           :columns="props.resource.fields()"
         />

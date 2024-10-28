@@ -14,9 +14,11 @@
     </ul>
   </div>
 </template>
-<style>
+<style scoped>
 .actions-dropdown-menu{
   border: 1px solid #f0f0f0;
-
+}
+#dropdownMenuButton{
+  border: 1px solid #cccccc75 !important;
 }
 </style>

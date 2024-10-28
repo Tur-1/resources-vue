@@ -10,36 +10,28 @@ class Create{{PageNameSingular}} extends ResourceAction {
    * The icon of the action.
    * @type {string}
    */
-  icon = 'fa-solid fa-plus';
-  
+  icon = 'fa-solid fa-plus'; 
   /**
    * The CSS class for the action button.
    * @type {string}
    */
   class = 'text-primary';
 
-
-  /**
-  * Set the route for the action. 
-  * @param {string} name - The route name.
-  * @param {string} params - The route parameters.
-  */
-  route({ name, param })
-  {
-    this.routeName = {{snakeCasePageName}}.create;
-    this.routeParam = param;
-
-    return this;
-  }
   /**
    * Returns the route object for the action.
    * @returns {{ name: string, param?: string }}
    */
   route() {
     return {
-      name: {{snakeCasePageName}}.create,
+      name: '{{snakeCasePageName}}.create'
     };
   }
+
+  visable()
+  {
+    return true;
+  }
+
 }
 
 export default Create{{PageNameSingular}};

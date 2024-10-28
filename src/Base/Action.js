@@ -1,74 +1,52 @@
-export default function Action() {
+export default function Action()
+{
   return {
-    /**
-     * The label of the action.
-     * @type {string}
-     */
-    label: undefined,
+ 
+    labelAction: undefined,
 
-    /**
-     * The icon of the action.
-     * @type {string}
-     */
-    icon: undefined,
+    iconAction: undefined,
 
-    /**
-     * The CSS class for the action button.
-     * @type {string}
-     */
-    class: undefined,
+    classAction: undefined,
 
-    /**
-     * Whether the action requires confirmation.
-     * @type {boolean}
-     */
     confirmAction: false,
 
-    routeDetails: { name: undefined, param: undefined },
-    /**
-     * Whether the action requires delete.
-     * @type {boolean}
-     */
-    deleteAction: false,
+    routeCallback: undefined,
 
-    /**
-     * The callback function for the action.
-     * @type {Function}
-     */
+    isDeleteAction: false,
+
     callback: undefined,
 
-    /**
-     * Sets the callback function to be executed when the action is triggered.
-     * @param {Function} callback 
-     * @returns {this}
-     */
-    make(callback) {
+    visableCallback: undefined,
+ 
+    make(callback)
+    {
       this.callback = callback;
       return this;
     },
+ 
+    route(route)
+    {
+      if (typeof route !== 'string' && typeof route !== 'object' && typeof route !== 'function')
+      {
+        throw new Error("The route must be a string, an object, or a function.");
+      }
 
-    /**
-     * Set the route for the action. 
-     * @param {{ name: string, param: string }} route
-     * @returns {this} 
-     */
-    route({ name, param }) {
-
-      this.routeDetails = { name, param };
+      this.routeCallback = route;
       return this;
     },
 
-    getRoute() {
-      return this.routeDetails;
+    getRoute(record)
+    { 
+      return typeof this.routeCallback === 'function' ? this.routeCallback(record) : this.routeCallback;
     },
-
     /**
      * Sets the icon for the action.
-     * @param {string} icon - The icon class or name to be set.
+     * @param {string} icon 
      * @returns {this}
      */
-    icon(icon) {
-      this.icon = icon;
+    icon(icon)
+    {
+      this.iconAction = icon;
       return this;
     },
 
@@ -77,8 +55,9 @@ export default function Action() {
      * @param {string} className 
      * @returns {this} 
      */
-    class(className) {
-      this.class = className;
+    class(className)
+    {
+      this.classAction = className;
       return this;
     },
 
@@ -87,8 +66,9 @@ export default function Action() {
      * @param {boolean} value
      * @returns {this}
      */
-    requiresConfirmation(value = false) {
-      this.confirmAction = value;
+    requiresConfirmation(value = true)
+    {
+      this.confirmAction = value
       return this;
     },
 
@@ -97,29 +77,70 @@ export default function Action() {
      * @param {boolean} isDeleteAction
      * @returns {this} 
      */
-    deleteAction(isDeleteAction = false) {
-      this.deleteAction = isDeleteAction;
+    deleteAction()
+    {
+      this.isDeleteAction = true;
+      this.classAction = 'text-danger';
+      this.labelAction = 'Delete';
+      this.iconAction = 'fa-solid fa-trash-can';
+      this.confirmAction = 'fa-solid fa-trash-can';
+      
       return this;
     },
 
     /**
      * Sets the label for the action.
-     * @param {string} label - The label action.
+     * @param {string} label
      * @returns {this} 
      */
-    label(label) {
-      this.label = label;
+    label(label)
+    {
+      this.labelAction = label;
       return this;
     },
 
     /**
+    * Sets the visibility condition
+    */
+    visable(visableCallback)
+    {
+      this.visableCallback = visableCallback;
+      return this;
+    },
+    /**
+    * Check visibility based on the record.
+    * @param {Object} record
+    */
+    checkVisibility(record)
+    {
+      return this.visableCallback ? this.visableCallback(record) : true;
+    
+    },
+
+    /**
      * Executes the callback function for the action.
-     * @param {any} item - The item to be passed to the callback function.
+     * @param {any} item
      */
-    handle(item) {
-      if (this.callback) {
+    handle(item)
+    {
+      if (this.callback)
+      {
         this.callback(item);
       }
+
     },
+
+    getClass(){
+      return this.classAction
+    },
+    getLabel(){
+      return this.labelAction
+    },
+    getIcon(){
+      return this.iconAction
+    },
+    getConfirmAction(){
+      return this.confirmAction;
+    }
   };
 }

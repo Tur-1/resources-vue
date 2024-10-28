@@ -8,12 +8,14 @@ import ResourceApi from "./api/ResourceApi"
 import useResourceQueryString from './composables/useResourceQueryString'; 
 import useResourceNotification from './components/ResourceNotification/useResourceNotification';
 import Action from './Base/Action';
+import Column from './Base/Column';
 
 
 export
 { 
     ResourceApi,
     Action,
+    Column,
     ResourceForm,
     ResourceList,
     ResourceFilter,

@@ -71,14 +71,8 @@ import UsersResource from '@/pages/Users/UsersResource'
 
 <ResourceList :resource="new UsersResource()" />
 ```
+
 #### Fields
-
-You can specify the fields from your data for a resource table by defining:
-
-- `label`: The header column.
-- `field`: The name of the data field.
-
-If the field is an image, add `image: true` to display the image in the table.
 
 Example:
 
@@ -107,25 +101,15 @@ fields() {
 
 #### Actions
 
-In the actions field, you can specify action buttons like "Show", "Edit", and "Delete", which will be displayed as buttons or dropdowns in the table.
-
 Example:
 
 ```javascript
-fields() {
-  return [
-    {
-      label: 'Actions',
-      action: true,
-    }
-  ];
-}
+
 ```
 
 The actions will appear in the form of buttons similar to the example below:
 
 <img width="295" alt="Screenshot 1446-04-08 at 6 54 58 PM" src="https://github.com/user-attachments/assets/dcd2fc10-9342-4ecf-ab02-35f81fcb3e28">
-
 
 ### Data
 
@@ -135,8 +119,8 @@ Example without pagination:
 
 ```javascript
 async data() {
-  let response = await useUsersApi.getPaginatedList();
-  return response.data.data;
+
+  return [{id:1 ,name: item 1 },{id:2 ,name: item 2 }];
 }
 ```
 
@@ -153,69 +137,56 @@ async data() {
 }
 ```
 
-### Pages
-
-Each page should implement an object specifying the route parameters, route name, title, and other configurations.
-
-Example:
-
-```javascript
-pages() {
-  return [new EditPage(),new ViewPage()];
-}
-```
-
 ### Adding Filters
 
 ```bash
 npm run make:filter Users/StatusFilter
 ```
 
-
 You can add filters to your pages using the `ResourceFilter` class. If the filter type is `select`, you have two ways to get options: either by returning an array or an object with key-value pairs for label and value.
 
 #### Example Filter Implementation:
 
 ```javascript
-import { ResourceFilter } from '@tur1/resources-vue'
+import { ResourceFilter } from "@tur1/resources-vue";
 
-class StatusFilter extends ResourceFilter
-{
+class StatusFilter extends ResourceFilter {
   /**
    * The label of the filter (optional).
    * @type {string}
    */
-  label = 'Filter';
+  label = "Filter";
 
   /**
    * The type of the filter.
    * @type {string}
    */
-  type = 'select';
+  type = "select";
 
   /**
    * Handle the filter logic.
    */
-  handle()
-  {
+  handle() {
     // Implement the filter logic here when the value is selected
   }
 
   /**
    * Get the options for the filter if type is 'select'.
    */
-  options()
-  {
+  options() {
     // Return options as an array
-    let optionsArray = ['option 1', 'option 2'];
+    let optionsArray = ["option 1", "option 2"];
     return optionsArray;
 
     // Alternatively, return options as an object with label and value
-    let optionsObject = [{ id: 1, title: 'option 1' }, { id: 2, title: 'option 2' }];
+    let optionsObject = [
+      { id: 1, title: "option 1" },
+      { id: 2, title: "option 2" },
+    ];
     return {
       data: optionsObject,
-      label: 'title',
-      value: 'id'
+      label: "title",
+      value: "id",
     };
   }
 }
@@ -223,40 +194,40 @@ class StatusFilter extends ResourceFilter
 export default Filter;
 ```
 
-
 ### Adding Actions
 
 You can generate a new action by running the command below.
+
 ```bash
 npm run make:filter Users/UserAction
 ```
- 
-This command will generate the UserAction.js file in the appropriate folder (for example, inside pages/Users/Actions).
-```javascript 
-import { ResourceAction } from '@tur1/resources-vue'
 
-class UserAction extends ResourceAction
-{
+This command will generate the UserAction.js file in the appropriate folder (for example, inside pages/Users/Actions).
+
+```javascript
+import { ResourceAction } from "@tur1/resources-vue";
+
+class UserAction extends ResourceAction {
   /**
    * The label of the action.
    * This label will appear as the name of the action in the UI.
    * @type {string}
    */
-  label = 'action';
+  label = "action";
 
   /**
    * The icon of the action.
    * Define the icon class to be displayed next to the label.
    * @type {string}
    */
-  icon = 'fa-solid fa-users-can';
+  icon = "fa-solid fa-users-can";
 
   /**
    * The CSS class for the action button.
    * You can use custom CSS classes to style the action button.
    * @type {string}
    */
-  class = 'text-danger';
+  class = "text-danger";
 
   /**
    * Handle the action.
@@ -264,14 +235,12 @@ class UserAction extends ResourceAction
    * @param {Object} item - The resource item on which the action is applied.
    * @param {number} index - The index of the item in the list.
    */
-  async handle({ item, index })
-  {
-    // Your logic to handle the action . 
+  async handle({ item, index }) {
+    // Your logic to handle the action .
   }
 }
 
 export default UserAction;
-
 ```
 
 ### Notifications

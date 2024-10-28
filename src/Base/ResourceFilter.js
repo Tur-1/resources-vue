@@ -1,7 +1,6 @@
 import ResourceFilterException from "@/Exceptions/ResourceFilterException";
 import { toSnakeCase } from "@/helpers"; 
-import useResourceNotification from "@/components/ResourceNotification/useResourceNotification"; 
-import { ref } from "vue";
+import useResourceNotification from "@/components/ResourceNotification/useResourceNotification";  
 
 /**
  * @typedef {Object} FilterOptions

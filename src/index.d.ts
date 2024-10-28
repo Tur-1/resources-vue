@@ -37,10 +37,10 @@ export declare class ResourceFilter {
 
 
   /**
-   * Get the query key used for this filter, based on the class name.
-   * @return {string}
+   * Get the query key used for this filter
+   * @type {string}
    */
-  queryKey(): string;
+  queryString: string;
 
   /**
    * Handle the filter logic. Should be implemented in subclasses.
@@ -79,13 +79,13 @@ export declare class ResourceAction {
    * Whether the action requires confirmation.
    * @type {boolean}
    */
-  confirmAction: boolean;
+  requiresConfirmation: boolean;
 
   /**
    * Whether the action requires delete.
    * @type {boolean}
    */
-  deleteAction: boolean;
+  isDeleteAction: boolean;
 
 
   /**
@@ -94,67 +94,24 @@ export declare class ResourceAction {
    */
   route(): { name: string; param?: string };
 
-  /**
-   * Handle the action.
-   * @param {Object} record - The record associated with the action.
-   * @throws {ResourceActionException} If not implemented.
-   * @returns {void}
-   */
-    handle(record: any): void;
+   /**
+    * check visibility
+    */
+   visable(record);
 }
 export declare function Action(): ActionInstance;
 
 interface ActionInstance {
   /**
-   * The route name of the action.
-   */
-  routeName?: string;
-
-  /**
-   * The route parameter of the action.
-   */
-  routeParam?: string;
-
-  /**
-   * The label of the action.
-   */
-  label?: string;
-
-  /**
-   * The icon of the action.
-   */
-  icon?: string;
-
-  /**
-   * The CSS class for the action button.
-   */
-  class?: string;
-
-  /**
-   * Whether the action requires confirmation.
-   */
-  confirmAction: boolean = false;
-
-  /**
-   * Whether the action requires delete.
-   */
-  deleteAction: boolean = false;
-
-  /**
-   * The callback function for the action.
-   */
-  callback?: (item: any) => void;
-
-  /**
    * Sets the callback function to be executed when the action is triggered.
-   * @param callback - The function to be executed.
+   * @param callback 
    * @returns {this} 
    */
   make(callback: (item: any) => void): this;
 
   /**
    * Set the route for the action.
-   * @param route - The route object containing name and parameter.
+   * @param route 
    * @returns {this} 
    */
   route(route: { name: string; param: string }): this;
@@ -182,10 +139,9 @@ interface ActionInstance {
 
   /**
    * Specifies whether the action is a delete action.
-   * @param isDeleteAction
    * @returns {this} 
    */
-  deleteAction(isDeleteAction?: boolean = false): this;
+  deleteAction(): this;
 
   /**
    * Sets the label for the action.
@@ -193,12 +149,6 @@ interface ActionInstance {
    * @returns {this} 
    */
   label(label: string): this;
-
-  /**
-   * Executes the callback function for the action.
-   * @param item
-   */
-  handle(item: any): void;
 }
 
 

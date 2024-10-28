@@ -28,12 +28,12 @@ const {
   handleConfirmModal,
   fetchResourceData,
   debounce,
-  resolveActions,
   pagination,
   dataList,
 } = useBaseResource();
 
-let { pages, actions } = resolveActions(props.resource.actions);
+ 
+
 const queryString = useResourceQueryString();
 const debouncedFetchResourceData = debounce(async () => {
   await fetchResourceData(props.resource.data);
@@ -82,17 +82,15 @@ watch(
         v-if="props.resource.display == 'table'"
         @openConfirm="openConfirmModal"
         :resource="props.resource"
-        :pages="pages"
         :dataList="dataList"
-        :actions="actions"
+        :actions="props.resource.actions()"
       />
       <Cards
         v-else
         @openConfirm="openConfirmModal"
         :resource="props.resource"
         :dataList="dataList"
-        :pages="pages"
-        :actions="actions"
+       :actions="props.resource.actions()"
       />
       <TablePagination
         v-if="pagination.value?.length != 0"

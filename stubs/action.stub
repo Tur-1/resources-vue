@@ -5,46 +5,51 @@ class {{actionName}} extends ResourceAction {
    * The label of the action.
    * @type {string}
    */
-  label = '{{actionName}}';
+  label = undefined;
 
   /**
    * The icon of the action.
    * @type {string}
    */
-  icon = '';
+  icon = undefined;
 
   /**
    * The CSS class for the action button.
    * @type {string}
    */
-  class = '';
+  class = undefined;
 
   /**
    * Whether the action requires confirmation.
    * @type {boolean}
    */
-  confirmAction = false;
+  requiresConfirmation = false;
   /**
    * Whether the action requires delete.
    * @type {boolean}
    */
-  deleteAction = false;
+  isDeleteAction = false;
 
   /**
    * Returns the route object for the action.
    * @returns {{ name: string, param?: string }}
    */
-  route() {
+  route(record) {
     return {
       name: 'route name',
       param: 'id'
     };
   }
 
+  visable(record)
+  {
+    return true;
+  }
+
   /**
-   * Handle the action. 
+   * make the action. 
    */
-  handle(record) {
+  async make(record) {
   }
 }
 

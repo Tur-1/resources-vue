@@ -34,7 +34,7 @@ if (fs.existsSync(pageRootDir)) {
 }
 
 const structure = {
-  [`src/pages/${pageName}/Actions/DeleteAction.js`]: path.join(__dirname, './../stubs/deleteAction.stub'),
+  [`src/pages/${pageName}/Actions/Delete${PageNameSingular}.js`]: path.join(__dirname, './../stubs/deleteAction.stub'),
   [`src/pages/${pageName}/Actions/View${PageNameSingular}.js`]: path.join(__dirname, './../stubs/ViewAction.stub'),
   [`src/pages/${pageName}/Actions/Edit${PageNameSingular}.js`]: path.join(__dirname, './../stubs/EditAction.stub'),
   [`src/pages/${pageName}/Actions/Create${PageNameSingular}.js`]: path.join(__dirname, './../stubs/CreateAction.stub'),

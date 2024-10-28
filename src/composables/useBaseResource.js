@@ -2,7 +2,6 @@ import useConfirmModal from "../components/ResourceConfirmModal/useConfirmModal"
 import useResourceIndicator from "../components/ResourceIndicator/useResourceIndicator";
 import useTableSkeletonLoading from "../components/ResourceList/TableSkeleton/useTableSkeletonLoading";
 import { ref } from "vue";
-import defaultImage from "@/assets/default-image.jpg";
 
 let selectedAction = ref(null);
 let selectedItem = ref(null);
@@ -13,7 +12,7 @@ let wasRemovedSuccessfully = ref(false);
 
 export default function useBaseResource()
 {
-  
+
   const openConfirmModal = (action, item) =>
   {
     selectedAction.value = action;
@@ -22,14 +21,14 @@ export default function useBaseResource()
   };
 
   const handleConfirmModal = async () =>
-  {  
+  {
     useResourceIndicator.show();
     if (selectedAction.value)
     {
       await selectedAction.value.handle(selectedItem.value.item);
       useConfirmModal.close();
 
-      if (selectedAction.value.deleteAction)
+      if (selectedAction.value.isDeleteAction)
       {
         removeItem(selectedItem.value.index);
       }
@@ -47,6 +46,7 @@ export default function useBaseResource()
 
   const fetchResourceData = async (fetchData) =>
   {
+    dataList.value = [];
     useTableSkeletonLoading.show();
 
     try
@@ -92,38 +92,7 @@ export default function useBaseResource()
       timeout = setTimeout(() => func.apply(this, args), wait);
     };
   };
-  const resolveActions = (resourceActions) =>
-  {
 
-    let pages = [];
-    let actions = [];
-    resourceActions().forEach((element) =>
-    {
-      let name, param;
-      try
-      {
-        const routeResult = element.route();
-        name = routeResult?.name;
-        param = routeResult?.param;
-      } catch (error)
-      {
-        name = element.routeDetails?.name;
-        param = element.routeDetails?.param;
-      }
-
-      if (name)
-      {
-        element.routeDetails = { name: name, param: param };
-
-        pages.push(element);
-      } else
-      {
-        actions.push(element);
-      }
-    });
-
-    return { pages, actions }
-  };
   const removeItem = (index) =>
   {
     dataList.value.splice(index, 1);
@@ -152,29 +121,6 @@ export default function useBaseResource()
     return item[column.field];
   };
 
-  const generateRecordRoute = (element, item = null) =>
-  {
-
-
-    if (element.routeDetails.param)
-    {
-
-      return {
-        name: element.routeDetails.name,
-        params: {
-          [element.routeDetails.param]:
-            item ? item[element.routeDetails.param] || item.id : '',
-        },
-      };
-    } else
-    {
-      return {
-        name: element.routeDetails.name,
-      };
-    }
-
-  };
-
   return {
     selectedAction,
     selectedItem,
@@ -184,9 +130,7 @@ export default function useBaseResource()
     debounce,
     dataList,
     pagination,
-    resolveActions,
     getRecordValue,
     getRecordImage,
-    generateRecordRoute,
   };
 }

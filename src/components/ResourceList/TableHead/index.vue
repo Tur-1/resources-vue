@@ -2,19 +2,15 @@
   <thead>
     <tr>
       <th
-        v-for="column in columns"
-        :key="column.id"
-        @click="sortColumn(column)"
-        class="sortable"
-        :class="{ 'text-primary': sortedColumn === column.field }"
+        v-for="column in columns" 
       >
-        <span>{{ column.label }}</span>
-        <span v-if="sortedColumn === column.field && sortDirection === 'asc'">
+        <span>{{ column.getLabel() }}</span>
+        <!-- <span v-if="sortedColumn === column.field && sortDirection === 'asc'">
           <i class="bi bi-arrow-up"></i>
         </span>
         <span v-if="sortedColumn === column.field && sortDirection === 'desc'">
           <i class="bi bi-arrow-down"></i>
-        </span>
+        </span> -->
       </th>
     </tr>
   </thead>

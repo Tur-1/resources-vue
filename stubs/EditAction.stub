@@ -1,7 +1,5 @@
 import { ResourceAction } from '@tur1/resources-vue'
 class Edit{{PageNameSingular}} extends ResourceAction {
-  
-  
   /**
    * The label of the action.
    * @type {string}
@@ -13,7 +11,7 @@ class Edit{{PageNameSingular}} extends ResourceAction {
    * @type {string}
    */
   icon = 'fa-solid fa-pen-to-square';
-  
+
   /**
    * The CSS class for the action button.
    * @type {string}
@@ -24,12 +22,18 @@ class Edit{{PageNameSingular}} extends ResourceAction {
    * Returns the route object for the action.
    * @returns {{ name: string, param?: string }}
    */
-  route() {
+  route(record) {
     return {
-      name: {{snakeCasePageName}}.edit,
-      param: 'id'
+      name: '{{snakeCasePageName}}.edit',
+      params: { 'id': record.id }
     };
   }
+
+  visable(record)
+  {
+    return true;
+  }
+
 }
 
 export default Edit{{PageNameSingular}};

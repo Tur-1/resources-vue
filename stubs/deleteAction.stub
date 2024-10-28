@@ -1,7 +1,7 @@
 import { ResourceAction } from '@tur1/resources-vue'
 import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}}Service'
 
-class DeleteAction extends ResourceAction {
+class Delete{{PageNameSingular}} extends ResourceAction {
   /**
    * The label of the action.
    * @type {string}
@@ -24,19 +24,19 @@ class DeleteAction extends ResourceAction {
    * Whether the action requires confirmation.
    * @type {boolean}
    */
-  confirmAction = true;
+  requiresConfirmation = true;
   /**
- * Whether the action requires delete.
- * @type {boolean}
- */
-  deleteAction = true;
+   * Whether the action requires delete.
+   * @type {boolean}
+   */
+  isDeleteAction = true;
   /**
    * Handle the action. 
    */
- async handle(record) {
+ async make(record) {
     const {destroy} = use{{pageName}}Service();
     await destroy(record)
   }
 }
 
-export default DeleteAction;
+export default Delete{{PageNameSingular}};

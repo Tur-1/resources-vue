@@ -11,7 +11,7 @@ class View{{PageNameSingular}} extends ResourceAction {
    * @type {string}
    */
   icon = 'fa-solid fa-pen-to-square';
-  
+
   /**
    * The CSS class for the action button.
    * @type {string}
@@ -22,12 +22,18 @@ class View{{PageNameSingular}} extends ResourceAction {
    * Returns the route object for the action.
    * @returns {{ name: string, param?: string }}
    */
-  route() {
+  route(record) {
     return {
-      name: {{snakeCasePageName}}.show,
-      param: 'id'
+      name: '{{snakeCasePageName}}.show',
+      params: { 'id': record.id }
     };
   }
+
+  visable(record)
+  {
+    return true;
+  }
+
 }
 
 export default View{{PageNameSingular}};

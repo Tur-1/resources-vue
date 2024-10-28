@@ -1,10 +1,13 @@
-import { BaseResource } from '@tur1/resources-vue'
+import { BaseResource, Column, Action } from '@tur1/resources-vue'
 import use{{pageName}}Api from '@/pages/{{pageName}}/api/use{{pageName}}Api'
-import DeleteAction from '@/pages/{{pageName}}/Actions/DeleteAction'
+import Delete{{PageNameSingular}} from '@/pages/{{pageName}}/Actions/Delete{{PageNameSingular}}'
 import View{{PageNameSingular}} from '@/pages/{{pageName}}/Actions/View{{PageNameSingular}}'
 import Edit{{PageNameSingular}} from '@/pages/{{pageName}}/Actions/Edit{{PageNameSingular}}'
 import Create{{PageNameSingular}} from '@/pages/{{pageName}}/Actions/Create{{PageNameSingular}}'
 import ExampleFilter from '@/pages/{{pageName}}/Filters/ExampleFilter'
+import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}}Service'
+
+const {destroy} = use{{pageName}}Service();
 
 class {{pageName}} extends BaseResource {
   /**
@@ -35,14 +38,6 @@ class {{pageName}} extends BaseResource {
   display = "table";
 
   /**
-   * display the label for each column. 
-   * 
-   * @type {Boolean}
-   * @default false
-   */
-  displayLabel = false;
-
-  /**
    * Searchable status of the resource.
    * @type {boolean}
    */
@@ -71,7 +66,11 @@ class {{pageName}} extends BaseResource {
    * Get the fields for the resource.  
    */
   fields() {
-    return []
+    return [
+      Column().make('id').label('#'),
+      Column().make('user.avatar').image().label('Image'),
+      Column().make('name').label('Name'),
+    ]
   }
 
  /**
@@ -93,7 +92,19 @@ class {{pageName}} extends BaseResource {
    * Get the actions for the resource.
    */
   actions() {
-    return [new DeleteAction(),new View{{PageNameSingular}}(),new Edit{{PageNameSingular}}()];
+    return [  
+      new Edit{{PageNameSingular}}()
+
+      Action()
+        .label('show')
+        .icon('fa-solid fa-pen-to-square')
+        .class('text-primary')
+        .route((record) => ({ name: '{{snakeCasePageName}}.show', params: { 'id': record.id } })),
+
+      Action()
+      .deleteAction()
+      .make(async (record) => await destroy(record)),
+    ];
   }
 
 }

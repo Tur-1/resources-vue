@@ -25,14 +25,6 @@ class BaseResource
   display = "table";
 
   /**
-   * display the label for each column. 
-   * 
-   * @type {Boolean}
-   * @default false
-   */
-  displayLabel = false;
-
-  /**
    * The query key used for pagination in URL parameters.
    * @type {string}
    * @default 'page'

@@ -1,145 +1,72 @@
 <template>
   <template v-if="!useTableSkeletonLoading.isLoading">
-    <div class="row" v-if="resource.displayLabel">
-      <div
-        v-for="(item, index) in dataList.value"
-        :key="item.id"
-        class="col-12 col-md-4 col-lg-4 col-xl-3 mb-4"
-      >
-        <div class="card">
-          <div class="p-2" v-if="columns.find((col) => col.image)">
-            <img
-              :src="
-                getRecordImage(
-                  item,
-                  columns.find((col) => col.image)
-                )
-              "
-              class="card-img-top rounded w-full"
-              alt="Card Image"
-              style="height: 200px; object-fit: cover; object-position: center"
-            />
-          </div>
-          <div class="card-body p-2">
-            <template v-for="column in columns">
-              <div
-                class="d-flex gap-2 mb-1"
-                v-if="!column?.action && !column?.image"
-              >
-                <span> {{ column.label }}: </span>
-                <span :class="column.class">
-                  {{ getRecordValue(item, column) }}
-                </span>
-              </div>
-              <ResourceActionsMenu
-                class="text-end"
-                v-if="column?.action && !column?.image && actions.length"
-              >
-                <template
-                  v-for="(actionPage, pageIndex) in props.pages"
-                  :key="pageIndex"
-                >
-                  <RouterLink
-                    :class="actionPage.class"
-                    class="dropdown-item d-flex align-items-center rounded text-dark"
-                    :to="generateRecordRoute(actionPage, item)"
-                  >
-                    <i :class="actionPage.icon" class="me-2"></i>
-                    {{ actionPage.label }}
-                  </RouterLink>
-                </template>
-                <hr class="actions-hr" />
-                <template
-                  v-for="(action, actionIndex) in actions"
-                  :key="actionIndex"
-                >
-                  <a
-                    @click="applyAction(action, item, index)"
-                    role="button"
-                    class="dropdown-item d-flex align-items-center rounded"
-                    :class="action.class"
-                  >
-                    <i :class="action.icon" class="me-2"></i>
-                    {{ action.label }}
-                  </a>
-                </template>
-              </ResourceActionsMenu>
-            </template>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="row">
       <div
-        v-for="(item, index) in dataList.value"
+        v-for="(item, index) in dataList"
         :key="item.id"
         class="col-12 col-md-4 col-lg-4 col-xl-3 mb-4"
       >
         <div class="card shadow">
-          <div class="p-2" v-if="columns.find((col) => col.image)">
+          <div class="p-2">
             <img
-              :src="
-                getRecordImage(
-                  item,
-                  columns.find((col) => col.image)
-                )
-              "
+              v-if="imageColumn"
+              :src="imageColumn.getField(item) ?? defaultImage"
               class="card-img-top rounded w-full"
+              :class="imageColumn.getClass()"
               alt="Card Image"
-              style="height: 200px; object-fit: cover; object-position: center"
+              style="height: 180px; object-fit: cover; object-position: center"
             />
           </div>
           <div class="card-body p-2">
             <template v-for="column in columns">
-              <div
-                class="d-flex gap-2 mb-1"
-                v-if="!column?.action && !column?.image"
-              >
-                <span :class="column.class">
-                  {{ getRecordValue(item, column) }}
+              <div class="d-flex gap-2 mb-1" v-if="!column.isImageColumn">
+                <span :class="column.getClass()">
+                  {{ column.getField(item) }}
                 </span>
               </div>
+            </template>
 
-              <ResourceActionsMenu
-                class="text-end"
-                v-if="column?.action && !column?.image && actions.length"
+            <ResourceActionsMenu class="text-end" v-if="actions.length > 0">
+              <template
+                v-for="(action, actionIndex) in actions"
+                :key="actionIndex"
               >
-                <template
-                  v-for="(actionPage, pageIndex) in pages"
-                  :key="pageIndex"
-                >
+                <template v-if="action.checkVisibility(item)">
                   <RouterLink
-                    :class="actionPage.class"
+                    v-if="action.getRoute(item)"
+                    :class="action.getClass()"
                     class="dropdown-item d-flex align-items-center rounded text-dark"
-                    :to="generateRecordRoute(actionPage, item)"
+                    :to="action.getRoute(item)"
                   >
-                    <i :class="actionPage.icon" class="me-2"></i>
-                    {{ actionPage.label }}
+                    <i :class="action.getIcon()" class="me-2"></i>
+                    {{ action.getLabel() }}
                   </RouterLink>
-                </template>
-                <hr class="actions-hr" />
-                <template
-                  v-for="(action, actionIndex) in actions"
-                  :key="actionIndex"
-                >
                   <a
+                    v-else
                     @click="applyAction(action, item, index)"
                     role="button"
                     class="dropdown-item d-flex align-items-center rounded"
-                    :class="action.class"
+                    :class="action.getClass()"
                   >
-                    <i :class="action.icon" class="me-2"></i>
-                    {{ action.label }}
+                    <i :class="action.getIcon()" class="me-2"></i>
+                    {{ action.getLabel() }}
                   </a>
                 </template>
-              </ResourceActionsMenu>
-            </template>
+              </template>
+            </ResourceActionsMenu>
           </div>
         </div>
       </div>
     </div>
   </template>
   <CardSekeleton v-else />
+
+  <div
+    v-if="!useTableSkeletonLoading.isLoading && dataList.length == 0"
+    class="text-center"
+  >
+    <h5>No Records Found</h5>
+  </div>
 </template>
 
 <script setup>
@@ -148,16 +75,18 @@ import useTableSkeletonLoading from "@/components/ResourceList/TableSkeleton/use
 import useBaseResource from "@/composables/useBaseResource";
 import { computed } from "vue";
 import CardSekeleton from "@/components/ResourceList/TableSkeleton/CardSekeleton.vue";
+import defaultImage from "@/assets/default-image.jpg";
 
 const emits = defineEmits(["openConfirm"]);
-const props = defineProps(["resource", "actions", "pages", "dataList"]);
-const columns = computed(() => props.resource.fields());
+const props = defineProps(["resource", "actions", "dataList"]);
+const columns = props.resource.fields();
 
-const { getRecordValue, getRecordImage, generateRecordRoute } =
-  useBaseResource();
-
+const { getRecordValue, getRecordImage } = useBaseResource();
+const imageColumn = computed(() =>
+  columns.find((column) => column.isImageColumn)
+);
 const applyAction = (action, item, index) => {
-  if (action.confirmAction) {
+  if (action.getConfirmAction()) {
     emits("openConfirm", action, { item: item, index: index });
   } else {
     action.handle(item, index);
