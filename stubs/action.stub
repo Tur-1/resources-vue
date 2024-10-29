@@ -41,9 +41,9 @@ class {{actionName}} extends ResourceAction {
     };
   }
 
-  visable(record)
+  hidden(record)
   {
-    return true;
+    return false;
   }
 
   /**

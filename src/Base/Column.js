@@ -7,6 +7,13 @@ export default function Column()
     classColumn: '',
     fieldColumn: null,
     isImageColumn: false,
+    formatCallback: null,
+    tooltipText: null,
+    alignType: 'left',
+    widthValue: null,
+    isColumnHidden: false,
+    classColumn: '',
+    defaultValue: null,
 
     getClass()
     {
@@ -16,25 +23,75 @@ export default function Column()
     {
       return this.isImageColumn
     },
+ 
+    getAlign() {
+      return this.alignType;
+    },
+
+    getWidth() {
+      return this.widthValue;
+    },
+    getLabel()
+    {
+      return this.labelColumn
+    },
     image()
     {
       this.isImageColumn = true;
       return this;
     },
-    
-    getLabel()
-    {
-      return this.labelColumn
-    },
     getField(item)
     {
-      return this.getNestedValue(item, this.fieldColumn);
+      let value = this.getNestedValue(item, this.fieldColumn);
+      if (value == null) value = this.defaultValue;
+      return this.formatCallback ? this.formatCallback(value) : value;
     },
     getNestedValue(obj, path)
     {
       return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined) ? acc[key] : undefined, obj);
     },
 
+    default(value)
+    {
+
+      this.defaultValue = value
+
+      return this;
+    },
+    format(callback)
+    {
+      this.formatCallback = callback;
+      return this;
+    },
+    tooltip(text)
+    {
+      this.tooltipText = text;
+      return this;
+    },
+
+
+    align(type)
+    {
+      this.alignType = type;
+      return this;
+    },
+
+
+    width(value)
+    {
+      this.widthValue = value;
+      return this;
+    },
+    hidden(visableCallback)
+    {
+      this.isColumnHidden = visableCallback;
+      return this;
+    },
+
+    isHidden(record)
+    {
+      return typeof this.isColumnHidden === 'function' ? this.isColumnHidden(record) : this.isColumnHidden; 
+    },
     make(field)
     {
       this.fieldColumn = field;
@@ -51,6 +108,11 @@ export default function Column()
       }
 
 
+      return this;
+    },
+    class(className)
+    {
+      this.classColumn = className;
       return this;
     },
     label(label)

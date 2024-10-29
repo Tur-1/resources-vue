@@ -15,29 +15,34 @@ const applyAction = (action, item, index) => {
     action.handle(item, index);
   }
 };
- 
 </script>
 
 <template>
   <TransitionGroup name="list">
     <tr v-for="(item, index) in props.data" :key="item.id">
-      <td v-for="column in columns" :key="column.id"> 
-        <img
-          v-if="column.isImageColumn" 
-          :src="column.getField(item) ?? defaultImage"
-          :alt="column.getField(item)"
-          :class="column.getClass()"
-          class="img-thumbnail"
-          style="max-width: 80px; max-height: 80px"
-        />
-        <span  class="fw-normal" v-else>
-          {{ column.getField(item) }}
-        </span>
+      <td
+        v-for="(column, colIndex) in columns"
+        :key="colIndex"
+        :class="column.getClass()"
+        :style="{ textAlign: column.getAlign(), width: column.getWidth() }"
+      >
+        <template v-if="!column.isHidden(item)">
+          <img
+            v-if="column.isImageColumn"
+            :src="column.getField(item) ?? defaultImage"
+            :alt="column.getField(item)"
+            class="img-thumbnail"
+            style="max-width: 80px; max-height: 80px"
+          />
+          <span class="fw-normal" v-else>
+            {{ column.getField(item) }}
+          </span>
+        </template>
       </td>
       <td v-if="actions.length > 0">
         <ResourceActionsMenu>
           <template v-for="(action, actionIndex) in actions" :key="actionIndex">
-            <template v-if="action.checkVisibility(item)">
+            <template v-if="!action.isHidden(item)">
               <RouterLink
                 v-if="action.getRoute(item)"
                 :class="action.getClass()"

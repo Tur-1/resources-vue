@@ -31,7 +31,7 @@
                 v-for="(action, actionIndex) in actions"
                 :key="actionIndex"
               >
-                <template v-if="action.checkVisibility(item)">
+              <template v-if="!action.isHidden(item)">
                   <RouterLink
                     v-if="action.getRoute(item)"
                     :class="action.getClass()"

@@ -33,11 +33,8 @@ class ResourceAction
    * @type {boolean}
    */
   isDeleteAction = false;
+ 
 
-  /**
-   * Handle the action.
-   * @throws {ResourceActionException} If not implemented.
-   */
   async make(record)
   {
     if (this.getRoute(record))
@@ -45,6 +42,22 @@ class ResourceAction
       throw ResourceActionException.missingHandleMethod(this.constructor.name);
     }
   }
+
+
+  route(record)
+  {
+    return undefined;
+  }
+  hidden(record)
+  {
+    return false;
+  }
+  isHidden(record)
+  { 
+    return this.hidden(record);
+  }
+
+
 
   async handle(record)
   {
@@ -54,25 +67,6 @@ class ResourceAction
   {
     return this.route(record) ?? undefined;
   };
-
-  route(record)
-  {
-    return undefined;
-  }
-  /**
-    * Check visibility based on the record.
-    * @param {Object} record
-    */
-  checkVisibility(record)
-  { 
-    return this.visable(record);
-  }
-
-  visable(record)
-  {
-    return true;
-  }
-
   getClass()
   {
     return this.class

@@ -16,8 +16,9 @@ export default function Action()
 
     callback: undefined,
 
-    visableCallback: undefined,
- 
+    isActionHidden: false, 
+
+
     make(callback)
     {
       this.callback = callback;
@@ -99,22 +100,15 @@ export default function Action()
       return this;
     },
 
-    /**
-    * Sets the visibility condition
-    */
-    visable(visableCallback)
+    hidden(callback)
     {
-      this.visableCallback = visableCallback;
+      this.isActionHidden = callback;
       return this;
     },
-    /**
-    * Check visibility based on the record.
-    * @param {Object} record
-    */
-    checkVisibility(record)
+
+    isHidden(record)
     {
-      return this.visableCallback ? this.visableCallback(record) : true;
-    
+      return typeof this.isActionHidden === 'function' ? this.isActionHidden(record) : this.isActionHidden; 
     },
 
     /**

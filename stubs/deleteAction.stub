@@ -37,6 +37,12 @@ class Delete{{PageNameSingular}} extends ResourceAction {
     const {destroy} = use{{pageName}}Service();
     await destroy(record)
   }
+
+
+  hidden(record)
+  {
+    return false;
+  }
 }
 
 export default Delete{{PageNameSingular}};

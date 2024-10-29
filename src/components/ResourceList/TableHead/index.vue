@@ -2,15 +2,20 @@
   <thead>
     <tr>
       <th
-        v-for="column in columns" 
+        v
+        v-for="(column, colIndex) in columns"
+        :key="colIndex"
+        :class="column.getClass()"
       >
-        <span>{{ column.getLabel() }}</span>
-        <!-- <span v-if="sortedColumn === column.field && sortDirection === 'asc'">
+        <template v-if="!column.isHidden()">
+          <span>{{ column.getLabel() }}</span>
+          <!-- <span v-if="sortedColumn === column.field && sortDirection === 'asc'">
           <i class="bi bi-arrow-up"></i>
         </span>
         <span v-if="sortedColumn === column.field && sortDirection === 'desc'">
           <i class="bi bi-arrow-down"></i>
         </span> -->
+        </template>
       </th>
     </tr>
   </thead>
@@ -20,12 +25,12 @@
 const props = defineProps({
   columns: Array,
   sortedColumn: String,
-  sortDirection: String
-})
+  sortDirection: String,
+});
 
-const emits = defineEmits(['sortColumn'])
+const emits = defineEmits(["sortColumn"]);
 
 const sortColumn = (column) => {
-  emits('sortColumn', column)
-}
+  emits("sortColumn", column);
+};
 </script>

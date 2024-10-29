@@ -9,7 +9,7 @@
       class="col-lg-8 col-md-7 d-flex justify-content-end flex-wrap gap-2 flex-grow-1"
     >
       <template v-for="action in resource.headerActions()">
-        <template v-if="action.checkVisibility()">
+        <template v-if="!action.isHidden()">
           <RouterLink
             v-if="action.getRoute()"
             :to="action.getRoute()"
