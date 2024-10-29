@@ -93,7 +93,7 @@ class {{pageName}} extends BaseResource {
    */
   actions() {
     return [  
-      new Edit{{PageNameSingular}}()
+      new Edit{{PageNameSingular}}(),
 
       Action()
         .label('show')
