@@ -82,28 +82,36 @@ export declare class ResourceAction {
   requiresConfirmation: boolean;
 
   /**
-   * Whether the action requires delete.
+   * Whether the action is a delete action.
    * @type {boolean}
    */
   isDeleteAction: boolean;
 
+  /**
+   * Sets the callback function to be executed when the action is triggered.
+   * @param callback - The function to execute on action trigger.
+   * @returns {this}
+   */
+  make(callback: (record: any) => void): this;
+
+  /**
+   * Sets a callback function to conditionally hide the action
+   * @param callback
+   * @returns {this}
+   */
+  hidden(callback: (record: any) => boolean): this;
 
   /**
    * Returns the route object for the action.
-   * @returns {{ name: string, param?: string }}
+   * @returns {{ name: string; params?: Record<string, any> }}
    */
-  route(): { name: string; param?: string };
-
-   /**
-    * check visibility
-    */
-   visable(record);
+  route(): { name: string; params?: Record<string, any> };
 }
-export declare function Action(): ActionInstance;
 
-interface ActionInstance {
+export declare function Action(): ActionInstance;
+declare interface ActionInstance{
   /**
-   * Sets the callback function to be executed when the action is triggered.
+   * Sets the callback function to be executed
    * @param callback 
    * @returns {this} 
    */
@@ -114,7 +122,7 @@ interface ActionInstance {
    * @param route 
    * @returns {this} 
    */
-  route(route: { name: string; param: string }): this;
+  route(route: { name: string; params?: Record<string, any> }): this;
 
   /**
    * Sets the icon for the action.
@@ -125,7 +133,7 @@ interface ActionInstance {
 
   /**
    * Sets the CSS class for the action button.
-   * @param className - The CSS class to be applied.
+   * @param className
    * @returns {this} 
    */
   class(className: string): this;
@@ -135,7 +143,7 @@ interface ActionInstance {
    * @param value
    * @returns {this} 
    */
-  requiresConfirmation(value?: boolean = false): this;
+  requiresConfirmation(value?: boolean): this;
 
   /**
    * Specifies whether the action is a delete action.
@@ -149,110 +157,172 @@ interface ActionInstance {
    * @returns {this} 
    */
   label(label: string): this;
+
+  /**
+   * Sets a callback function to be executed upon a successful action.
+   * @param callback
+   * @returns {this}
+   */
+  onSuccess(callback: (item: any) => void): this;
+
+  /**
+   * Sets a callback function to be executed upon action failure.
+   * @param callback 
+   * @returns {this}
+   */
+  onFailure(callback: (error: any) => void): this;
+
+  /**
+   * Sets a callback function to conditionally hide the action.
+   * @param callback
+   * @returns {this}
+   */
+  hidden(callback: (item: any) => boolean): this;
 }
+export declare function Column(): ColumnInstance;
+declare interface ColumnInstance {
+  /**
+   * Sets the column as an image column.
+   * @returns {this}
+   */
+  image(): this;
 
+  /**
+   * Sets a default value if the field data is null or undefined.
+   * @param value 
+   * @returns {this}
+   */
+  default(value: any): this;
 
+  /**
+   * Sets a custom formatting function for the column's value.
+   * @param callback 
+   * @returns {this}
+   */
+  format(callback: (value: any) => any): this;
 
-declare interface ResourceField {
-  label: string;
-  field: string;
-  action?: Boolean;
-  image?: Boolean;
-}
+  /**
+   * Sets a tooltip for the column.
+   * @param text
+   * @returns {this}
+   */
+  tooltip(text: string): this;
 
-declare interface Page {
-  routeName: string;
-  routeParam?: string;
-  label: string;
-  icon?: string;
-  class?: string;
+  /**
+   * Sets text alignment for the column.
+   * @param type
+   * @returns {this}
+   */
+  align(type: 'left' | 'center' | 'right'): this;
+
+  /**
+   * Sets a specific width for the column.
+   * @param value - The width value in CSS units (e.g., '100px', '10%').
+   * @returns {this}
+   */
+  width(value: string): this;
+
+  /**
+   * Conditionally hides the column based on a callback function.
+   * @param visibleCallback 
+   * @returns {this}
+   */xs
+  hidden(callback: (record: any) => boolean): this;
+
+  /**
+   * Sets the field for the column
+   * @param field - The field name or path (supports nested paths, e.g., 'user.avatar').
+   * @returns {this}
+   */
+  make(field: string): this;
+
+  /**
+   * Adds a custom CSS class to the column.
+   * @param className 
+   * @returns {this}
+   */
+  class(className: string): this;
+
+  /**
+   * Sets the display label for the column.
+   * @param label
+   * @returns {this}
+   */
+  label(label: string): this;
 }
 export declare class BaseResource {
   /**
    * The title of the page.
    * @type {string}
    */
-  title: String;
+  title: string;
 
   /**
    * Enable or disable simple pagination.
-   * @type {Boolean}
+   * @type {boolean}
    */
-  simplePagination: Boolean = true;
+  simplePagination: boolean;
 
-  /**
-   * The display style for the layout.
-   * Can be 'grid' or 'table'.
-   *
-   * @type {string}
-   * @default 'table'
-   */
-   display: string = "table";
-
-    /**
-     * display the label for each column. 
-     * 
-     * @type {Boolean}
-     * @default false
-     */
-    displayLabel: boolean = false;
-  
   /**
    * The query key used for pagination in URL parameters.
    * @type {string}
    */
-  paginationQueryKey: String = "page";
+  paginationQueryKey: string;
+
   /**
-    * Searchable status of the resource.
-    * @type {boolean}
-    */
-  searchable: Boolean = true;
+   * The display style for the layout. Can be 'grid' or 'table'.
+   * @type {string}
+   * @default 'table'
+   */
+  display: 'grid' | 'table';
+
+  /**
+   * Searchable status of the resource.
+   * @type {boolean}
+   */
+  searchable: boolean;
 
   /**
    * Placeholder for the search input.
    * @type {string}
    */
-  searchPlaceholder: String = 'search';
+  searchPlaceholder: string;
 
   /**
-   * Retrieves the resource data.
-   * return just the data array, or data with pagination details, or data with links and meta information.
-   * @returns {any[] | { data: any[]; links: any; meta: any } | { data: any[]; pagination: { links: any; meta: any }}}
+   * Retrieves data for the resource, including pagination links and metadata.
+   * @returns A promise that resolves to an object containing data, links, and metadata.
    */
-  data(): any[] | { data: any[]; links: any; meta: any } | { data: any[]; pagination: { links: any; meta: any } };
+  data(): Promise<{
+    data: any[];
+    links: { [key: string]: string };
+    meta: { [key: string]: any };
+  }>;
 
   /**
-   * Get the fields for the resource.
-   * @returns {ResourceField[]}
-   * @throws {BaseResourceException}
+   * Defines the fields for the resource's display.
+   * @returns An array of Column instances.
    */
-  fields(): ResourceField[];
+  fields(): ColumnInstance[];
 
   /**
-   * Get the pages for the resource.
-   * @returns {Page}
+   * Defines the header actions for the resource.
+   * @returns An array of actions to be displayed in the header.
    */
-  pages(): { [key: string]: Page };
+  headerActions(): ActionInstance[];
 
   /**
- * Get the header actions for the resource.
- * @returns {[]}
- */
-  headerActions(): [] {
-    return [];
-  }
-  /**
-   * Get the filters for the resource.
-   * @returns {[]}
+   * Defines the filters available for the resource.
+   * @returns An array of filters.
    */
-  filters(): [];
+  filters(): any[];
 
   /**
-   * Get the actions for the resource.
-   * @returns {[]}
+   * Defines the actions available for each record in the resource.
+   * @returns An array of Action instances for record-specific actions.
    */
-  actions(): [];
+  actions(): ActionInstance[];
 }
+
 
 interface ResourceFormProps {
   id?: string;

@@ -3,54 +3,12 @@ export default function Column()
 {
   return {
 
-    labelColumn: null,
-    classColumn: '',
-    fieldColumn: null,
-    isImageColumn: false,
-    formatCallback: null,
-    tooltipText: null,
-    alignType: 'left',
-    widthValue: null,
-    isColumnHidden: false,
-    classColumn: '',
-    defaultValue: null,
 
-    getClass()
-    {
-      return this.classColumn
-    },
-    getImage()
-    {
-      return this.isImageColumn
-    },
- 
-    getAlign() {
-      return this.alignType;
-    },
-
-    getWidth() {
-      return this.widthValue;
-    },
-    getLabel()
-    {
-      return this.labelColumn
-    },
     image()
     {
       this.isImageColumn = true;
       return this;
     },
-    getField(item)
-    {
-      let value = this.getNestedValue(item, this.fieldColumn);
-      if (value == null) value = this.defaultValue;
-      return this.formatCallback ? this.formatCallback(value) : value;
-    },
-    getNestedValue(obj, path)
-    {
-      return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined) ? acc[key] : undefined, obj);
-    },
-
     default(value)
     {
 
@@ -88,10 +46,6 @@ export default function Column()
       return this;
     },
 
-    isHidden(record)
-    {
-      return typeof this.isColumnHidden === 'function' ? this.isColumnHidden(record) : this.isColumnHidden; 
-    },
     make(field)
     {
       this.fieldColumn = field;
@@ -120,7 +74,58 @@ export default function Column()
       this.labelColumn = label;
       return this;
 
-    }
+    },
+    
+    getClass()
+    {
+      return this.classColumn
+    },
+    getImage()
+    {
+      return this.isImageColumn
+    },
+ 
+    getAlign() {
+      return this.alignType;
+    },
+
+    getWidth() {
+      return this.widthValue;
+    },
+    getLabel()
+    {
+      return this.labelColumn
+    },
+  
+    getField(item)
+    {
+      let value = this.getNestedValue(item, this.fieldColumn);
+      if (value == null) value = this.defaultValue;
+      return this.formatCallback ? this.formatCallback(value) : value;
+    },
+    getNestedValue(obj, path)
+    {
+      return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined) ? acc[key] : undefined, obj);
+    },
+
+    isHidden(record)
+    {
+      return typeof this.isColumnHidden === 'function' ? this.isColumnHidden(record) : this.isColumnHidden; 
+    },
+
+
+
+    labelColumn: null,
+    classColumn: '',
+    fieldColumn: null,
+    isImageColumn: false,
+    formatCallback: null,
+    tooltipText: null,
+    alignType: 'left',
+    widthValue: null,
+    isColumnHidden: false,
+    classColumn: '',
+    defaultValue: null,
 
   };
 }

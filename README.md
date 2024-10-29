@@ -79,22 +79,17 @@ Example:
 ```javascript
 fields() {
   return [
-    {
-      label: 'Name',
-      field: 'name'
-    },
-    {
-      image: true,
-      label: 'Avatar',
-    },
-    {
-      label: 'Email',
-      field: 'email'
-    },
-    {
-      action: true,
-      label: 'Actions'
-    }
+    Column().make('id')
+    .label('#'),
+    Column().make('user.avatar')
+      .image()
+      .label('Image')
+      .hidden((record) => record.isAdmin),
+
+    Column().make('created_at')
+      .label('Created At')
+      .align('center')
+      .format(date => new Date(date).toLocaleDateString()),
   ];
 }
 ```
@@ -105,6 +100,29 @@ Example:
 
 ```javascript
 
+  actions()
+  {
+    return [
+      Action()
+        .deleteAction()
+        .make(async (record) => await destroy(record))
+        .onSuccess((item) => console.log(item))
+        .onFailure((err,item) => console.log(err,item)),
+
+      Action()
+        .label('show')
+        .icon('fa-solid fa-pen-to-square')
+        .class('text-primary')
+        .route((record) => ({
+          name: 'users.show',
+          params: {
+            id: record.id
+          }
+        })),
+
+      new EditUser()
+    ]
+  }
 ```
 
 The actions will appear in the form of buttons similar to the example below:
@@ -199,50 +217,100 @@ export default Filter;
 You can generate a new action by running the command below.
 
 ```bash
-npm run make:filter Users/UserAction
+npm run make:filter Users/EditUserAction
 ```
 
-This command will generate the UserAction.js file in the appropriate folder (for example, inside pages/Users/Actions).
+This command will generate the EditUserAction.js file in the appropriate folder (for example, inside pages/Users/Actions).
 
 ```javascript
 import { ResourceAction } from "@tur1/resources-vue";
-
-class UserAction extends ResourceAction {
+ 
+class EditUserAction extends ResourceAction {
   /**
    * The label of the action.
-   * This label will appear as the name of the action in the UI.
    * @type {string}
    */
-  label = "action";
+  label = 'Edit';
 
   /**
    * The icon of the action.
-   * Define the icon class to be displayed next to the label.
    * @type {string}
    */
-  icon = "fa-solid fa-users-can";
+  icon = 'fa-solid fa-pen-to-square';
 
   /**
    * The CSS class for the action button.
-   * You can use custom CSS classes to style the action button.
    * @type {string}
    */
-  class = "text-danger";
+  class = 'text-primary';
 
   /**
-   * Handle the action.
-   * This method contains the logic that will be executed when the action is triggered.
-   * @param {Object} item - The resource item on which the action is applied.
-   * @param {number} index - The index of the item in the list.
+   * Returns the route object for the action.
+   * @returns {{ name: string, param?: string }}
    */
-  async handle({ item, index }) {
-    // Your logic to handle the action .
+  route(record) {
+    return {
+      name: 'users.edit',
+      params: { 'id': record.id }
+    };
   }
+
+  hidden(record)
+  {
+    return false;
+  }
+ 
 }
 
-export default UserAction;
+export default EditUserAction;
 ```
 
+```javascript
+
+class DeleteUser extends ResourceAction {
+  /**
+   * The label of the action.
+   * @type {string}
+   */
+  label = 'Delete';
+
+  /**
+   * The icon of the action.
+   * @type {string}
+   */
+  icon = 'fa-solid fa-trash-can';
+  
+  /**
+   * The CSS class for the action button.
+   * @type {string}
+   */
+  class = 'text-danger';
+
+  /**
+   * Whether the action requires confirmation.
+   * @type {boolean}
+   */
+  requiresConfirmation = true;
+  /**
+   * Whether the action requires delete.
+   * @type {boolean}
+   */
+  isDeleteAction = true;
+  /**
+   * Handle the action. 
+   */
+ async make(record) {
+    const {destroy} = useUsersService();
+    await destroy(record)
+  }
+
+
+  hidden(record)
+  {
+    return false;
+  }
+}
+```
 ### Notifications
 
 To show notifications, you can use the `useResourceNotification` composable to display success or error messages.
