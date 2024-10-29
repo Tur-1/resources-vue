@@ -1,7 +1,7 @@
 export default function Action()
 {
   return {
- 
+
     labelAction: undefined,
 
     iconAction: undefined,
@@ -14,17 +14,20 @@ export default function Action()
 
     isDeleteAction: false,
 
-    callback: undefined,
+    makeCallback: undefined,
 
-    isActionHidden: false, 
+    isActionHidden: false,
 
+    successCallback: null,
+
+    failureCallback: null,
 
     make(callback)
     {
-      this.callback = callback;
+      this.makeCallback = callback;
       return this;
     },
- 
+
     route(route)
     {
       if (typeof route !== 'string' && typeof route !== 'object' && typeof route !== 'function')
@@ -37,7 +40,7 @@ export default function Action()
     },
 
     getRoute(record)
-    { 
+    {
       return typeof this.routeCallback === 'function' ? this.routeCallback(record) : this.routeCallback;
     },
     /**
@@ -85,7 +88,7 @@ export default function Action()
       this.labelAction = 'Delete';
       this.iconAction = 'fa-solid fa-trash-can';
       this.confirmAction = 'fa-solid fa-trash-can';
-      
+
       return this;
     },
 
@@ -108,32 +111,58 @@ export default function Action()
 
     isHidden(record)
     {
-      return typeof this.isActionHidden === 'function' ? this.isActionHidden(record) : this.isActionHidden; 
+      return typeof this.isActionHidden === 'function' ? this.isActionHidden(record) : this.isActionHidden;
     },
 
-    /**
-     * Executes the callback function for the action.
-     * @param {any} item
-     */
-    handle(item)
+    onSuccess(callback)
     {
-      if (this.callback)
+      this.successCallback = callback;
+      return this;
+    },
+
+
+    onFailure(callback)
+    {
+      this.failureCallback = callback;
+      return this;
+    },
+
+    async handle(item)
+    {
+      if (this.makeCallback)
       {
-        this.callback(item);
+        try
+        {
+          await this.makeCallback(item);
+          if (this.successCallback)
+          {
+            this.successCallback(item);
+          }
+        } catch (error)
+        {
+          if (this.failureCallback)
+          {
+            this.failureCallback(error,item);
+          }
+        }
       }
 
     },
 
-    getClass(){
+    getClass()
+    {
       return this.classAction
     },
-    getLabel(){
+    getLabel()
+    {
       return this.labelAction
     },
-    getIcon(){
+    getIcon()
+    {
       return this.iconAction
     },
-    getConfirmAction(){
+    getConfirmAction()
+    {
       return this.confirmAction;
     }
   };
