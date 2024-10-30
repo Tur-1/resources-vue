@@ -9,6 +9,7 @@ let dataList = ref([]);
 let pagination = ref([]);
 let wasRemovedSuccessfully = ref(false);
 
+let bulkItems= ref([]);
 
 export default function useBaseResource()
 {
@@ -99,29 +100,11 @@ export default function useBaseResource()
 
     wasRemovedSuccessfully.value = true;
   };
-  const getRecordImage = (item, column) =>
-  {
-    if (column.image && !column.field && !column.nestedField)
-    {
-      return defaultImage;
-    }
-    if (column.nestedField)
-    {
-      return item[column.field]?.[column.nestedField] || defaultImage;
-    }
+ 
+ 
 
-    return item[column.field];
-  };
-  const getRecordValue = (item, column) =>
-  {
-    if (column.nestedField)
-    {
-      return item[column.field]?.[column.nestedField];
-    }
-    return item[column.field];
-  };
-
-  return {
+  return { 
+    bulkItems,
     selectedAction,
     selectedItem,
     openConfirmModal,
@@ -130,7 +113,5 @@ export default function useBaseResource()
     debounce,
     dataList,
     pagination,
-    getRecordValue,
-    getRecordImage,
   };
 }

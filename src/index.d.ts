@@ -5,11 +5,14 @@ import { AxiosInstance } from "axios";
 import { Router, RouteLocationRaw } from "vue-router";
 import { Ref } from "vue";
 interface ResourceNotification {
-  message: string;
-  isOpen: boolean;
-  isError: boolean;
-  time: number;
+  /** 
+   * Triggers a success notification with the given message 
+   */
   success: (message: string) => void;
+
+  /** 
+   * Triggers an error notification with the given message
+   */
   error: (message: string) => void;
 }
 
@@ -109,7 +112,7 @@ export declare class ResourceAction {
 }
 
 export declare function Action(): ActionInstance;
-declare interface ActionInstance{
+export declare interface ActionInstance {
   /**
    * Sets the callback function to be executed
    * @param callback 
@@ -159,14 +162,14 @@ declare interface ActionInstance{
   label(label: string): this;
 
   /**
-   * Sets a callback function to be executed upon a successful action.
+   * Callback for successful execution of the action
    * @param callback
    * @returns {this}
    */
   onSuccess(callback: (item: any) => void): this;
 
   /**
-   * Sets a callback function to be executed upon action failure.
+   * Callback for handling action failure
    * @param callback 
    * @returns {this}
    */
@@ -180,7 +183,7 @@ declare interface ActionInstance{
   hidden(callback: (item: any) => boolean): this;
 }
 export declare function Column(): ColumnInstance;
-declare interface ColumnInstance {
+export declare interface ColumnInstance {
   /**
    * Sets the column as an image column.
    * @returns {this}
@@ -223,10 +226,10 @@ declare interface ColumnInstance {
   width(value: string): this;
 
   /**
-   * Conditionally hides the column based on a callback function.
-   * @param visibleCallback 
+   * hide the column based on a callback function.
+   * @param callback 
    * @returns {this}
-   */xs
+   */
   hidden(callback: (record: any) => boolean): this;
 
   /**
@@ -249,6 +252,14 @@ declare interface ColumnInstance {
    * @returns {this}
    */
   label(label: string): this;
+  
+  /**
+ * Sets custom inline styles for the column.
+ * @param style - CSS styles as a string (e.g., "font-size: 10px; color: red;").
+ * @returns {this}
+ */
+  style(style: string): this;
+
 }
 export declare class BaseResource {
   /**
@@ -321,31 +332,20 @@ export declare class BaseResource {
    * @returns An array of Action instances for record-specific actions.
    */
   actions(): ActionInstance[];
+
+  /**
+ * Get the bulk actions for the resource.
+ * @returns {ActionInstance[]} 
+ */
+  bulkActions(): ActionInstance[];
 }
 
 
-interface ResourceFormProps {
-  id?: string;
-  required?: boolean;
-  type?: string;
-  name?: string;
-  placeholder?: string;
-  label?: string;
-  error?: string;
-  redirectAfterSubmit: [String, Object],
-  class?: string;
-  title?: string;
-  submitTitle?: string;
-  submit?: [String, Function];
-  options?: Record<string, any>[] | Record<string, any>;
-}
-
-export declare const ResourceForm: DefineComponent<ResourceFormProps, {}, {}>;
 
 /**
  * Set the router instance to be used globally. 
  *
- * @param {Router} router - The router instance to be set globally.
+ * @param {Router} router
  */
 export declare function setResourceRouter(router: Router): void;
 
@@ -362,8 +362,8 @@ interface ResourceApiOptions {
 /**
  * Creates an Axios instance
  * @param {ResourceApiOptions} options
- * @param {string} options.url - The base URL for the Axios instance.
- * @param {boolean} [options.applyQueryString=false] - Whether to apply the query string automatically.
+ * @param {string} options.url
+ * @param {boolean} [options.applyQueryString=false] 
  * @returns {AxiosInstance}
  */
 export declare function ResourceApi(
@@ -380,3 +380,24 @@ export interface ResourceQueryString {
 }
 
 export declare function useResourceQueryString(): ResourceQueryString;
+
+
+
+
+declare interface ResourceFormProps {
+  id?: string;
+  required?: boolean;
+  type?: string;
+  name?: string;
+  placeholder?: string;
+  label?: string;
+  error?: string;
+  redirectAfterSubmit: [String, Object],
+  class?: string;
+  title?: string;
+  submitTitle?: string;
+  submit?: [String, Function];
+  options?: Record<string, any>[] | Record<string, any>;
+}
+
+export declare const ResourceForm: DefineComponent<ResourceFormProps, {}, {}>;

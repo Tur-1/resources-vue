@@ -75,7 +75,11 @@ export default function Column()
       return this;
 
     },
-    
+    selectable()
+    {
+      this.isSelectable = true;
+      return this;
+    },
     getClass()
     {
       return this.classColumn
@@ -96,6 +100,12 @@ export default function Column()
     {
       return this.labelColumn
     },
+    style(style)
+    {
+      this.cssStyle = style;
+
+      return this; 
+    },
   
     getField(item)
     {
@@ -114,7 +124,8 @@ export default function Column()
     },
 
 
-
+    cssStyle: null,
+    isSelectable: false,
     labelColumn: null,
     classColumn: '',
     fieldColumn: null,

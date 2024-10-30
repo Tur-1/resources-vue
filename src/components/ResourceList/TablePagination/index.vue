@@ -6,13 +6,13 @@ import { computed } from "vue";
 import useResourceQueryString from "@/composables/useResourceQueryString";
 import BaseResourceException from "@/Exceptions/BaseResourceException";
 
-const props = defineProps(["paginationQueryKey", "simplePagination"]);
-
-const resourceData = useResourceData();
+const props = defineProps(["paginationQueryKey", "simplePagination",'pagination']);
+ 
 const queryString = useResourceQueryString();
 
-let pagination = computed(() => resourceData.pagination.value);
+let pagination = computed(() => props.pagination);
 let querykey = computed(() => props.paginationQueryKey ?? "page");
+
 
 const changePage = async (url,active = false) => {
   if (url == null || active) return;

@@ -1,12 +1,16 @@
 <template>
   <thead>
     <tr>
+      <th>
+        <span>#</span>
+      </th>
       <th
-        v
+         
         v-for="(column, colIndex) in columns"
         :key="colIndex"
         :class="column.getClass()"
       >
+      
         <template v-if="!column.isHidden()">
           <span>{{ column.getLabel() }}</span>
           <!-- <span v-if="sortedColumn === column.field && sortDirection === 'asc'">

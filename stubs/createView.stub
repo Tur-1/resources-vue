@@ -8,6 +8,7 @@ let { create } = use{{pageName}}Service()
     <ResourceForm
       type="form"
       :submit="create"
+      redirect-after-submit="{{snakeCasePageName}}"
       title="create {{singularPageName}}"
       submit-title="create"
     >

@@ -20,40 +20,51 @@
           <div class="card-body p-2">
             <template v-for="column in columns">
               <div class="d-flex gap-2 mb-1" v-if="!column.isImageColumn">
-                <span :class="column.getClass()">
+                <span :class="column.getClass()" :style="column.cssStyle">
                   {{ column.getField(item) }}
                 </span>
               </div>
             </template>
 
-            <ResourceActionsMenu class="text-end" v-if="actions.length > 0">
-              <template
-                v-for="(action, actionIndex) in actions"
-                :key="actionIndex"
-              >
-              <template v-if="!action.isHidden(item)">
-                  <RouterLink
-                    v-if="action.getRoute(item)"
-                    :class="action.getClass()"
-                    class="dropdown-item d-flex align-items-center rounded text-dark"
-                    :to="action.getRoute(item)"
-                  >
-                    <i :class="action.getIcon()" class="me-2"></i>
-                    {{ action.getLabel() }}
-                  </RouterLink>
-                  <a
-                    v-else
-                    @click="applyAction(action, item, index)"
-                    role="button"
-                    class="dropdown-item d-flex align-items-center rounded"
-                    :class="action.getClass()"
-                  >
-                    <i :class="action.getIcon()" class="me-2"></i>
-                    {{ action.getLabel() }}
-                  </a>
+            <div class="d-flex justify-content-between align-items-center mt-1">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  :value="item"
+                  v-model="selectedItems"
+                />
+              </div>
+
+              <ResourceActionsMenu class="text-end" v-if="actions.length > 0">
+                <template
+                  v-for="(action, actionIndex) in actions"
+                  :key="actionIndex"
+                >
+                  <template v-if="!action.isHidden(item)">
+                    <RouterLink
+                      v-if="action.getRoute(item)"
+                      :class="action.getClass()"
+                      class="dropdown-item d-flex align-items-center rounded text-dark"
+                      :to="action.getRoute(item)"
+                    >
+                      <i :class="action.getIcon()" class="me-2"></i>
+                      {{ action.getLabel() }}
+                    </RouterLink>
+                    <a
+                      v-else
+                      @click="applyAction(action, item, index)"
+                      role="button"
+                      class="dropdown-item d-flex align-items-center rounded"
+                      :class="action.getClass()"
+                    >
+                      <i :class="action.getIcon()" class="me-2"></i>
+                      {{ action.getLabel() }}
+                    </a>
+                  </template>
                 </template>
-              </template>
-            </ResourceActionsMenu>
+              </ResourceActionsMenu>
+            </div>
           </div>
         </div>
       </div>
@@ -73,7 +84,7 @@
 import ResourceActionsMenu from "@/components/ResourceActionsMenu/index.vue";
 import useTableSkeletonLoading from "@/components/ResourceList/TableSkeleton/useTableSkeletonLoading";
 import useBaseResource from "@/composables/useBaseResource";
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import CardSekeleton from "@/components/ResourceList/TableSkeleton/CardSekeleton.vue";
 import defaultImage from "@/assets/default-image.jpg";
 
@@ -81,7 +92,7 @@ const emits = defineEmits(["openConfirm"]);
 const props = defineProps(["resource", "actions", "dataList"]);
 const columns = props.resource.fields();
 
-const { getRecordValue, getRecordImage } = useBaseResource();
+const { bulkItems} = useBaseResource();
 const imageColumn = computed(() =>
   columns.find((column) => column.isImageColumn)
 );
@@ -92,6 +103,16 @@ const applyAction = (action, item, index) => {
     action.handle(item, index);
   }
 };
+
+let selectedItems = ref([]);
+watch(
+  () => selectedItems.value,
+  (value) => {
+    bulkItems.value = value;
+  }
+);
+
+ 
 </script>
 <style scoped>
 .actions-hr {

@@ -1,6 +1,5 @@
 import {{pageName}}Store from '@/pages/{{pageName}}/stores/{{pageName}}Store'
 import use{{pageName}}Api from '@/pages/{{pageName}}/api/use{{pageName}}Api'
-import { useRouter } from 'vue-router'
 
 export default function use{{pageName}}Service() {
 
@@ -19,12 +18,9 @@ export default function use{{pageName}}Service() {
     }
   }
   
-  const create = async (data) => {
-    const router = useRouter(); 
-
+  const create = async (data) => { 
     let response = await use{{pageName}}Api.create(data)
 
-    router.push({name:'{{snakeCasePageName}}'})
   }
   const show = async (routeParam) => {
     

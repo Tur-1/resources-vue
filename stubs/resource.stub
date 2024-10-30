@@ -104,8 +104,21 @@ class {{pageName}} extends BaseResource {
       Action()
       .deleteAction()
       .make(async (record) => await destroy(record))
-      .onSuccess((item) => '')
-      .onFailure((error,item) => ''),
+      .onSuccess((record) => '')
+      .onFailure((error,record) => ''),
+    ];
+  }
+
+ /**
+  * Get the bulk actions for the resource. 
+  */
+  bulkActions()
+  {
+    return [
+      Action()
+        .label('log items')
+        .class('text-primary')
+        .make((records) => console.log(records))
     ];
   }
 

@@ -16,7 +16,7 @@ class {{filterName}} extends ResourceFilter {
   /**
    * Handle the filter logic
    */
-  handle() {
+  handle(value) {
     // Implement the filter logic here when the value selected
   }
 

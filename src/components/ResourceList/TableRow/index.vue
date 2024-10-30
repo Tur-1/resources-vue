@@ -2,11 +2,12 @@
 import ResourceActionsMenu from "@/components/ResourceActionsMenu/index.vue";
 import useBaseResource from "@/composables/useBaseResource";
 import defaultImage from "@/assets/default-image.jpg";
+import { ref, watch } from "vue";
 
 const props = defineProps(["columns", "data", "actions"]);
 const emits = defineEmits(["openConfirm"]);
 
-const { dataList, getRecordValue, getRecordImage } = useBaseResource();
+const { dataList,bulkItems ,bulkSelected} = useBaseResource();
 
 const applyAction = (action, item, index) => {
   if (action.getConfirmAction()) {
@@ -15,16 +16,37 @@ const applyAction = (action, item, index) => {
     action.handle(item, index);
   }
 };
-</script>
+let selectedItems = ref([]);
+watch(
+  () => selectedItems.value,
+  (value) => {
+    bulkItems.value = value;
+  }
+);
+
+ </script>
 
 <template>
   <TransitionGroup name="list">
-    <tr v-for="(item, index) in props.data" :key="item.id">
+    <tr v-for="(item, index) in props.data" :key="index">
+      <td>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            :value="item"
+            v-model="selectedItems"
+          />
+        </div>
+      </td>
       <td
         v-for="(column, colIndex) in columns"
         :key="colIndex"
         :class="column.getClass()"
-        :style="{ textAlign: column.getAlign(), width: column.getWidth() }"
+        :style="{
+          textAlign: column.getAlign() + '!important',
+          width: column.getWidth() + '!important',
+        }"
       >
         <template v-if="!column.isHidden(item)">
           <img

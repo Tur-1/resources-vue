@@ -30,9 +30,9 @@ const {
   debounce,
   pagination,
   dataList,
+  bulkSelected,
+  bulkItems,
 } = useBaseResource();
-
- 
 
 const queryString = useResourceQueryString();
 const debouncedFetchResourceData = debounce(async () => {
@@ -60,7 +60,7 @@ watch(
 
   <div class="card shadow-sm mt-3">
     <div class="pe-3 ps-3 pt-3">
-      <div class="row">
+      <div class="d-flex justify-content-between">
         <div class="col-md-2 col-lg-2">
           <FiltersList
             :filters="props.resource.filters"
@@ -70,10 +70,34 @@ watch(
           </FiltersList>
         </div>
 
-        <div class="col-md-9 col-lg-10">
-          <div class="row">
-            <slot name="header" />
-          </div>
+        <div class="d-flex justify-content-end flex-wrap gap-2 flex-grow-1">
+          <div v-if="bulkItems.length > 0" class="dropdown">
+            <button
+              class="btn btn-primary dropdown-toggle text-white d-inline-flex align-items-center"
+              type="button"
+              id="bulkActionsDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span class="me-2"> Actions</span>
+              <i class="fa-solid fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="bulkActionsDropdown">
+              <li
+                v-for="(action, index) in resource.bulkActions()"
+                :key="index"
+              >
+                <a
+                  class="dropdown-item d-flex align-items-center"
+                  href="#"
+                  @click.prevent="action.handle(bulkItems)"
+                >
+                  <i :class="action.getIcon()" class="me-2"></i>
+                  {{ action.getLabel() }}
+                </a>
+              </li>
+            </ul>
+          </div> 
         </div>
       </div>
     </div>
@@ -90,10 +114,11 @@ watch(
         @openConfirm="openConfirmModal"
         :resource="props.resource"
         :dataList="dataList"
-       :actions="props.resource.actions()"
+        :actions="props.resource.actions()"
       />
       <TablePagination
         v-if="pagination.value?.length != 0"
+        :pagination="pagination"
         :simplePagination="props.resource.simplePagination"
         :paginationQueryKey="props.resource.paginationQueryKey"
       />

@@ -102,6 +102,16 @@ class BaseResource
    */
   actions()
   {
+    
+    return [];
+  }
+
+ /**
+ * Get the bulk actions for the resource.
+ * @returns {ActionInstance[]} 
+ */
+  bulkActions()
+  {
     return [];
   }
 }
