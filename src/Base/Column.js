@@ -21,12 +21,7 @@ export default function Column()
       this.formatCallback = callback;
       return this;
     },
-    tooltip(text)
-    {
-      this.tooltipText = text;
-      return this;
-    },
-
+ 
 
     align(type)
     {
@@ -131,7 +126,7 @@ export default function Column()
     fieldColumn: null,
     isImageColumn: false,
     formatCallback: null,
-    tooltipText: null,
+   
     alignType: 'left',
     widthValue: null,
     isColumnHidden: false,
