@@ -8,8 +8,9 @@ let selectedItem = ref(null);
 let dataList = ref([]);
 let pagination = ref([]);
 let wasRemovedSuccessfully = ref(false);
-
+let selectedItems = ref([]);
 let bulkItems= ref([]);
+let isSelectAllItems = ref(false);
 
 export default function useBaseResource()
 {
@@ -20,7 +21,14 @@ export default function useBaseResource()
     selectedItem.value = item;
     useConfirmModal.open();
   };
-
+  const toggleSelectAll = () => {
+    if (isSelectAllItems.value) {
+  
+      selectedItems.value = [...dataList.value];
+    } else { 
+      selectedItems.value = [];
+    }
+  };
   const handleConfirmModal = async () =>
   {
     useResourceIndicator.show();
@@ -104,7 +112,10 @@ export default function useBaseResource()
  
 
   return { 
+    selectedItems,
     bulkItems,
+    toggleSelectAll,
+    isSelectAllItems,
     selectedAction,
     selectedItem,
     openConfirmModal,

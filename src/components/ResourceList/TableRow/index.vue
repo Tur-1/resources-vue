@@ -7,7 +7,7 @@ import { ref, watch } from "vue";
 const props = defineProps(["columns", "data", "actions"]);
 const emits = defineEmits(["openConfirm"]);
 
-const { dataList,bulkItems ,bulkSelected} = useBaseResource();
+const { dataList,bulkItems, selectedItems } = useBaseResource();
 
 const applyAction = (action, item, index) => {
   if (action.getConfirmAction()) {
@@ -15,12 +15,11 @@ const applyAction = (action, item, index) => {
   } else {
     action.handle(item, index);
   }
-};
-let selectedItems = ref([]);
+}; 
 watch(
   () => selectedItems.value,
   (value) => {
-    bulkItems.value = value;
+    bulkItems.value = value; 
   }
 );
 

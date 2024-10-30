@@ -1,8 +1,14 @@
 <template>
   <thead>
     <tr>
-      <th>
-        <span>#</span>
+      <th> 
+          <input
+            class="form-check-input"
+            type="checkbox" 
+            v-model="isSelectAllItems"
+            @change="toggleSelectAll"
+          />
+        
       </th>
       <th
          
@@ -26,15 +32,21 @@
 </template>
 
 <script setup>
+ import useBaseResource from "@/composables/useBaseResource";
+
+
 const props = defineProps({
   columns: Array,
   sortedColumn: String,
-  sortDirection: String,
+  sortDirection: String, 
 });
+const { toggleSelectAll, isSelectAllItems } = useBaseResource();
 
 const emits = defineEmits(["sortColumn"]);
 
 const sortColumn = (column) => {
   emits("sortColumn", column);
 };
+ 
+
 </script>
