@@ -41,7 +41,7 @@
 <script setup>
 import useResourceQueryString from "@/composables/useResourceQueryString";
 import { ResourceForm } from "@/index";
-import useResourceList from "@/composables/useBaseResource";
+import useBaseResource from "@/composables/useBaseResource";
 import { toSnakeCase } from "@/helpers";
 import { computed, onMounted, reactive, ref, toRaw, watch } from "vue";
 const props = defineProps({
@@ -53,11 +53,14 @@ const props = defineProps({
 const queryString = useResourceQueryString();
 const reactiveFilters = ref([]);
 const filterOptions = ref([]);
-
+let {   selectedItems,
+  bulkItems,isSelectAllItems}= useBaseResource()
 const handleFilter = (filter) => {
   delete queryString.params.value[props.paginationQueryKey ?? "page"];
   queryString.add(filter.queryString, filter.selectedValue);
   filter.handle(filter.selectedValue);
+  selectedItems.value = [];
+  bulkItems.value = [];
 };
 
 const resetFilters = () => {
@@ -67,6 +70,9 @@ const resetFilters = () => {
   reactiveFilters.value.forEach((filter) => {
     filter.selectedValue = "";
   });
+  selectedItems.value = [];
+  bulkItems.value = [];
+  isSelectAllItems.value =false;
 };
 
 onMounted(() => {
