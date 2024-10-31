@@ -20,7 +20,6 @@ const props = defineProps({
 });
 
 let formData = reactive({});
-let allErrors = ref([]);
 let errors = reactive({});
 watch(
   () => props.data,
@@ -63,11 +62,13 @@ const handleSubmit = async () => {
         formData[key] = "";
       });
     }
+    Object.keys(errors).forEach((key) => {
+      errors[key] = "";
+    });
   } catch (error) {
     if (error.response && error.response.data.errors) {
       useResourceNotification.error(error.message);
       Object.assign(errors, error.response.data.errors);
-  
     }
   } finally {
     useResourceIndicator.hide();
@@ -76,7 +77,7 @@ const handleSubmit = async () => {
 
 function findMissingKeys() {
   const missingKeys = Object.keys(errors).filter((key) => !(key in formData));
-  
+
   allErrors.value.length = 0;
   missingKeys.forEach((key) => {
     allErrors.value.push(errors[key][0]);
@@ -90,7 +91,6 @@ function findMissingKeys() {
     </div>
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
       <div class="card border-1 p-2 pb-4 mb-4">
-      
         <div class="card-body p-0 p-md-4">
           <slot />
         </div>

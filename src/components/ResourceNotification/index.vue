@@ -1,27 +1,25 @@
-
-
 <script setup>
-import useResourceNotification from './useResourceNotification'
+import useResourceNotification from "./useResourceNotification";
 </script>
 <template>
   <Transition name="slide-fade">
     <div
       v-if="useResourceNotification.isOpen"
       id="toast-alert"
-      :class="useResourceNotification.isError ? 'toast-error' : 'toast-success'"
+      :class="useResourceNotification.className"
       class="toast show"
       role="alert"
       aria-live="assertive"
       aria-atomic="true"
     >
       <div class="d-flex align-items-center justify-content-between">
-        <div class="toast-body">
-          <span style="margin-right: 10px; font-size: 18px" @click="useResourceNotification.close()">
-            <i
-              class="bi bi-check-circle-fill text-white"
-              v-show="!useResourceNotification.isError"
-            />
-            <i class="bi bi-x-circle-fill" v-show="useResourceNotification.isError" />
+        <div class="toast-body text-white">
+          <span
+            style="margin-right: 10px; font-size: 18px; cursor: pointer;"
+            @click="useResourceNotification.close()"
+            class="text-white"
+          >
+            <i :class="useResourceNotification.icon" />
           </span>
           {{ useResourceNotification.message }}
         </div>
@@ -30,5 +28,5 @@ import useResourceNotification from './useResourceNotification'
   </Transition>
 </template>
 <style>
-@import './toast.css';
+@import "./toast.css";
 </style>
