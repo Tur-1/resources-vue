@@ -54,11 +54,9 @@ watch(
 );
 </script>
 <template>
-  <h4>{{ props.resource.title }}</h4>
-
   <HeaderActions :resource="props.resource" />
 
-  <div class="card shadow-sm mt-3">
+  <div class="card shadow-sm mt-3 card-list">
     <div class="pe-3 ps-3 pt-3">
       <div class="d-flex justify-content-between">
         <div class="col-md-2 col-lg-2">
@@ -73,16 +71,16 @@ watch(
         <div class="d-flex justify-content-end flex-wrap gap-2 flex-grow-1">
           <div v-if="bulkItems.length > 0" class="dropdown">
             <button
-              class="btn btn-primary dropdown-toggle text-white d-inline-flex align-items-center"
               type="button"
-              id="bulkActionsDropdown"
+              class="btn filter-btn"
               data-bs-toggle="dropdown"
+              data-bs-target="#bulkActionsMenu"
               aria-expanded="false"
             >
               <span class="me-2"> Actions</span>
               <i class="fa-solid fa-angle-down"></i>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="bulkActionsDropdown">
+            <ul class="resource-dropdown-menu dropdown-menu" id="bulkActionsMenu">
               <li
                 v-for="(action, index) in resource.bulkActions()"
                 :key="index"
@@ -97,7 +95,7 @@ watch(
                 </a>
               </li>
             </ul>
-          </div> 
+          </div>
         </div>
       </div>
     </div>
@@ -136,4 +134,9 @@ watch(
   background-color: #909090bf !important;
   border-radius: 5px !important;
 }
+ 
+.card-list {
+  border-radius: 10px;
+}
+
 </style>

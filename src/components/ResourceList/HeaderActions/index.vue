@@ -1,4 +1,6 @@
 <template>
+  <div class="mt-3">
+    <h4>{{ props.resource.title }}</h4> 
   <div class="d-flex flex-wrap align-items-start justify-content-between mt-4">
     <TableSearchBox
       v-if="searchable"
@@ -34,6 +36,7 @@
       </template>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>

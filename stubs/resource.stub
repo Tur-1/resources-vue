@@ -1,7 +1,5 @@
 import { BaseResource, Column, Action } from '@tur1/resources-vue'
-import use{{pageName}}Api from '@/pages/{{pageName}}/api/use{{pageName}}Api'
-import Delete{{PageNameSingular}} from '@/pages/{{pageName}}/Actions/Delete{{PageNameSingular}}'
-import View{{PageNameSingular}} from '@/pages/{{pageName}}/Actions/View{{PageNameSingular}}'
+import use{{pageName}}Api from '@/pages/{{pageName}}/api/use{{pageName}}Api'  
 import Edit{{PageNameSingular}} from '@/pages/{{pageName}}/Actions/Edit{{PageNameSingular}}'
 import Create{{PageNameSingular}} from '@/pages/{{pageName}}/Actions/Create{{PageNameSingular}}'
 import ExampleFilter from '@/pages/{{pageName}}/Filters/ExampleFilter'

@@ -79,8 +79,8 @@ Example:
 ```javascript
 fields() {
   return [
-    Column().make('id')
-    .label('#'),
+    Column().make('id').label('ID'),
+
     Column().make('user.avatar')
       .image()
       .label('Image')
@@ -90,6 +90,15 @@ fields() {
       .label('Created At')
       .align('center')
       .format(date => new Date(date).toLocaleDateString()),
+
+    Column().make('gender')
+        .label('Gender')
+        .badge((value) => value === 'Female' ? 'primary' : 'secondary'),
+
+
+    Column().make('status')
+        .label('Status')
+        .badge({ active: 'success', inactive: 'danger' }),
   ];
 }
 ```
@@ -124,10 +133,25 @@ Example:
     ]
   }
 ```
+ ## Bulk Actions
 
-The actions will appear in the form of buttons similar to the example below:
+You can define bulk actions for your resources using the `bulkActions` method. This method allows you to apply an action to multiple records at once.
 
-<img width="295" alt="Screenshot 1446-04-08 at 6 54 58 PM" src="https://github.com/user-attachments/assets/dcd2fc10-9342-4ecf-ab02-35f81fcb3e28">
+### Example: Defining Bulk Actions
+
+```javascript
+/**
+ * Get the bulk actions for the resource.
+ */
+bulkActions() {
+    return [
+        Action()
+            .label('log items') 
+            .class('text-primary') 
+            .make((records) => console.log(records)) // Apply the action to the selected records
+    ];
+}
+```
 
 ### Data
 
@@ -190,21 +214,34 @@ class StatusFilter extends ResourceFilter {
 
   /**
    * Get the options for the filter if type is 'select'.
+   * This method can return options in various formats
    */
   options() {
-    // Return options as an array
+
+
+    // 1. As a simple array:
     let optionsArray = ["option 1", "option 2"];
     return optionsArray;
 
-    // Alternatively, return options as an object with label and value
+    // 2. As an object with label and value:
     let optionsObject = [
       { id: 1, title: "option 1" },
       { id: 2, title: "option 2" },
     ];
+    
     return {
       data: optionsObject,
       label: "title",
       value: "id",
+    };
+
+    // 3. load options dynamically:
+   let { loadOptions } = useService()
+
+    return {
+      data: loadOptions,
+      label: 'title',
+      value: 'id'
     };
   }
 }
@@ -259,10 +296,46 @@ class EditUserAction extends ResourceAction {
   {
     return false;
   }
+
+   /**
+   * Applies the action to the given record.
+   * @param record
+   * @returns {this} 
+   */
+  make(record){
+
+  };
  
 }
 
 export default EditUserAction;
+```
+## Action Function
+
+You can define actions using the Action function. Here's how you can set up delete and show actions:
+
+To **apply an action**, use the `make` method. To define the action's route, use the `route` method.
+
+### Example: Delete Action
+
+```javascript
+Action()
+    .deleteAction()
+    .make(async (record) => await destroy(record)) 
+    .onSuccess((item) => console.log(item)) // Handle success
+    .onFailure((err, item) => console.log(err, item)); // Handle failure
+
+    Action()
+    .label('show')
+    .icon('fa-solid fa-pen-to-square')
+    .class('text-primary')
+    .route((record) => ({
+        name: 'admins.show', // Define the route for the action
+        params: {
+            id: record.id // Pass the record ID as a parameter
+        }
+    }));
+
 ```
 
 ```javascript

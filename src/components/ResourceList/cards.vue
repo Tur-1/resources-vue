@@ -1,12 +1,22 @@
 <template>
   <template v-if="!useTableSkeletonLoading.isLoading">
+    <div class="row m-2 border-bottom">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          v-model="isSelectAllItems"
+          @change="toggleSelectAll"
+        />
+      </div>
+    </div>
     <div class="row">
       <div
         v-for="(item, index) in dataList"
         :key="item.id"
         class="col-12 col-md-4 col-lg-4 col-xl-3 mb-4"
       >
-        <div class="card shadow">
+        <div class="card shadow-sm">
           <div class="p-2">
             <img
               v-if="imageColumn"
@@ -92,7 +102,8 @@ const emits = defineEmits(["openConfirm"]);
 const props = defineProps(["resource", "actions", "dataList"]);
 const columns = props.resource.fields();
 
-const { bulkItems} = useBaseResource();
+const { bulkItems, selectedItems, toggleSelectAll, isSelectAllItems } = useBaseResource();
+
 const imageColumn = computed(() =>
   columns.find((column) => column.isImageColumn)
 );
@@ -103,16 +114,13 @@ const applyAction = (action, item, index) => {
     action.handle(item, index);
   }
 };
-
-let selectedItems = ref([]);
+ 
 watch(
   () => selectedItems.value,
   (value) => {
     bulkItems.value = value;
   }
 );
-
- 
 </script>
 <style scoped>
 .actions-hr {

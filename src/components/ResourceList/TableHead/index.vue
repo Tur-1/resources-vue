@@ -27,6 +27,9 @@
         </span> -->
         </template>
       </th>
+      <th>  
+        
+      </th>
     </tr>
   </thead>
 </template>

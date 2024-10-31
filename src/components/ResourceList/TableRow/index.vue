@@ -7,7 +7,7 @@ import { ref, watch } from "vue";
 const props = defineProps(["columns", "data", "actions"]);
 const emits = defineEmits(["openConfirm"]);
 
-const { dataList,bulkItems, selectedItems } = useBaseResource();
+const { dataList, bulkItems, selectedItems } = useBaseResource();
 
 const applyAction = (action, item, index) => {
   if (action.getConfirmAction()) {
@@ -15,15 +15,14 @@ const applyAction = (action, item, index) => {
   } else {
     action.handle(item, index);
   }
-}; 
+};
 watch(
   () => selectedItems.value,
   (value) => {
-    bulkItems.value = value; 
+    bulkItems.value = value;
   }
 );
-
- </script>
+</script>
 
 <template>
   <TransitionGroup name="list">
@@ -48,16 +47,27 @@ watch(
         }"
       >
         <template v-if="!column.isHidden(item)">
-          <img
-            v-if="column.isImageColumn"
-            :src="column.getField(item) ?? defaultImage"
-            :alt="column.getField(item)"
-            class="img-thumbnail"
-            style="max-width: 80px; max-height: 80px"
-          />
-          <span class="fw-normal" v-else>
-            {{ column.getField(item) }}
-          </span>
+          <template v-if="column.isImageColumn">
+            <img
+              :src="column.getField(item) ?? defaultImage"
+              :alt="column.getField(item)"
+              class="img-thumbnail"
+              style="max-width: 80px; max-height: 80px"
+            />
+          </template>
+          <template v-else>
+            <span
+              :class="
+                column.badgeClassCallback
+                  ? `badge text-bg-${column.getBadgeClass(
+                      column.getField(item)
+                    )}`
+                  : ''
+              "
+            >
+              {{ column.getField(item) }}
+            </span>
+          </template>
         </template>
       </td>
       <td v-if="actions.length > 0">

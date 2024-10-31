@@ -91,11 +91,11 @@ export declare class ResourceAction {
   isDeleteAction: boolean;
 
   /**
-   * Sets the callback function to be executed when the action is triggered.
-   * @param callback - The function to execute on action trigger.
-   * @returns {this}
+   * Applies the action to the given record.
+   * @param record
+   * @returns {this} 
    */
-  make(callback: (record: any) => void): this;
+  make(record): this;
 
   /**
    * Sets a callback function to conditionally hide the action
@@ -252,13 +252,24 @@ export declare interface ColumnInstance {
    * @returns {this}
    */
   label(label: string): this;
-  
+
   /**
  * Sets custom inline styles for the column.
  * @param style - CSS styles as a string (e.g., "font-size: 10px; color: red;").
  * @returns {this}
  */
   style(style: string): this;
+
+  /**
+ * Sets a Bootstrap badge class based on the column value.
+ * You can specify either a function that returns a class based on the value
+ * or an object mapping specific values to badge classes.
+ * Example: badge({ active: 'success', inactive: 'secondary' })
+ * 
+ * @param callback 
+ * @returns {this}
+ */
+  badge(callback: ((value: any) => string) | Record<string, string>): this;
 
 }
 export declare class BaseResource {

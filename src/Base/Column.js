@@ -21,7 +21,7 @@ export default function Column()
       this.formatCallback = callback;
       return this;
     },
- 
+
 
     align(type)
     {
@@ -70,10 +70,24 @@ export default function Column()
       return this;
 
     },
-    selectable()
+
+    badge(callback)
     {
-      this.isSelectable = true;
+      this.badgeClassCallback = callback;
       return this;
+    },
+
+    getBadgeClass(value)
+    {
+      if (typeof this.badgeClassCallback === 'function')
+      {
+        return this.badgeClassCallback(value);
+      } else if (typeof this.badgeClassCallback === 'object')
+      {
+        return this.badgeClassCallback[value] || 'dark';
+      }
+      
+      return 'dark';
     },
     getClass()
     {
@@ -83,12 +97,14 @@ export default function Column()
     {
       return this.isImageColumn
     },
- 
-    getAlign() {
+
+    getAlign()
+    {
       return this.alignType;
     },
 
-    getWidth() {
+    getWidth()
+    {
       return this.widthValue;
     },
     getLabel()
@@ -99,9 +115,9 @@ export default function Column()
     {
       this.cssStyle = style;
 
-      return this; 
+      return this;
     },
-  
+
     getField(item)
     {
       let value = this.getNestedValue(item, this.fieldColumn);
@@ -115,18 +131,18 @@ export default function Column()
 
     isHidden(record)
     {
-      return typeof this.isColumnHidden === 'function' ? this.isColumnHidden(record) : this.isColumnHidden; 
+      return typeof this.isColumnHidden === 'function' ? this.isColumnHidden(record) : this.isColumnHidden;
     },
 
 
+    badgeClassCallback: null,
     cssStyle: null,
-    isSelectable: false,
     labelColumn: null,
     classColumn: '',
     fieldColumn: null,
     isImageColumn: false,
     formatCallback: null,
-   
+
     alignType: 'left',
     widthValue: null,
     isColumnHidden: false,

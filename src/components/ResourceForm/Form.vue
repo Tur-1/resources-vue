@@ -98,7 +98,7 @@ function findMissingKeys() {
 
       <div class="d-flex justify-content-end">
         <button
-          class="btn resource-form-btn btn-gray-800"
+          class="resource-form-btn btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
           type="submit"
           :disabled="useResourceIndicator.isOnProgress"
         >
