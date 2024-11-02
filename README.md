@@ -7,7 +7,7 @@ This package helps you create filters, actions, resources, and pages efficiently
 First, install the package:
 
 ```bash
-npm install @tur1/resources-vue --save
+npm install @tur1/resources-vue
 ```
 
 ## Usage

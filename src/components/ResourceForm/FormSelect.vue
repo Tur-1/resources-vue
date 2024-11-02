@@ -80,8 +80,8 @@ async function getOptions(options) {
 
     if (Array.isArray(options.data)) {
       return options.data.map((item) => ({
-        label: options?.label ? item[options.label] : item.name || "",
-        value: options?.value ? item[options.value] : item.value || "",
+        label: options?.label ? item[options.label] : item,
+        value: options?.value ? item[options.value] : item,
       }));
     }
   }
