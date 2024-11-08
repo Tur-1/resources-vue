@@ -29,53 +29,73 @@ const router = getRouter()?.value;
 
 watch(
   () => props.values,
-  (newValue) => {
-    if (newValue) {
+  (newValue) =>
+  {
+    if (newValue)
+    {
       Object.assign(formData, newValue);
-    } else {
-      Object.keys(formData).forEach((key) => {
+    } else
+    {
+      Object.keys(formData).forEach((key) =>
+      {
         formData[key] = "";
       });
     }
   },
   { deep: true, immediate: true }
 );
+const submitActions = {
+  function: async () => await props.submit(formData),
+  string: async () => await useResourceApi().post(props.submit, formData),
+};
+const redirectActions = {
+  string: (route) => router.push({ name: props.redirectAfterSubmit }),
+  object: (route) => router.push(props.redirectAfterSubmit),
+};
+const handleSubmit = async () =>
+{
 
-const handleSubmit = async () => {
+  const submitAction = submitActions[typeof props.submit];
+  const redirect = redirectActions[typeof props.redirectAfterSubmit];
+
   useResourceIndicator.show();
 
-  try {
-    if (typeof props.submit === "function") {
-      await props.submit(formData);
-    }
-    if (typeof props.submit === "string") {
-      await useResourceApi().post(props.submit, formData);
-    }
-    if (typeof props.redirectAfterSubmit === "string" && router) {
-      router.push({ name: props.redirectAfterSubmit });
-    }
-    if (typeof props.redirectAfterSubmit === "object" && router) {
-      router.push(props.redirectAfterSubmit);
-    }
-    if (props.values) {
+  try
+  {
+    await submitAction();
+
+    if (props.values)
+    {
       Object.assign(formData, props.values);
-    } else {
-      Object.keys(formData).forEach((key) => {
-        formData[key] = "";
-      });
     }
-    Object.keys(errors).forEach((key) => {
-      errors[key] = "";
-    });
-  } catch (error) {
-    if (error.response && error.response.data.errors) {
+
+    clearErrors();
+    
+    if (router)
+    {
+      redirect();
+    }
+
+  } catch (error)
+  {
+    if (error.response && error.response.data.errors)
+    {
       useResourceNotification.error(error.message);
       Object.assign(errors, error.response.data.errors);
     }
-  } finally {
+  } finally
+  {
     useResourceIndicator.hide();
   }
 };
+
+const clearErrors = () =>
+{
+  Object.keys(errors).forEach((key) =>
+  {
+    errors[key] = "";
+  });
+}
 </script>
 <template>
   <div class="resource-form" :class="class">
@@ -90,11 +110,8 @@ const handleSubmit = async () => {
       </div>
 
       <div class="d-flex justify-content-end">
-        <button
-          class="resource-form-btn btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
-          type="submit"
-          :disabled="useResourceIndicator.isOnProgress"
-        >
+        <button class="resource-form-btn btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
+          type="submit" :disabled="useResourceIndicator.isOnProgress">
           <span>{{ submitTitle ?? "save" }}</span>
         </button>
       </div>

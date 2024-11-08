@@ -97,15 +97,17 @@ function setNestedValue(obj, path, value) {
 // Computed property for model binding
 const model = computed({
   get() {
-    
-    return formData ? formData[props.name] : props.modelValue;
+    if (props.modelValue) {
+      return props.modelValue;
+    }
+    return formData ? formData[props.name] : '';
   },
   set(value) {
     emit("update:modelValue", value);
 
     if (formData && props.name) {
       if (props.name.includes("[") && props.name.includes("]")) {
-        setNestedValue(formData, props.name, props.value ?? value);
+        setNestedValue(formData, props.name, props.value !== false ? props.value : value);
       } else { 
         formData[props.name] = props.value !== false ? props.value : value;
       }
