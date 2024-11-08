@@ -29,8 +29,12 @@ class Edit{{PageNameSingular}} extends ResourceAction {
     };
   }
 
-  hidden(record)
-  {
+  /**
+   * Determines whether the action should be hidden.
+   * @param {Object} record
+   * @returns {boolean}
+   */
+  hidden(record) {
     return false;
   }
 

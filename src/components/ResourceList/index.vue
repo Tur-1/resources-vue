@@ -51,6 +51,8 @@ watch(
   },
   { immediate: false }
 );
+ 
+
 </script>
 <template>
   <HeaderActions :resource="props.resource" />
@@ -114,7 +116,7 @@ watch(
         :actions="props.resource.actions()"
       />
       <TablePagination
-        v-if="pagination.value?.length != 0"
+        v-if="pagination"
         :pagination="pagination"
         :simplePagination="props.resource.simplePagination"
         :paginationQueryKey="props.resource.paginationQueryKey"

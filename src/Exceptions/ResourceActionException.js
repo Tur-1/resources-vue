@@ -7,13 +7,9 @@ class ResourceActionException extends Error {
     this.name = 'BaseActionException';
   }
 
-  /**
-   * missing handle method.
-   * @param {string} className 
-   * @returns {ResourceActionException} 
-   */
-  static missingHandleMethod(className) {
-    return new ResourceActionException(`You must implement the handle method in the action ${className}`);
+  
+  static missingMakeMethod(className) {
+    return new ResourceActionException(`You must implement ' make ' method in the action:  ${className}`);
   }
 }
 

@@ -32,7 +32,7 @@ const changePage = async (url,active = false) => {
   <PaginationSekeleton v-if="useTableSkeletonLoading.isLoading" />
 
   <nav style="margin-top: 50px" v-if="!props.simplePagination">
-    <ul class="pagination justify-content-center">
+    <ul class="pagination justify-content-end">
       <!-- Page Number Links -->
       <li
         v-for="link in pagination.links"

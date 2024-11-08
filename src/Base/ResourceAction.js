@@ -1,45 +1,37 @@
 import ResourceActionException from "@/Exceptions/ResourceActionException";
+import useResourceNotification from "@/components/ResourceNotification/useResourceNotification";
 
 class ResourceAction
 {
 
   routeDetails = undefined;
-
-  /**
-   * The label of the action.
-   * @type {string}
-   */
+ 
   label = undefined;
-
-  /**
-   * The icon of the action.
-   * @type {string}
-   */
+ 
   icon = undefined;
 
-  /**
-   * The CSS class for the action button.
-   * @type {string}
-   */
+ 
   class = undefined;
 
-  /**
-   * Whether the action requires confirmation.
-   * @type {boolean}
-   */
+ 
   requiresConfirmation = false;
-  /**
-   * Whether the action requires delete.
-   * @type {boolean}
-   */
+ 
   isDeleteAction = false;
  
 
   async make(record)
-  {
-    if (this.getRoute(record))
+  { 
+    
+    if (this.getRoute(record) == undefined)
     {
-      throw ResourceActionException.missingHandleMethod(this.constructor.name);
+      useResourceNotification.error(
+        `You must implement ' make ' method in the action: ${this.constructor.name}`
+      );
+
+      setTimeout(() => {
+        throw ResourceActionException.missingMakeMethod(this.constructor.name);
+      }, 0);
+      
     }
   }
 
@@ -56,11 +48,10 @@ class ResourceAction
   { 
     return this.hidden(record);
   }
-
-
-
+ 
   async handle(record)
   {
+    
     await this.make(record);
   }
   getRoute(record)

@@ -25,7 +25,7 @@
           :name="filter.classConstructorName"
           :label="filter.label"
           :id="filter.id"
-          @update:modelValue="handleFilter(filter)"
+          @change="handleFilter(filter)"
           :placeholder="filter.placeholder"
           :options="filter.getType() === 'select' ? filter.options() : []"
         />
@@ -53,8 +53,8 @@ const props = defineProps({
 const queryString = useResourceQueryString();
 const reactiveFilters = ref([]);
 const filterOptions = ref([]);
-let {   selectedItems,
-  bulkItems,isSelectAllItems}= useBaseResource()
+let { selectedItems, bulkItems, isSelectAllItems } = useBaseResource();
+
 const handleFilter = (filter) => {
   delete queryString.params.value[props.paginationQueryKey ?? "page"];
   queryString.add(filter.queryString, filter.selectedValue);
@@ -72,7 +72,7 @@ const resetFilters = () => {
   });
   selectedItems.value = [];
   bulkItems.value = [];
-  isSelectAllItems.value =false;
+  isSelectAllItems.value = false;
 };
 
 onMounted(() => {

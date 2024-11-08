@@ -78,7 +78,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue","change"]);
 const formData = inject("formContext", null);
 
 function setNestedValue(obj, path, value) {
@@ -104,6 +104,7 @@ const model = computed({
   },
   set(value) {
     emit("update:modelValue", value);
+    emit("change", value);
 
     if (formData && props.name) {
       if (props.name.includes("[") && props.name.includes("]")) {

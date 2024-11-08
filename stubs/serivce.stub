@@ -11,10 +11,11 @@ export default function use{{pageName}}Service() {
   }
   const getPaginatedList = async () => {
     let response = await use{{pageName}}Api.getPaginatedList()
-
+  
     return {
       data: response.data.data,
-      pagination: { ...response.data.links, ...response.data.meta }
+      links: response.data.links,
+      meta: response.data.meta
     }
   }
   

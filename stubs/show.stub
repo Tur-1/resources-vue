@@ -12,5 +12,5 @@ let routeParam = route?.params?.id
 onMounted(async () => show(routeParam))
 </script>
 <template>
- 
+ <h1>{{ route.meta.title }}</h1>
 </template>
