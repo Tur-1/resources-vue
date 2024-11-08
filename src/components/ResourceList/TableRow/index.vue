@@ -41,18 +41,20 @@ watch(
         v-for="(column, colIndex) in columns"
         :key="colIndex"
         :class="column.getClass()"
-        :style="{
-          textAlign: column.getAlign() + '!important',
-          width: column.getWidth() + '!important',
-        }"
+        :style="{ textAlign: column.getAlign() + '!important'}"
       >
         <template v-if="!column.isHidden(item)">
-          <template v-if="column.isImageColumn">
+          <template v-if="column.isImageColumn"> 
             <img
               :src="column.getField(item) ?? defaultImage"
               :alt="column.getField(item)"
+              :class="[{ 'rounded-circle': column.isCircular(item) }]"
               class="img-thumbnail"
-              style="max-width: 80px; max-height: 80px"
+              :style="{
+                maxWidth: column.getWidth(),
+                height: column.getHeight(),
+          
+              }"
             />
           </template>
           <template v-else>
@@ -113,5 +115,9 @@ tr {
 .actions-hr {
   margin: 5px !important;
   color: #ccc !important;
+}
+.badge{
+  font-size:  unset !important;
+  font-weight: unset !important;
 }
 </style>

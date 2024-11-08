@@ -1,10 +1,10 @@
 
-import { ResourceApi } from '@tur1/resources-vue' 
+import { useResourceApi } from '@tur1/resources-vue' 
 
 let baseURl = '';
 function api(applyQueryString)
 {
-  return ResourceApi({ url: baseURl, applyQueryString: applyQueryString })
+  return useResourceApi(baseURl,applyQueryString)
 }
 
 const getAll = () => {
@@ -22,7 +22,7 @@ const update = (data, id) => {
 }
 
 const show = (id) => {
-  return api().post('/{{snakeCasePageName}}/show/' + id)
+  return api().get('/{{snakeCasePageName}}/show/' + id)
 }
 
 const destroy = (id) => {

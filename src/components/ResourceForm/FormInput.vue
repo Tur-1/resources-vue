@@ -10,7 +10,7 @@ const props = defineProps({
   type: {
     type: String,
     default: "text",
-  },
+  },  
   name: String,
   placeholder: String,
   label: String,
@@ -24,39 +24,13 @@ const formContext = inject("formContext", null);
 
 const errors = inject("errors", {});
  
-const model = defineModel() 
+const model = defineModel();
 </script>
 
 <template>
-  <div v-if="type == 'radio' || type == 'checkbox'" class="mb-2" :class="class">
-    <div class="form-check w-100">
-      <input
-        :class="{ 'is-invalid': error }"
-        class="form-check-input"
-        :type="type"
-        :id="id"
-        :name="name"
-        v-model="model"
-      />
-      <label v-if="label" :for="id" class="form-check-label">
-        {{ label }}
-        <span v-if="required" class="text-danger">*</span>
-      </label>
-    </div>
-    <span class="text-danger mt-1 ms-2" v-if="error" style="font-size: 12px">
-      {{ error }}
-    </span>
-    <span
-      class="text-danger mt-1 ms-2 row"
-      v-if="errors[props?.name]"
-      style="font-size: 12px"
-    >
-      {{ errors[props.name][0] }}
-    </span>
-  </div>
+ 
 
-
-  <div v-else-if="type === 'search'">
+  <div v-if="type === 'search'">
     <label v-if="label" :for="id" class="form-input-label">
       {{ label }}
     </label>
@@ -83,24 +57,20 @@ const model = defineModel()
     </label>
     <input
       class="form-control"
-      :class="{ 'is-invalid': error }"
+      :class="{ 'is-invalid': error || errors[props?.name] }"
       :type="type"
       :placeholder="placeholder"
-      :id="id"
+      :id="id"  
       :name="name"
+      :aria-describedby="id" 
        v-model="model"
-      :aria-describedby="id"
     />
-
-    <span class="text-danger mt-1 ms-2" v-if="error" style="font-size: 12px">
-      {{ error }}
-    </span>
     <span
       class="text-danger mt-1 ms-2 row"
-      v-if="errors[props?.name]"
+      v-if="error || errors[props?.name]"
       style="font-size: 12px"
     >
-      {{ errors[props.name][0] }}
+      {{ error || errors[props.name][0] }}
     </span>
   </div>
 </template>

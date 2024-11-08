@@ -36,7 +36,7 @@ const emits = defineEmits(["openConfirm"]);
             !useTableSkeletonLoading.isLoading &&
             dataList?.length == 0
           "
-          :columns="props.resource.fields()"
+          :columns="props.resource.fields().length + 2"
         />
       </tbody>
     </table>

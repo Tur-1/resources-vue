@@ -40,6 +40,7 @@ const useResourceNotification = reactive({
 
   clearTimeout() {
     if (this.timeoutId) {
+      this.message = '';
       clearTimeout(this.timeoutId);
       this.timeoutId = null;
     }

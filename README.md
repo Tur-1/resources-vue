@@ -413,14 +413,14 @@ queryString.reset(); // removes all query parameters
 queryString.get("status"); // returns 'active'
 ```
 
-### ResourceApi
+### useResourceApi
 
-To make API requests, you can use the `ResourceApi`:
+To make API requests, you can use the `useResourceApi`:
 
 ```javascript
-import { ResourceApi } from "@tur1/resources-vue";
+import { useResourceApi } from "@tur1/resources-vue";
 
-ResourceApi("http://example.test/").get("/users");
+useResourceApi("http://example.test/").get("/users");
 ```
 
 ### Router Setup with `setResourceRouter`

@@ -1,7 +1,6 @@
 <script setup>
 import PaginationSekeleton from "@/components/ResourceList/TableSkeleton/PaginationSekeleton.vue";
-import useTableSkeletonLoading from "@/components/ResourceList/TableSkeleton/useTableSkeletonLoading";
-import useResourceData from "@/stores/useResourceData";
+import useTableSkeletonLoading from "@/components/ResourceList/TableSkeleton/useTableSkeletonLoading"; 
 import { computed } from "vue";
 import useResourceQueryString from "@/composables/useResourceQueryString";
 import BaseResourceException from "@/Exceptions/BaseResourceException";

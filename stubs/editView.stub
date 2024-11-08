@@ -17,7 +17,7 @@ onMounted(async () => show(routeParam))
       type="form"
       :submit="(data) => update(data, routeParam)"
       title="update {{singularPageName}}"
-      :data="{{pageName}}Store.{{singularPageName}}"
+      :values="{{pageName}}Store.{{singularPageName}}"
     > 
           <ResourceForm type="text" label="name" name="name" id="name1" />
 

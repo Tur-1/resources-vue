@@ -4,7 +4,7 @@ import ResourceIndicator from "@/components/ResourceIndicator/index.vue";
 import { reactive, provide, watch, ref } from "vue";
 import ResourceNotification from "@/components/ResourceNotification/index.vue";
 import useResourceNotification from "@/components/ResourceNotification/useResourceNotification";
-import ResourceApi from "./../../api/ResourceApi";
+import useResourceApi from "@/api/useResourceApi";
 import { getRouter } from "@/composables/useResourceRouter";
 
 const props = defineProps({
@@ -15,14 +15,20 @@ const props = defineProps({
     required: true,
   },
   class: String,
-  data: Object,
+  values: Object,
   redirectAfterSubmit: [String, Object],
 });
 
 let formData = reactive({});
 let errors = reactive({});
+
+provide("formContext", formData);
+provide("errors", errors);
+
+const router = getRouter()?.value;
+
 watch(
-  () => props.data,
+  () => props.values,
   (newValue) => {
     if (newValue) {
       Object.assign(formData, newValue);
@@ -34,10 +40,6 @@ watch(
   },
   { deep: true, immediate: true }
 );
-provide("formContext", formData);
-provide("errors", errors);
-
-const router = getRouter()?.value;
 
 const handleSubmit = async () => {
   useResourceIndicator.show();
@@ -47,7 +49,7 @@ const handleSubmit = async () => {
       await props.submit(formData);
     }
     if (typeof props.submit === "string") {
-      await ResourceApi().post(props.submit, formData);
+      await useResourceApi().post(props.submit, formData);
     }
     if (typeof props.redirectAfterSubmit === "string" && router) {
       router.push({ name: props.redirectAfterSubmit });
@@ -55,8 +57,8 @@ const handleSubmit = async () => {
     if (typeof props.redirectAfterSubmit === "object" && router) {
       router.push(props.redirectAfterSubmit);
     }
-    if (props.data) {
-      Object.assign(formData, props.data);
+    if (props.values) {
+      Object.assign(formData, props.values);
     } else {
       Object.keys(formData).forEach((key) => {
         formData[key] = "";
@@ -74,22 +76,13 @@ const handleSubmit = async () => {
     useResourceIndicator.hide();
   }
 };
-
-function findMissingKeys() {
-  const missingKeys = Object.keys(errors).filter((key) => !(key in formData));
-
-  allErrors.value.length = 0;
-  missingKeys.forEach((key) => {
-    allErrors.value.push(errors[key][0]);
-  });
-}
 </script>
 <template>
-  <div class="resource-form">
-    <div class="header">
-      <h4>{{ title }}</h4>
-    </div>
+  <div class="resource-form" :class="class">
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
+      <div class="header">
+        <h4>{{ title }}</h4>
+      </div>
       <div class="card border-1 p-2 pb-4 mb-4">
         <div class="card-body p-0 p-md-4">
           <slot />

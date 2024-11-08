@@ -184,6 +184,21 @@ export declare interface ActionInstance {
 }
 export declare function Column(): ColumnInstance;
 export declare interface ColumnInstance {
+
+  /**
+   * Sets the column as a circular image
+   * @param condition
+   * @returns {this}
+   */
+  circular(condition: boolean | ((record: any) => boolean) = true): this;
+
+  /**
+  * Sets a specific height for the column.
+  * @param value - The height value in CSS units (e.g., '50px', '20%').
+  * @returns {this}
+  */
+ 
+  height(value: string): this;
   /**
    * Sets the column as an image column.
    * @returns {this}
@@ -365,21 +380,13 @@ interface QueryParams {
   [key: string]: string | (string | null)[] | null | undefined;
 }
 
-interface ResourceApiOptions {
-  url: string;
-  applyQueryString?: boolean;
-}
-
 /**
- * Creates an Axios instance
- * @param {ResourceApiOptions} options
- * @param {string} options.url
- * @param {boolean} [options.applyQueryString=false] 
+ * Creates an Axios instance 
+ * @param {string} baseURL
+ * @param {boolean} [applyQueryString=false]
  * @returns {AxiosInstance}
  */
-export declare function ResourceApi(
-  options: ResourceApiOptions
-): AxiosInstance;
+export declare function useResourceApi(baseURL: string, applyQueryString: boolean = false): AxiosInstance;
 
 export interface ResourceQueryString {
   params: Ref<Record<string, any>>;

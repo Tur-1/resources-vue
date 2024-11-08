@@ -9,7 +9,7 @@
       :id="id"
       :name="name"
       v-model="model" 
-      :class="{ 'is-invalid': error }"
+      :class="{ 'is-invalid': error || errors[props?.name] }"
       class="form-select"
     >
       <option value="">-</option>
@@ -23,17 +23,10 @@
     </select>
     <span
       class="text-danger mt-1 ms-2 row"
-      v-if="error"
+      v-if="error || errors[props?.name]"
       style="font-size: 12px"
     >
-      {{ error }}
-    </span>
-    <span
-      class="text-danger mt-1 ms-2 row"
-      v-if="errors[props?.name]"
-      style="font-size: 12px"
-    >
-      {{ errors[props.name][0] }}
+      {{ error || errors[props.name][0] }}
     </span>
   </div>
 </template>
@@ -57,14 +50,10 @@ const props = defineProps({
   options: [Object, Array, Function],
 });
 
- 
-const emit = defineEmits(["update:modelValue"]);
+  
 const optionsState = ref([]);
 const computedOptions = computed(() => optionsState.value);
-const model = computed({
-  get: () => props.modelValue,
-  set: (value) => emit("update:modelValue", value),
-});
+const model = defineModel();
 
 onMounted(async () => {  
  

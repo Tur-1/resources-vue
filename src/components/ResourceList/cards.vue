@@ -30,13 +30,23 @@
           <div class="card-body p-2">
             <template v-for="column in columns">
               <div class="d-flex gap-2 mb-1" v-if="!column.isImageColumn">
-                <span :class="column.getClass()" :style="column.cssStyle">
+                <span
+                  :style="column.cssStyle"
+                  :class="[
+                    column.badgeClassCallback
+                      ? `badge text-bg-${column.getBadgeClass(
+                          column.getField(item)
+                        )}`
+                      : '',
+                    column.getClass(),
+                  ]"
+                >
                   {{ column.getField(item) }}
                 </span>
               </div>
             </template>
 
-            <div class="d-flex justify-content-between align-items-center mt-1">
+            <div class="d-flex justify-content-between align-items-center mt-2">
               <div class="form-check">
                 <input
                   class="form-check-input"
@@ -102,7 +112,8 @@ const emits = defineEmits(["openConfirm"]);
 const props = defineProps(["resource", "actions", "dataList"]);
 const columns = props.resource.fields();
 
-const { bulkItems, selectedItems, toggleSelectAll, isSelectAllItems } = useBaseResource();
+const { bulkItems, selectedItems, toggleSelectAll, isSelectAllItems } =
+  useBaseResource();
 
 const imageColumn = computed(() =>
   columns.find((column) => column.isImageColumn)
@@ -114,7 +125,7 @@ const applyAction = (action, item, index) => {
     action.handle(item, index);
   }
 };
- 
+
 watch(
   () => selectedItems.value,
   (value) => {
@@ -127,7 +138,10 @@ watch(
   margin: 5px !important;
   color: #ccc !important;
 }
-
+.badge {
+  font-size: unset !important;
+  font-weight: unset !important;
+}
 .card {
   border: none;
 }

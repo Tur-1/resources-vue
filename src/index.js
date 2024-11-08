@@ -4,16 +4,17 @@ import ResourceAction from "./Base/ResourceAction"
 import {setResourceRouter} from "./composables/useResourceRouter"
 import ResourceForm from "./components/ResourceForm/index.vue"
 import ResourceList from "./components/ResourceList/index.vue"
-import ResourceApi from "./api/ResourceApi"
+import useResourceApi from "./api/useResourceApi"
 import useResourceQueryString from './composables/useResourceQueryString'; 
 import useResourceNotification from './components/ResourceNotification/useResourceNotification';
+import ResourceNotification from './components/ResourceNotification/index.vue';
 import Action from './Base/Action';
 import Column from './Base/Column';
 
 
 export
 { 
-    ResourceApi,
+    useResourceApi, 
     Action,
     Column,
     ResourceForm,
@@ -22,6 +23,7 @@ export
     BaseResource,
     ResourceAction,
     useResourceNotification,
+    ResourceNotification,
     setResourceRouter,
     useResourceQueryString,
 };

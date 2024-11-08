@@ -35,6 +35,12 @@ export default function Column()
       this.widthValue = value;
       return this;
     },
+    height(value)
+    {
+      this.heightValue = value;
+      return this;
+    },
+    
     hidden(visableCallback)
     {
       this.isColumnHidden = visableCallback;
@@ -89,6 +95,12 @@ export default function Column()
       
       return 'dark';
     },
+    circular(condition = true)
+    {
+      this.isCircularColumn = condition;
+
+      return this;
+    },
     getClass()
     {
       return this.classColumn
@@ -106,6 +118,10 @@ export default function Column()
     getWidth()
     {
       return this.widthValue;
+    },
+    getHeight()
+    {
+      return this.heightValue;
     },
     getLabel()
     {
@@ -133,8 +149,12 @@ export default function Column()
     {
       return typeof this.isColumnHidden === 'function' ? this.isColumnHidden(record) : this.isColumnHidden;
     },
-
-
+    isCircular(record)
+    {
+      return typeof this.isCircularColumn === 'function' ? this.isCircularColumn(record) : this.isCircularColumn;
+    },
+   
+    
     badgeClassCallback: null,
     cssStyle: null,
     labelColumn: null,
@@ -142,9 +162,10 @@ export default function Column()
     fieldColumn: null,
     isImageColumn: false,
     formatCallback: null,
-
+    isCircularColumn:false,
     alignType: 'left',
-    widthValue: null,
+    widthValue: '80px',
+    heightValue: '80px',
     isColumnHidden: false,
     classColumn: '',
     defaultValue: null,

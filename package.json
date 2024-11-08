@@ -1,6 +1,6 @@
 {
   "name": "@tur1/resources-vue",
-  "version": "1.6.2",
+  "version": "1.6.4",
   "main": "dist/core.umd.js",
   "module": "dist/core.es.js",
   "types": "dist/index.d.ts",
@@ -15,9 +15,6 @@
     ".": {
       "import": "./dist/core.es.js",
       "require": "./dist/core.umd.js"
-    },
-    "./style.css": {
-      "default": "./dist/style.css"
     }
   },
   "peerDependencies": {
@@ -36,6 +33,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc --emitDeclarationOnly && cp src/index.d.ts dist/",
+
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
