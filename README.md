@@ -387,12 +387,15 @@ class DeleteUser extends ResourceAction {
    * @type {boolean}
    */
   isDeleteAction = true;
+
+
   /**
-   * Handle the action. 
+   * Executes the action.
+   * @param {Object} record
+   * @returns {void}
    */
- async make(record) {
-    const {destroy} = useUsersService();
-    await destroy(record)
+  async make(record) {
+     await destroy(record)
   }
 
 
@@ -403,9 +406,7 @@ class DeleteUser extends ResourceAction {
 }
 ```
 ### Notifications
-
-To show notifications, you can use the `useResourceNotification` composable to display success or error messages.
-
+ 
 Example:
 
 ```javascript
@@ -417,7 +418,7 @@ useResourceNotification.success("Success message");
 
 ### Query String Management
 
-You can use the `useResourceQueryString` composable to manage query strings for URL parameters.
+to manage query strings for URL parameters.
 
 Example:
 
@@ -438,7 +439,7 @@ To make API requests, you can use the `useResourceApi`:
 ```javascript
 import { useResourceApi } from "@tur1/resources-vue";
 
-useResourceApi("http://example.test/").get("/users");
+useResourceApi("http://example.test").get("/users");
 ```
 
 ### Router Setup with `setResourceRouter`
@@ -446,18 +447,13 @@ useResourceApi("http://example.test/").get("/users");
 To use filters based on query strings, you need to integrate the `setResourceRouter` function in your Vue Router setup. Modify your `router/index.js`:
 
 ```javascript
-import { createRouter, createWebHistory } from "vue-router";
-import UsersRoutes from "@/pages/Users/routes";
+import { createRouter, createWebHistory } from "vue-router"; 
 import { setResourceRouter } from "@tur1/resources-vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [...UsersRoutes],
+  routes: [],
 });
 
 setResourceRouter(router);
-
-export default router;
 ```
-
-The `setResourceRouter(router)` function ensures filters and other resource-based functionalities work seamlessly with the query string.
