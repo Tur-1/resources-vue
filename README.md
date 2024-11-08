@@ -254,7 +254,7 @@ export default Filter;
 You can generate a new action by running the command below.
 
 ```bash
-npm run make:filter Users/EditUserAction
+npm run make:action Users/EditUserAction
 ```
 
 This command will generate the EditUserAction.js file in the appropriate folder (for example, inside pages/Users/Actions).
@@ -263,7 +263,7 @@ This command will generate the EditUserAction.js file in the appropriate folder 
 import { ResourceAction } from "@tur1/resources-vue";
  
 class EditUserAction extends ResourceAction {
-  /**
+    /**
    * The label of the action.
    * @type {string}
    */
@@ -282,7 +282,21 @@ class EditUserAction extends ResourceAction {
   class = 'text-primary';
 
   /**
+   * Whether the action requires confirmation.
+   * @type {boolean}
+   */
+  requiresConfirmation = false;
+
+  /**
+   * Whether the action is a delete action.
+   * @type {boolean}
+   */
+  isDeleteAction = false;
+
+ 
+ /**
    * Returns the route object for the action.
+   * @param {Object} record
    * @returns {{ name: string, param?: string }}
    */
   route(record) {
@@ -292,29 +306,33 @@ class EditUserAction extends ResourceAction {
     };
   }
 
-  hidden(record)
-  {
+  /**
+   * Determines whether the action should be hidden.
+   * @param {Object} record
+   * @returns {boolean}
+   */
+  hidden(record) {
     return false;
   }
 
-   /**
-   * Applies the action to the given record.
-   * @param record
-   * @returns {this} 
+  /**
+   * Executes the action.
+   * @param {Object} record
+   * @returns {void}
    */
-  make(record){
-
-  };
+  async make(record) {
+  }
  
 }
-
-export default EditUserAction;
+ 
 ```
 ## Action Function
 
 You can define actions using the Action function. Here's how you can set up delete and show actions:
 
-To **apply an action**, use the `make` method. To define the action's route, use the `route` method.
+#### To **apply an action**, use the `make` method. 
+
+#### To define the action's route, use the `route` method.
 
 ### Example: Delete Action
 

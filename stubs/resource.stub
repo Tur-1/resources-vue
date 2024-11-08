@@ -65,9 +65,25 @@ class {{pageName}} extends BaseResource {
    */
   fields() {
     return [
-      Column().make('id').label('#'),
+      Column().make('id').label('id'),
+
       Column().make('user.avatar').image().label('Image'),
+
       Column().make('name').label('Name'),
+         Column()
+        .make('gender')
+        .label('Gender')
+        .badge((value) => (value === 'male' ? 'primary' : 'secondary')),
+
+      Column().make('status').label('Status').badge({
+        active: 'success',
+        inactive: 'danger'
+      }),
+
+      Column()
+        .make('created_at')
+        .label('Created At')
+        .format((date) => new Date(date).toLocaleDateString())
     ]
   }
 
