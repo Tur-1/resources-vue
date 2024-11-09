@@ -118,8 +118,9 @@ class {{pageName}} extends BaseResource {
       Action()
       .deleteAction()
       .make(async (record) => await destroy(record))
-      .onSuccess((record) => '')
-      .onFailure((error,record) => ''),
+      .onSuccess((record) => console.log(record))
+      .onFailure((err, record) => console.log(err, record)),
+
     ];
   }
 
