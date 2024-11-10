@@ -1,3 +1,59 @@
+
+<script setup>
+import Form from "@/components/ResourceForm/Form.vue";
+import FormInput from "@/components/ResourceForm/FormInput.vue";
+import FormSelect from "@/components/ResourceForm/FormSelect.vue";
+import FormCheckBox from "@/components/ResourceForm/FormCheckBox.vue";
+import FormRadio from "@/components/ResourceForm/FormRadio.vue";
+import { ref, computed, inject, watch } from "vue";
+const props = defineProps({
+  id: String,
+  name: String,
+  placeholder: String,
+  label: String,
+  error: String,
+  class: String,
+  title: String,
+  checked:Boolean,
+  values: Object,
+  redirectAfterSubmit: [String, Object],
+  submitTitle: String,
+  submit: [String, Function],
+  options: [Object, Array, Function],
+  modelValue: [String, Number, Array,Boolean],
+  value: [String, Number, Boolean],
+  required: {
+    type: Boolean,
+    default: true,
+  },
+  type: {
+    type: String,
+    default: "text",
+  },
+});
+
+const emit = defineEmits(["update:modelValue","change"]);
+
+const formData = inject("formContext", null);
+
+  
+const model = computed({
+  get() {
+    if (props.modelValue) {
+      return props.modelValue;
+    }
+    return formData ? formData[props.name] : '';
+  },
+  set(value) {
+    emit("update:modelValue", value);
+    emit("change", value);
+ 
+    if (formData && props.name) {
+      formData[props.name] =  value;
+    }
+  },
+});
+</script>
 <template>
   <Form
     v-if="props.type === 'form'"
@@ -12,12 +68,26 @@
   </Form>
 
   <FormCheckBox
-    v-else-if="type == 'radio' || type == 'checkbox'"
-    v-model="model"
+    v-else-if="type == 'checkbox'" 
     :id="props.id"
     :value="props.value"
     :name="props.name"
+    v-model="model"
     :type="props.type"
+    :checked="checked"
+    :placeholder="props.placeholder"
+    :label="props.label"
+    :error="props.error"
+    :class="props.class"
+  />
+  <FormRadio
+    v-else-if="type == 'radio'" 
+    :id="props.id"
+    :value="props.value"
+    :name="props.name"
+    v-model="model"
+    :type="props.type"
+    :checked="checked"
     :placeholder="props.placeholder"
     :label="props.label"
     :error="props.error"
@@ -46,73 +116,3 @@
     :class="props.class"
   />
 </template>
-
-<script setup>
-import Form from "@/components/ResourceForm/Form.vue";
-import FormInput from "@/components/ResourceForm/FormInput.vue";
-import FormSelect from "@/components/ResourceForm/FormSelect.vue";
-import FormCheckBox from "@/components/ResourceForm/FormCheckBox.vue";
-import { ref, computed, inject, watch } from "vue";
-const props = defineProps({
-  id: String,
-  name: String,
-  placeholder: String,
-  label: String,
-  error: String,
-  class: String,
-  title: String,
-  values: Object,
-  redirectAfterSubmit: [String, Object],
-  submitTitle: String,
-  submit: [String, Function],
-  options: [Object, Array, Function],
-  modelValue: [String, Number, Array,Boolean],
-  value: [String, Number, Boolean],
-  required: {
-    type: Boolean,
-    default: true,
-  },
-  type: {
-    type: String,
-    default: "text",
-  },
-});
-
-const emit = defineEmits(["update:modelValue","change"]);
-const formData = inject("formContext", null);
-
-function setNestedValue(obj, path, value) {
-  const keys = path.replace(/\]/g, "").split(/\[|\./);
-
-  let current = obj;
-  for (let i = 0; i < keys.length - 1; i++) {
-    if (!current[keys[i]]) {
-      current[keys[i]] = isNaN(keys[i + 1]) ? {} : [];
-    }
-    current = current[keys[i]];
-  }
-  current[keys[keys.length - 1]] = value;
-}
-
-// Computed property for model binding
-const model = computed({
-  get() {
-    if (props.modelValue) {
-      return props.modelValue;
-    }
-    return formData ? formData[props.name] : '';
-  },
-  set(value) {
-    emit("update:modelValue", value);
-    emit("change", value);
-
-    if (formData && props.name) {
-      if (props.name.includes("[") && props.name.includes("]")) {
-        setNestedValue(formData, props.name, props.value !== false ? props.value : value);
-      } else { 
-        formData[props.name] = props.value !== false ? props.value : value;
-      }
-    }
-  },
-});
-</script>

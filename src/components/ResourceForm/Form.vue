@@ -1,7 +1,7 @@
 <script setup>
 import useResourceIndicator from "@/components/ResourceIndicator/useResourceIndicator";
 import ResourceIndicator from "@/components/ResourceIndicator/index.vue";
-import { reactive, provide, watch, ref } from "vue";
+import { reactive, provide, watch, ref, computed } from "vue";
 import ResourceNotification from "@/components/ResourceNotification/index.vue";
 import useResourceNotification from "@/components/ResourceNotification/useResourceNotification";
 import useResourceApi from "@/api/useResourceApi";
@@ -22,6 +22,7 @@ const props = defineProps({
 let formData = reactive({});
 let errors = reactive({});
 
+let data = ref([]);
 provide("formContext", formData);
 provide("errors", errors);
 
@@ -29,73 +30,51 @@ const router = getRouter()?.value;
 
 watch(
   () => props.values,
-  (newValue) =>
-  {
-    if (newValue)
-    {
-      Object.assign(formData, newValue);
-    } else
-    {
-      Object.keys(formData).forEach((key) =>
-      {
-        formData[key] = "";
-      });
-    }
+  (newValue) => {
+    Object.assign(formData, newValue);
   },
   { deep: true, immediate: true }
 );
+
 const submitActions = {
-  function: async () => await props.submit(formData),
-  string: async () => await useResourceApi().post(props.submit, formData),
+  function: async (submitData) => await props.submit(submitData),
+  string: async (submitData) =>
+    await useResourceApi().post(props.submit, submitData),
 };
 const redirectActions = {
   string: (route) => router.push({ name: props.redirectAfterSubmit }),
   object: (route) => router.push(props.redirectAfterSubmit),
 };
-const handleSubmit = async () =>
-{
-
+const handleSubmit = async () => {
   const submitAction = submitActions[typeof props.submit];
   const redirect = redirectActions[typeof props.redirectAfterSubmit];
 
   useResourceIndicator.show();
-
-  try
-  {
-    await submitAction();
-
-    if (props.values)
-    {
-      Object.assign(formData, props.values);
-    }
+ 
+  try {
+    await submitAction(formData);
+ 
 
     clearErrors();
-    
-    if (router)
-    {
+
+    if (router) {
       redirect();
     }
-
-  } catch (error)
-  {
-    if (error.response && error.response.data.errors)
-    {
+  } catch (error) {
+    if (error.response && error.response.data.errors) {
       useResourceNotification.error(error.message);
       Object.assign(errors, error.response.data.errors);
     }
-  } finally
-  {
+  } finally {
     useResourceIndicator.hide();
   }
 };
 
-const clearErrors = () =>
-{
-  Object.keys(errors).forEach((key) =>
-  {
+const clearErrors = () => {
+  Object.keys(errors).forEach((key) => {
     errors[key] = "";
   });
-}
+};
 </script>
 <template>
   <div class="resource-form" :class="class">
@@ -110,8 +89,11 @@ const clearErrors = () =>
       </div>
 
       <div class="d-flex justify-content-end">
-        <button class="resource-form-btn btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
-          type="submit" :disabled="useResourceIndicator.isOnProgress">
+        <button
+          class="resource-form-btn btn btn-primary text-white d-inline-flex align-items-center bg-dark border-0"
+          type="submit"
+          :disabled="useResourceIndicator.isOnProgress"
+        >
           <span>{{ submitTitle ?? "save" }}</span>
         </button>
       </div>
