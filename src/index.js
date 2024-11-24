@@ -10,6 +10,7 @@ import useResourceNotification from './components/ResourceNotification/useResour
 import ResourceNotification from './components/ResourceNotification/index.vue';
 import Action from './Base/Action';
 import Column from './Base/Column';
+import Table from './Base/Table';
 
 
 export
@@ -17,6 +18,7 @@ export
     useResourceApi, 
     Action,
     Column,
+    Table,
     ResourceForm,
     ResourceList,
     ResourceFilter,

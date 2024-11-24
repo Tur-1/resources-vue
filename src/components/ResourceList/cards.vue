@@ -110,7 +110,7 @@ import defaultImage from "@/assets/default-image.jpg";
 
 const emits = defineEmits(["openConfirm"]);
 const props = defineProps(["resource", "actions", "dataList"]);
-const columns = props.resource.fields();
+const columns = props.resource.table().getColumns();
 
 const { bulkItems, selectedItems, toggleSelectAll, isSelectAllItems } =
   useBaseResource();

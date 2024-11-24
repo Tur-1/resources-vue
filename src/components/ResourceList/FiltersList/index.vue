@@ -76,7 +76,8 @@ const resetFilters = () => {
 };
 
 onMounted(() => {
-  reactiveFilters.value = props.filters();
+  
+  reactiveFilters.value = props.filters.getFilters();
   reactiveFilters.value.forEach((filter) => {
     filter.classConstructorName = toSnakeCase(toRaw(filter).constructor.name);
     filter.selectedValue = ref(queryString.get(filter.queryString) ?? "");

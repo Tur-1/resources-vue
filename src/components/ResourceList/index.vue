@@ -39,7 +39,7 @@ const debouncedFetchResourceData = debounce(async () => {
 }, 300);
 
 onMounted(async () => {
-  await fetchResourceData(props.resource.data);
+  await fetchResourceData(props.resource.data);  
 });
 
 watch(
@@ -52,17 +52,17 @@ watch(
   { immediate: false }
 );
  
-
+ 
 </script>
 <template>
-  <HeaderActions :resource="props.resource" />
+   <HeaderActions :resource="props.resource" />
 
   <div class="card shadow-sm mt-3 card-list">
     <div class="pe-3 ps-3 pt-3">
       <div class="d-flex justify-content-between">
         <div class="col-md-2 col-lg-2">
           <FiltersList
-            :filters="props.resource.filters"
+            :filters="props.resource.table()"
             :paginationQueryKey="props.resource.paginationQueryKey"
           >
             <slot name="filters" />
@@ -83,7 +83,7 @@ watch(
             </button>
             <ul class="resource-dropdown-menu dropdown-menu" id="bulkActionsMenu">
               <li
-                v-for="(action, index) in resource.bulkActions()"
+                v-for="(action, index) in props.resource.table().getBulkActions()"
                 :key="index"
               >
                 <a
@@ -106,14 +106,14 @@ watch(
         @openConfirm="openConfirmModal"
         :resource="props.resource"
         :dataList="dataList"
-        :actions="props.resource.actions()"
+        :actions="props.resource.table().getActions()"
       />
       <Cards
         v-else
         @openConfirm="openConfirmModal"
         :resource="props.resource"
         :dataList="dataList"
-        :actions="props.resource.actions()"
+       :actions="props.resource.table().getActions()"
       />
       <TablePagination
         v-if="pagination"
@@ -126,7 +126,7 @@ watch(
 
   <ResourceIndicator />
   <ResourceNotification />
-  <ResourceConfirmModal @onConfirm="handleConfirmModal" />
+  <ResourceConfirmModal @onConfirm="handleConfirmModal" />  
 </template>
 <style>
 @import "./table-list.css";

@@ -18,25 +18,25 @@ const emits = defineEmits(["openConfirm"]);
 <template>
   <div class="table-responsive">
     <table class="table table-hover">
-      <TableHead :columns="props.resource.fields()" />
+      <TableHead :columns="props.resource.table().getColumns()" />
       <tbody>
         <TableRow
           v-if="!useTableSkeletonLoading.isLoading"
           @openConfirm="(action,item) => $emit('openConfirm',action, item)"
           :data="dataList"
-          :columns="props.resource.fields()"
+          :columns="props.resource.table().getColumns()"
           :actions="actions"
         />
         <TableSkeleton
           v-if="useTableSkeletonLoading.isLoading"
-          :columnsLength="props.resource.fields().length"
+          :columnsLength="props.resource.table().getColumns().length"
         />
         <NoRecordsFound
           v-if="
             !useTableSkeletonLoading.isLoading &&
             dataList?.length == 0
           "
-          :columns="props.resource.fields().length + 2"
+          :columns="props.resource.table().getColumns().length + 2"
         />
       </tbody>
     </table>

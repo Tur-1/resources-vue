@@ -7,7 +7,7 @@ import use{{pageName}}Service from '@/pages/{{pageName}}/services/use{{pageName}
 
 const {destroy} = use{{pageName}}Service();
 
-class {{pageName}} extends BaseResource {
+class {{pageName}}Resource extends BaseResource {
   /**
    * The title of the page.
    * @type {string}
@@ -139,4 +139,4 @@ class {{pageName}} extends BaseResource {
 
 }
 
-export default {{pageName}};
+export default {{pageName}}Resource;
