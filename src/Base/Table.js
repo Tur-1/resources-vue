@@ -1,46 +1,86 @@
-export default function Table() {
+export default function Table(display = "table")
+{
   return {
     columnsTable: [],
     headerActionsTable: [],
     actionsTable: [],
     bulkActionsTable: [],
     filtersTable: [],
+    dataCallback: undefined,
+    displayList: display,
+    listSearchPlaceholder: null,
+    listSimplePagination: true,
 
-    columns(columns) {
+    data(callback)
+    {
+      this.dataCallback = callback;
+      return this;
+    },
+     getData()
+    {
+      return typeof this.dataCallback === "function" ?
+         this.dataCallback() :
+        this.dataCallback;
+    },
+    searchable()
+    {
+      return this;
+    },
+    searchPlaceholder(placeholder = "search")
+    {
+      this.listSearchPlaceholder = placeholder;
+      return this;
+    },
+    simplePagination(condition = true)
+    {
+      this.listSimplePagination = condition;
+      return this;
+    },
+    columns(columns)
+    {
       this.columnsTable = columns;
       return this;
     },
-    headerActions(actions) {
+    headerActions(actions)
+    {
       this.headerActionsTable = actions;
       return this;
     },
-    actions(actions) {
+    actions(actions)
+    {
       this.actionsTable = actions;
       return this;
     },
-    bulkActions(actions) {
+    bulkActions(actions)
+    {
       this.bulkActionsTable = actions;
 
       return this;
     },
-    filters(filters) {
+    filters(filters)
+    {
       this.filtersTable = filters;
       return this;
     },
 
-    getColumns() {
+    getColumns()
+    {
       return this.columnsTable;
     },
-    getHeaderActions() {
+    getHeaderActions()
+    {
       return this.headerActionsTable;
     },
-    getActions() {
+    getActions()
+    {
       return this.actionsTable;
     },
-    getBulkActions() {
+    getBulkActions()
+    {
       return this.bulkActionsTable;
     },
-    getFilters() {
+    getFilters()
+    {
       return this.filtersTable;
     },
   };

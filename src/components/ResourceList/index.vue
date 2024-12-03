@@ -34,12 +34,13 @@ const {
 } = useBaseResource();
 
 const queryString = useResourceQueryString();
+
 const debouncedFetchResourceData = debounce(async () => {
-  await fetchResourceData(props.resource.data);
+  await fetchResourceData(props.resource.table().getData());
 }, 300);
 
 onMounted(async () => {
-  await fetchResourceData(props.resource.data);  
+  await fetchResourceData(props.resource.table().getData());  
 });
 
 watch(
@@ -55,7 +56,7 @@ watch(
  
 </script>
 <template>
-   <HeaderActions :resource="props.resource" />
+   <!-- <HeaderActions :resource="props.resource" />
 
   <div class="card shadow-sm mt-3 card-list">
     <div class="pe-3 ps-3 pt-3">
@@ -122,11 +123,11 @@ watch(
         :paginationQueryKey="props.resource.paginationQueryKey"
       />
     </div>
-  </div>
-
+  </div> -->
+<!-- 
   <ResourceIndicator />
   <ResourceNotification />
-  <ResourceConfirmModal @onConfirm="handleConfirmModal" />  
+  <ResourceConfirmModal @onConfirm="handleConfirmModal" />   -->
 </template>
 <style>
 @import "./table-list.css";

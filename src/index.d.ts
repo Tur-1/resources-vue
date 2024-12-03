@@ -125,7 +125,12 @@ export declare interface ActionInstance {
    * @param route 
    * @returns {this} 
    */
-  route(route: { name: string; params?: Record<string, any> }): this;
+  route(
+    route:
+      | string
+      | { name: string; params?: Record<string, any> }
+      | ((record: any) => { name: string; params?: Record<string, any> })
+  ): this;
 
   /**
    * Sets the icon for the action.
