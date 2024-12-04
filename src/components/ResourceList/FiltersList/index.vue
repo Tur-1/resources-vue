@@ -24,10 +24,11 @@
           v-model="filter.selectedValue"
           :name="filter.classConstructorName"
           :label="filter.label"
-          :id="filter.id"
+          :key="filter.classConstructorName"
+          :id="filter.classConstructorName"
           @change="handleFilter(filter)"
           :placeholder="filter.placeholder"
-          :options="filter.getType() === 'select' ? filter.options() : []"
+          :options="filter.options()"
         />
       </li>
 
@@ -48,15 +49,14 @@ const props = defineProps({
   filters: {
     required: true,
   },
-  paginationQueryKey: String,
 });
 const queryString = useResourceQueryString();
 const reactiveFilters = ref([]);
-const filterOptions = ref([]);
+
 let { selectedItems, bulkItems, isSelectAllItems } = useBaseResource();
 
 const handleFilter = (filter) => {
-  delete queryString.params.value[props.paginationQueryKey ?? "page"];
+  queryString.remove("page");
   queryString.add(filter.queryString, filter.selectedValue);
   filter.handle(filter.selectedValue);
   selectedItems.value = [];
@@ -64,7 +64,7 @@ const handleFilter = (filter) => {
 };
 
 const resetFilters = () => {
-  if (Object.keys(queryString.params.value).length === 0) return;
+  if (queryString.count() === 0) return;
 
   queryString.reset();
   reactiveFilters.value.forEach((filter) => {

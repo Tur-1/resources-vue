@@ -4,7 +4,7 @@ import useResourceQueryString from "@/composables/useResourceQueryString";
 import useBaseResource from "@/composables/useBaseResource";
 import NoRecordsFound from "@/components/ResourceList/NoRecordsFound/index.vue";
 import TableSkeleton from "@/components/ResourceList/TableSkeleton/index.vue";
-import TableRow from "@/components/ResourceList/TableRow/index.vue"; 
+import TableRow from "@/components/ResourceList/TableRow/index.vue";
 import TablePagination from "@/components/ResourceList/TablePagination/index.vue";
 import HeaderActions from "@/components/ResourceList/HeaderActions/index.vue";
 import ResourceConfirmModal from "@/components/ResourceConfirmModal/index.vue";
@@ -22,6 +22,8 @@ const props = defineProps({
   },
 });
 
+
+const queryString = useResourceQueryString();
 const {
   openConfirmModal,
   handleConfirmModal,
@@ -33,26 +35,23 @@ const {
   bulkItems,
 } = useBaseResource();
 
-const queryString = useResourceQueryString();
+
 const debouncedFetchResourceData = debounce(async () => {
   await fetchResourceData(props.resource.data);
 }, 300);
 
+watch(
+  () => queryString.getParams(),
+  (newValue) => {
+    debouncedFetchResourceData();
+  },
+  { deep: true }
+);
+
 onMounted(async () => {
+  queryString.getParams();
   await fetchResourceData(props.resource.data);
 });
-
-watch(
-  () => queryString.params.value,
-  (newValue, oldValue) => {
-    if (JSON.stringify(newValue) !== JSON.stringify(oldValue)) {
-      debouncedFetchResourceData();
-    }
-  },
-  { immediate: false }
-);
- 
-
 </script>
 <template>
   <HeaderActions :resource="props.resource" />
@@ -81,7 +80,10 @@ watch(
               <span class="me-2"> Actions</span>
               <i class="fa-solid fa-angle-down"></i>
             </button>
-            <ul class="resource-dropdown-menu dropdown-menu" id="bulkActionsMenu">
+            <ul
+              class="resource-dropdown-menu dropdown-menu"
+              id="bulkActionsMenu"
+            >
               <li
                 v-for="(action, index) in resource.bulkActions()"
                 :key="index"
@@ -119,7 +121,6 @@ watch(
         v-if="pagination"
         :pagination="pagination"
         :simplePagination="props.resource.simplePagination"
-        :paginationQueryKey="props.resource.paginationQueryKey"
       />
     </div>
   </div>
@@ -135,9 +136,8 @@ watch(
   background-color: #909090bf !important;
   border-radius: 5px !important;
 }
- 
+
 .card-list {
   border-radius: 10px;
 }
-
 </style>

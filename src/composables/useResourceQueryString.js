@@ -1,27 +1,20 @@
-import { ref } from 'vue';
+import { ref } from "vue";
 import { getRouter } from "./useResourceRouter";
 
 let params = ref({});
-
-export default function useResourceQueryString()
-{
-  const router = getRouter()?.value; 
-
-  if (router) {
-    params.value = router.currentRoute.query;
-  }
+export default function useResourceQueryString() {
+  const router = getRouter()?.value;
 
   const add = (key, value) => {
     const newParams = { ...params.value };
     newParams[key] = value;
 
     if (router) {
-      router.push({ query: newParams });
+      router.replace({ query: newParams });
       params.value = newParams;
     } else {
       params.value = newParams;
-    } 
-    
+    }
   };
 
   const redirect = (route) => {
@@ -34,10 +27,9 @@ export default function useResourceQueryString()
 
   const reset = () => {
     params.value = {};
+
     if (router) {
-      router.replace({
-        query: {}
-      });
+      router.replace({ query: {} });
     }
   };
 
@@ -54,12 +46,24 @@ export default function useResourceQueryString()
     }
   };
 
+  const getParams = () => {
+    if (router) {
+        params.value = router.currentRoute?.query;
+    }
+    return params.value;
+  };
+
   const get = (key) => {
     return params.value[key];
   };
 
+  const count = ()=>
+  {
+    return Object.keys(getParams()).length;
+  }
   return {
-    params,
+    getParams, 
+    count,
     add,
     remove,
     get,

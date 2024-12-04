@@ -5,24 +5,23 @@ import { computed } from "vue";
 import useResourceQueryString from "@/composables/useResourceQueryString";
 import BaseResourceException from "@/Exceptions/BaseResourceException";
 
-const props = defineProps(["paginationQueryKey", "simplePagination",'pagination']);
+const props = defineProps(["simplePagination",'pagination']);
  
 const queryString = useResourceQueryString();
 
-let pagination = computed(() => props.pagination);
-let querykey = computed(() => props.paginationQueryKey ?? "page");
+let pagination = computed(() => props.pagination); 
 
 
 const changePage = async (url,active = false) => {
   if (url == null || active) return;
 
   const parsedUrl = new URL(url);
-  const page = parsedUrl.searchParams.get(querykey.value);
+  const page = parsedUrl.searchParams.get("page");
 
   if (page) {
-    queryString.add(querykey.value, page);
+    queryString.add("page", page);
   } else {
-    throw BaseResourceException.invalidPaginationQueryKey(querykey.value, url);
+    throw BaseResourceException.invalidPaginationQueryKey("page", url);
   }
 
   window.scrollTo(0, 0);

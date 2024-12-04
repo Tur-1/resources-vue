@@ -1,6 +1,6 @@
 import useResourceQueryString from "../composables/useResourceQueryString";
 import axios from "axios";
-import { useResourceNotification } from "@/index";
+import { useResourceNotification } from "@/index"; 
 
 const useResourceApi = (baseURL, applyQueryString = false) => {
   let api = axios.create({
@@ -15,13 +15,13 @@ const useResourceApi = (baseURL, applyQueryString = false) => {
     }
   });
   const queryString = useResourceQueryString();
-
+  
+   
   api.interceptors.request.use((config) => {
-    if (applyQueryString) {
-      const queryParams = queryString.params.value || {};
+    if (applyQueryString) { 
       config.params = {
         ...config.params,
-        ...queryParams,
+        ...queryString.getParams(),
       };
     }
     return config;

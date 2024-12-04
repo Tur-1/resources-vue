@@ -1,4 +1,3 @@
-
 <script setup>
 import Form from "@/components/ResourceForm/Form.vue";
 import FormInput from "@/components/ResourceForm/FormInput.vue";
@@ -14,13 +13,13 @@ const props = defineProps({
   error: String,
   class: String,
   title: String,
-  checked:Boolean,
+  checked: Boolean,
   values: Object,
   redirectAfterSubmit: [String, Object],
   submitTitle: String,
   submit: [String, Function],
   options: [Object, Array, Function],
-  modelValue: [String, Number, Array,Boolean],
+  modelValue: [String, Number, Array, Boolean],
   value: [String, Number, Boolean],
   required: {
     type: Boolean,
@@ -32,22 +31,21 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["update:modelValue","change"]);
+const emit = defineEmits(["update:modelValue", "change"]);
 
 const formData = inject("formContext", null);
 
-  
 const model = computed({
   get() {
     if (props.modelValue) {
       return props.modelValue;
     }
-    return formData ? formData[props.name] : '';
+    return formData ? formData[props.name] : "";
   },
   set(value) {
     emit("update:modelValue", value);
     emit("change", value);
- 
+
     if (formData && props.name) {
       formData[props.name] =  value;
     }
@@ -68,7 +66,7 @@ const model = computed({
   </Form>
 
   <FormCheckBox
-    v-else-if="type == 'checkbox'" 
+    v-else-if="type == 'checkbox'"
     :id="props.id"
     :value="props.value"
     :name="props.name"
@@ -81,7 +79,7 @@ const model = computed({
     :class="props.class"
   />
   <FormRadio
-    v-else-if="type == 'radio'" 
+    v-else-if="type == 'radio'"
     :id="props.id"
     :value="props.value"
     :name="props.name"
