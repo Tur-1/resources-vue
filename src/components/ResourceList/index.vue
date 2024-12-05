@@ -35,26 +35,27 @@ const {
   bulkItems,
 } = useBaseResource();
 
+console.log(props.resource);
 
-const debouncedFetchResourceData = debounce(async () => {
-  await fetchResourceData(props.resource.data);
-}, 300);
+// const debouncedFetchResourceData = debounce(async () => {
+//   await fetchResourceData(props.resource.data);
+// }, 300);
 
-watch(
-  () => queryString.getParams(),
-  (newValue) => {
-    debouncedFetchResourceData();
-  },
-  { deep: true }
-);
+// watch(
+//   () => queryString.getParams(),
+//   (newValue) => {
+//     debouncedFetchResourceData();
+//   },
+//   { deep: true }
+// );
 
-onMounted(async () => {
-  queryString.getParams();
-  await fetchResourceData(props.resource.data);
-});
+// onMounted(async () => {
+//   queryString.getParams();
+//   await fetchResourceData(props.resource.data);
+// });
 </script>
 <template>
-  <HeaderActions :resource="props.resource" />
+  <!-- <HeaderActions :resource="props.resource" />
 
   <div class="card shadow-sm mt-3 card-list">
     <div class="pe-3 ps-3 pt-3">
@@ -127,7 +128,7 @@ onMounted(async () => {
 
   <ResourceIndicator />
   <ResourceNotification />
-  <ResourceConfirmModal @onConfirm="handleConfirmModal" />
+  <ResourceConfirmModal @onConfirm="handleConfirmModal" /> -->
 </template>
 <style>
 @import "./table-list.css";
