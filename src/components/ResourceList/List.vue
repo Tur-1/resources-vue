@@ -22,7 +22,6 @@ const props = defineProps({
   },
 });
 
-
 const queryString = useResourceQueryString();
 const {
   openConfirmModal,
@@ -35,75 +34,66 @@ const {
   bulkItems,
 } = useBaseResource();
 
-console.log(props.resource);
+const debouncedFetchResourceData = debounce(async () => {
+  await fetchResourceData(props.resource.table);
+}, 300);
 
-// const debouncedFetchResourceData = debounce(async () => {
-//   await fetchResourceData(props.resource.data);
-// }, 300);
+watch(
+  () => queryString.getParams(),
+  (newValue) => {
+    debouncedFetchResourceData();
+  },
+  { deep: true }
+);
 
-// watch(
-//   () => queryString.getParams(),
-//   (newValue) => {
-//     debouncedFetchResourceData();
-//   },
-//   { deep: true }
-// );
-
-// onMounted(async () => {
-//   queryString.getParams();
-//   await fetchResourceData(props.resource.data);
-// });
+onMounted(async () => {
+  queryString.getParams();
+  await fetchResourceData(props.resource.table);
+});
 </script>
 <template>
-  <!-- <HeaderActions :resource="props.resource" />
-
+  <HeaderActions :headerActions="resource.table().getHeaderActions()" />
+  
   <div class="card shadow-sm mt-3 card-list">
-    <div class="pe-3 ps-3 pt-3">
+    <div class="card-header pe-3 ps-3 pt-3">
       <div class="d-flex justify-content-between">
         <div class="col-md-2 col-lg-2">
           <FiltersList
-            :filters="props.resource.filters"
-            :paginationQueryKey="props.resource.paginationQueryKey"
+            :filters="props.resource.table().getFilters()" 
           >
             <slot name="filters" />
           </FiltersList>
         </div>
-
-        <div class="d-flex justify-content-end flex-wrap gap-2 flex-grow-1">
-          <div v-if="bulkItems.length > 0" class="dropdown">
-            <button
-              type="button"
-              class="btn filter-btn"
-              data-bs-toggle="dropdown"
-              data-bs-target="#bulkActionsMenu"
-              aria-expanded="false"
-            >
-              <span class="me-2"> Actions</span>
-              <i class="fa-solid fa-angle-down"></i>
-            </button>
-            <ul
-              class="resource-dropdown-menu dropdown-menu"
-              id="bulkActionsMenu"
-            >
-              <li
-                v-for="(action, index) in resource.bulkActions()"
-                :key="index"
-              >
-                <a
-                  class="dropdown-item d-flex align-items-center"
-                  href="#"
-                  @click.prevent="action.handle(bulkItems)"
-                >
-                  <i :class="action.getIcon()" class="me-2"></i>
-                  {{ action.getLabel() }}
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
+
+      <!-- <div class="d-flex justify-content-end flex-wrap gap-2 flex-grow-1">
+        <div v-if="bulkItems.length > 0" class="dropdown">
+          <button
+            type="button"
+            class="btn filter-btn"
+            data-bs-toggle="dropdown"
+            data-bs-target="#bulkActionsMenu"
+            aria-expanded="false"
+          >
+            <span class="me-2"> Actions</span>
+            <i class="fa-solid fa-angle-down"></i>
+          </button>
+          <ul class="resource-dropdown-menu dropdown-menu" id="bulkActionsMenu">
+            <li v-for="(action, index) in resource.bulkActions()" :key="index">
+              <a
+                class="dropdown-item d-flex align-items-center"
+                href="#"
+                @click.prevent="action.handle(bulkItems)"
+              >
+                <i :class="action.getIcon()" class="me-2"></i>
+                {{ action.getLabel() }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div> -->
     </div>
-    <div class="card-body p-3">
+    <!-- <div class="card-body p-3">
       <Table
         v-if="props.resource.display == 'table'"
         @openConfirm="openConfirmModal"
@@ -123,12 +113,12 @@ console.log(props.resource);
         :pagination="pagination"
         :simplePagination="props.resource.simplePagination"
       />
-    </div>
+    </div> -->
   </div>
 
   <ResourceIndicator />
   <ResourceNotification />
-  <ResourceConfirmModal @onConfirm="handleConfirmModal" /> -->
+  <ResourceConfirmModal @onConfirm="handleConfirmModal" />
 </template>
 <style>
 @import "./table-list.css";

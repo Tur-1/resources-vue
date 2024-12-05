@@ -45,12 +45,12 @@ export default function useBaseResource() {
     selectedItem.value = null;
   };
 
-  const fetchResourceData = async (fetchData) => {
+  const fetchResourceData = async (table) => {
     dataList.value = [];
     useTableSkeletonLoading.show();
 
     try {
-      let response = await fetchData();
+      let response = await table().getData();
 
       if (Array.isArray(response)) {
         dataList.value = response;

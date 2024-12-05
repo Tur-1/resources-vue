@@ -1,16 +1,11 @@
 <template>
   <div class="mt-3">
-    <h4>{{ props.resource.title }}</h4> 
   <div class="d-flex flex-wrap align-items-start justify-content-between mt-4">
-    <TableSearchBox
-      v-if="searchable"
-      :searchPlaceholder="props.resource.searchPlaceholder"
-    />
-
+    <TableSearchBox /> 
     <div
       class="col-lg-8 col-md-7 d-flex justify-content-end flex-wrap gap-2 flex-grow-1"
     >
-      <template v-for="action in resource.headerActions()">
+      <template v-for="action in headerActions">
         <template v-if="!action.isHidden()">
           <RouterLink
             v-if="action.getRoute()"
@@ -44,10 +39,8 @@ import { computed, onMounted } from "vue";
 import TableSearchBox from "@/components/ResourceList/TableSearchBox/index.vue";
 import useBaseResource from "@/composables/useBaseResource";
 
-let props = defineProps(["resource"]);
-
-const searchable = computed(() => props.resource.searchable ?? true);
-const { resolveActions } = useBaseResource();
+let props = defineProps(["headerActions"]);
+ 
 </script>
 
 <style lang="scss" scoped></style>

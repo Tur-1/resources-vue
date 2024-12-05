@@ -3,7 +3,7 @@
     <ResourceForm
       type="search"
       v-model="search"
-      :placeholder="props.searchPlaceholder"
+      placeholder="search"
     />
   </div>
 </template>
@@ -13,10 +13,7 @@ import useResourceQueryString from "@/composables/useResourceQueryString";
 import { ResourceForm } from "@/index";
 import { ref, watch, computed } from "vue";
 import useResourceList from "@/composables/useBaseResource";
-
-const props = defineProps({
-  searchPlaceholder: String,
-});
+ 
 const queryString = useResourceQueryString();
 
 let search = ref(queryString.get("search") ?? "");

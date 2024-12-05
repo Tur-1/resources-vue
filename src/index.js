@@ -3,7 +3,7 @@ import ResourceFilter from "./Base/ResourceFilter"
 import ResourceAction from "./Base/ResourceAction" 
 import {setResourceRouter} from "./composables/useResourceRouter"
 import ResourceForm from "./components/ResourceForm/index.vue"
-import ResourceList from "./components/ResourceList/index.vue"
+// import ResourceList from "./components/ResourceList/index.vue"
 import useResourceApi from "./api/useResourceApi"
 import useResourceQueryString from './composables/useResourceQueryString'; 
 import useResourceNotification from './components/ResourceNotification/useResourceNotification';
@@ -23,7 +23,7 @@ export
     Action,
     Column,
     ResourceForm,
-    ResourceList,
+    // ResourceList,
     ResourceFilter,
     BaseResource,
     ResourceAction,
