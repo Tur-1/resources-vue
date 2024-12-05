@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { getRouter } from "./useResourceRouter";
+import useResourceNotification from "../components/ResourceNotification/useResourceNotification";
 
 let params = ref({});
 export default function useResourceQueryString() {
@@ -21,7 +22,7 @@ export default function useResourceQueryString() {
     if (router) {
       router.push(route);
     } else {
-      console.error("Router is not available, redirect cannot proceed.");
+      useResourceNotification.error("Router is not available, redirect cannot proceed.");
     }
   };
 
@@ -34,16 +35,12 @@ export default function useResourceQueryString() {
   };
 
   const remove = (key) => {
+    if (!key) return;
+
     const newParams = { ...params.value };
     delete newParams[key];
-
-    if (router) {
-      router.replace({
-        query: newParams,
-      });
-    } else {
-      params.value = newParams;
-    }
+  
+    router?.replace({ query: newParams }) ?? (params.value = newParams);
   };
 
   const getParams = () => {
