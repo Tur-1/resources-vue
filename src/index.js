@@ -9,11 +9,16 @@ import useResourceQueryString from './composables/useResourceQueryString';
 import useResourceNotification from './components/ResourceNotification/useResourceNotification';
 import ResourceNotification from './components/ResourceNotification/index.vue';
 import Action from './Base/Action';
-import Column from './Base/Column';
-
+import Column from './Base/Column'; 
+import Table from './Base/Table';
+import Form from './Base/Form'; 
+import ResourceView from "./components/ResourceList/ResourceView.vue"
 
 export
 { 
+    Form,  
+    Table,
+    ResourceView,
     useResourceApi, 
     Action,
     Column,
