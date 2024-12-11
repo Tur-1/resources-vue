@@ -1,27 +1,37 @@
 export default function Field() {
   return {
-    classField: null,
-    typeField: "text",
-    labelField: null,
-    nameField: null,
-    placeholderField: null,
+    fieldclass: null,
+    fieldType: "text",
+    fieldLabel: null,
+    fieldName: null,
+    fieldPlaceholder: null,
+    fieldRequired:false,
+    
+    required(required = false) {
+      this.fieldRequired = required;
+      return this;
+    },
 
     type(type) {
-      this.typeField = type;
+      this.fieldType = type;
       return this;
     },
 
     placeholder(placeholder) {
-      this.placeholderField = placeholder;
+      this.fieldPlaceholder = placeholder;
       return this;
     },
-
+    make(name)
+    {
+      this.fieldName = name;
+      return this;
+    },
     class(className) {
-      this.classField = className;
+      this.fieldclass = className;
       return this;
     },
     label(label) {
-      this.labelField = label;
+      this.fieldLabel = label;
       return this;
     },
   };

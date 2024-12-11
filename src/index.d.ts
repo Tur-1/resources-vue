@@ -197,7 +197,7 @@ export declare interface ColumnInstance {
   * @param value - The height value in CSS units (e.g., '50px', '20%').
   * @returns {this}
   */
- 
+
   height(value: string): this;
   /**
    * Sets the column as an image column.
@@ -287,53 +287,25 @@ export declare interface ColumnInstance {
   badge(callback: ((value: any) => string) | Record<string, string>): this;
 
 }
-export declare class BaseResource {
+export declare class Resource {
   /**
-   * The title of the page.
-   * @type {string}
+ * The plural label for the resource. 
+ * @type {string} 
+ */
+  pluralLabel: string;
+
+  /**
+   * The single label for the resource. 
+   * @type {string} 
    */
-  title: string;
+  singleLabel: string;
 
   /**
    * Enable or disable simple pagination.
    * @type {boolean}
    */
   simplePagination: boolean;
-
-  /**
-   * The query key used for pagination in URL parameters.
-   * @type {string}
-   */
-  paginationQueryKey: string;
-
-  /**
-   * The display style for the layout. Can be 'grid' or 'table'.
-   * @type {string}
-   * @default 'table'
-   */
-  display: 'grid' | 'table';
-
-  /**
-   * Searchable status of the resource.
-   * @type {boolean}
-   */
-  searchable: boolean;
-
-  /**
-   * Placeholder for the search input.
-   * @type {string}
-   */
-  searchPlaceholder: string;
-
-  /**
-   * Retrieves data for the resource, including pagination links and metadata.
-   * @returns A promise that resolves to an object containing data, links, and metadata.
-   */
-  data(): Promise<{
-    data: any[];
-    links: { [key: string]: string };
-    meta: { [key: string]: any };
-  }>;
+ 
 
   /**
    * Defines the fields for the resource's display.

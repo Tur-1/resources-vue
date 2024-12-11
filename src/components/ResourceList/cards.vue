@@ -109,14 +109,14 @@ import CardSekeleton from "@/components/ResourceList/TableSkeleton/CardSekeleton
 import defaultImage from "@/assets/default-image.jpg";
 
 const emits = defineEmits(["openConfirm"]);
-const props = defineProps(["resource", "actions", "dataList"]);
-const columns = props.resource.fields();
+const props = defineProps([ "actions", "dataList",'columns']);
+ 
 
 const { bulkItems, selectedItems, toggleSelectAll, isSelectAllItems } =
   useBaseResource();
 
 const imageColumn = computed(() =>
-  columns.find((column) => column.isImageColumn)
+  props.columns.find((column) => column.isImageColumn)
 );
 const applyAction = (action, item, index) => {
   if (action.getConfirmAction()) {

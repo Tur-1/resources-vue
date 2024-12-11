@@ -5,43 +5,38 @@ import TableSkeleton from "@/components/ResourceList/TableSkeleton/index.vue";
 import TableRow from "@/components/ResourceList/TableRow/index.vue";
 import useTableSkeletonLoading from "@/components/ResourceList/TableSkeleton/useTableSkeletonLoading"; 
 import TableHead from "@/components/ResourceList/TableHead/index.vue";
-const props = defineProps({
-  resource: {
-    type: Object,
-  }, 
+const props = defineProps({ 
   actions: Array,
+  columns: Array,
   dataList: Object
 });
-const emits = defineEmits(["openConfirm"]); 
- 
+const emits = defineEmits(["openConfirm"]);  
 </script>
 <template>
   <div class="table-responsive">
     <table class="table table-hover">
-      <TableHead :columns="props.resource.fields()" />
+      <TableHead :columns="props.columns" />
       <tbody>
         <TableRow
           v-if="!useTableSkeletonLoading.isLoading"
           @openConfirm="(action,item) => $emit('openConfirm',action, item)"
           :data="dataList"
-          :columns="props.resource.fields()"
+          :columns="props.columns"
           :actions="actions"
         />
         <TableSkeleton
           v-if="useTableSkeletonLoading.isLoading"
-          :columnsLength="props.resource.fields().length"
+          :columnsLength="props.columns.length"
         />
         <NoRecordsFound
           v-if="
             !useTableSkeletonLoading.isLoading &&
             dataList?.length == 0
           "
-          :columns="props.resource.fields().length + 2"
+          :columns="props.columns.length + 2"
         />
       </tbody>
     </table>
   </div>
 </template>
-<style>
-@import "./table-list.css";
-</style>
+ 

@@ -5,7 +5,8 @@ export default function Form() {
     updateCallback: undefined,
     formFields: [],
 
-    Fields(fields)
+    
+    fields(fields)
     {
         this.formFields = fields;
         return this;
@@ -26,15 +27,16 @@ export default function Form() {
       this.createCallback = callback;
       return this;
     },
-    async getCreateSubmit() {
-      await this.createCallback();
-    },
+
     onUpdate(callback) {
       this.updateCallback = callback;
       return this;
     },
-    async getUpdateSubmit() {
-      await this.updateCallback();
+    async FormCreateSubmit(data) {
+      await this.createCallback(data);
+    },
+    async FormUpdateSubmit(data) {
+      await this.updateCallback(data);
     },
   };
 }

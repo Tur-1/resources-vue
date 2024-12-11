@@ -1,15 +1,17 @@
 export default function Table(display = "table")
 {
   return {
-    columnsTable: [],
-    headerActionsTable: [],
-    actionsTable: [],
-    bulkActionsTable: [],
-    filtersTable: [],
-    dataCallback: undefined,
-    displayList: display,
+    listColumns: [],
+    listSearchable: false,
+    listHeaderActions: [],
+    listActions: [],
+    listBulkActions: [],
+    listFilters: [],
+    listDisplay: display,
     listSearchPlaceholder: null,
     listSimplePagination: true,
+    dataCallback: undefined,
+
 
     data(callback)
     {
@@ -22,8 +24,9 @@ export default function Table(display = "table")
          this.dataCallback() :
         this.dataCallback;
     },
-    searchable()
+    searchable(searchable = true)
     {
+      this.listSearchable = searchable;
       return this;
     },
     searchPlaceholder(placeholder = "search")
@@ -38,50 +41,29 @@ export default function Table(display = "table")
     },
     columns(columns)
     {
-      this.columnsTable = columns;
+      this.listColumns = columns;
       return this;
     },
     headerActions(actions)
     {
-      this.headerActionsTable = actions;
+      this.listHeaderActions = actions;
       return this;
     },
     actions(actions)
     {
-      this.actionsTable = actions;
+      this.listActions = actions;
       return this;
     },
     bulkActions(actions)
     {
-      this.bulkActionsTable = actions;
+      this.listBulkActions = actions;
 
       return this;
     },
     filters(filters)
     {
-      this.filtersTable = filters;
+      this.listFilters = filters;
       return this;
-    },
-
-    getColumns()
-    {
-      return this.columnsTable;
-    },
-    getHeaderActions()
-    {
-      return this.headerActionsTable;
-    },
-    getActions()
-    {
-      return this.actionsTable;
-    },
-    getBulkActions()
-    {
-      return this.bulkActionsTable;
-    },
-    getFilters()
-    {
-      return this.filtersTable;
     },
   };
 }

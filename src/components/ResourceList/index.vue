@@ -1,5 +1,5 @@
 <script setup>
-import { watch, onMounted, reactive, computed, ref } from "vue";
+import { watch, onMounted } from "vue";
 import useResourceQueryString from "@/composables/useResourceQueryString";
 import useBaseResource from "@/composables/useBaseResource";
 import NoRecordsFound from "@/components/ResourceList/NoRecordsFound/index.vue";
@@ -15,6 +15,7 @@ import ResourceIndicator from "@/components/ResourceIndicator/index.vue";
 import ResourceNotification from "@/components/ResourceNotification/index.vue";
 import Cards from "@/components/ResourceList/Cards.vue";
 import Table from "@/components/ResourceList/Table.vue";
+import BulkActions from "@/components/ResourceList/BulkActions/index.vue";
 
 const props = defineProps({
   resource: {
@@ -52,68 +53,42 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <HeaderActions :headerActions="resource.table().getHeaderActions()" />
-  
+  <HeaderActions :headerActions="resource.table().listHeaderActions" />
+
   <div class="card shadow-sm mt-3 card-list">
     <div class="card-header pe-3 ps-3 pt-3">
       <div class="d-flex justify-content-between">
         <div class="col-md-2 col-lg-2">
-          <FiltersList
-            :filters="props.resource.table().getFilters()" 
-          >
+          <FiltersList :filters="props.resource.table().listFilters">
             <slot name="filters" />
           </FiltersList>
         </div>
-      </div>
 
-      <!-- <div class="d-flex justify-content-end flex-wrap gap-2 flex-grow-1">
-        <div v-if="bulkItems.length > 0" class="dropdown">
-          <button
-            type="button"
-            class="btn filter-btn"
-            data-bs-toggle="dropdown"
-            data-bs-target="#bulkActionsMenu"
-            aria-expanded="false"
-          >
-            <span class="me-2"> Actions</span>
-            <i class="fa-solid fa-angle-down"></i>
-          </button>
-          <ul class="resource-dropdown-menu dropdown-menu" id="bulkActionsMenu">
-            <li v-for="(action, index) in resource.bulkActions()" :key="index">
-              <a
-                class="dropdown-item d-flex align-items-center"
-                href="#"
-                @click.prevent="action.handle(bulkItems)"
-              >
-                <i :class="action.getIcon()" class="me-2"></i>
-                {{ action.getLabel() }}
-              </a>
-            </li>
-          </ul>
+        <div class="d-flex justify-content-end flex-wrap gap-2 flex-grow-1">
+          <BulkActions :bulkItems="bulkItems"  :bulkActions="props.resource.table().listBulkActions"/> 
         </div>
-      </div> -->
+      </div>
     </div>
-    <!-- <div class="card-body p-3">
-      <Table
-        v-if="props.resource.display == 'table'"
+    <div class="card-body p-3">
+      <Table v-if="props.resource.table().listDisplay == 'table'"
         @openConfirm="openConfirmModal"
-        :resource="props.resource"
         :dataList="dataList"
-        :actions="props.resource.actions()"
+        :actions="props.resource.table().listActions"
+        :columns="props.resource.table().listColumns"
       />
-      <Cards
+     <Cards
         v-else
-        @openConfirm="openConfirmModal"
-        :resource="props.resource"
+        @openConfirm="openConfirmModal" 
         :dataList="dataList"
-        :actions="props.resource.actions()"
+        :actions="props.resource.table().listActions"
+        :columns="props.resource.table().listColumns"
       />
       <TablePagination
         v-if="pagination"
         :pagination="pagination"
-        :simplePagination="props.resource.simplePagination"
+        :simplePagination="props.resource.table().listSimplePagination"
       />
-    </div> -->
+    </div>
   </div>
 
   <ResourceIndicator />
@@ -121,7 +96,7 @@ onMounted(async () => {
   <ResourceConfirmModal @onConfirm="handleConfirmModal" />
 </template>
 <style>
-@import "./table-list.css";
+@import "./css/table-list.css";
 
 .placeholder {
   background-color: #909090bf !important;
